@@ -20,7 +20,7 @@ ejemplo en obligaciones de nombres exactos sin evidencia.
 | CLI | src/main.py coincide; ejecución documentada por python -m src.main. La fuente no fija nombres exactos de flags. |
 | Prompts | prompts/*.yaml coincide; v1_zero_shot.yaml y v2_few_shot.yaml distinguen variantes. Los nombres internos version/technique/instructions/examples son decisiones locales, no claves oficiales confirmadas. |
 | Config | .env.example sin secretos existe, no se carga; config.toml y src/runtime/config.py conservan Settings y sus nombres de campos locales. |
-| Dependencias | Se agrega requirements.txt con la misma dependencia que pyproject.toml, para cubrir la referencia explícita de los apuntes. No se instala nada en esta revisión. |
+| Dependencias | requirements.txt es copia exacta de 44 versiones recomendadas por el TA según Luis; decisión conservadora, no obligatoriedad académica verificada. pyproject.toml la lee como fuente única mediante dependencias dinámicas de setuptools. Python >=3.12; conjunto no instalado ni probado integrado. Solo PyYAML 6.0.3 y Ruff 0.17.3 se instalaron con autorización posterior; Ruff es extra dev fuera de la lista TA. |
 | Dataset | evals/dataset.jsonl aparece como ruta sugerida en la síntesis; Luis propuso data/eval_dataset.jsonl. Hoy solo existe data/eval_sample.jsonl con cuatro casos ilustrativos. No se renombra el sample para aparentar un dataset mínimo de 30. |
 | Runner | evals/run_evals.py sigue la estructura de Luis; evals/runner.py figura como ruta sugerida en la síntesis. No hay evidencia de exigir ambas entradas. |
 | Métricas | data/metrics.jsonl coincide y se ignora en Git. timestamp, prompt_tokens/completion_tokens/total_tokens, latency_seconds y cost_usd expresan las magnitudes pedidas; no hay evidencia local de nombres literales oficiales para sus claves. En mock tokens/costo son null. |
@@ -47,5 +47,6 @@ Dos proveedores reales configurables, métricas de usage/costo real, rate limits
 políticas/guardrails validados, dataset independiente de 30+ casos etiquetados,
 comparación empírica de dos prompts y elección documentada, documentación final
 reproducible y contraste con rúbrica completa. Cuatro muestras y scores del mock
-no satisfacen esos requisitos. Los YAML admiten hoy únicamente el subconjunto JSON
-de YAML 1.2, explícito en README; no se alega soporte general de YAML.
+no satisfacen esos requisitos. Los YAML se cargan con PyYAML safe_load y luego se validan
+con Pydantic; los bloques multilínea conservan los datos de los prompts originales.
+Eso no convierte los resultados del mock en una evaluación de LLM.

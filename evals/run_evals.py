@@ -2,8 +2,8 @@
 
 import argparse
 import json
-from pathlib import Path
 import sys
+from pathlib import Path
 from typing import Literal
 
 from pydantic import BaseModel, ConfigDict
@@ -20,7 +20,11 @@ class Case(BaseModel):
 
 
 def load_cases(path: Path) -> list[Case]:
-    cases = [Case.model_validate_json(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    cases = [
+        Case.model_validate_json(line)
+        for line in path.read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    ]
     if not cases:
         raise ValueError("Dataset vacío.")
     return cases
@@ -29,7 +33,10 @@ def load_cases(path: Path) -> list[Case]:
 def evaluate(cases: list[Case], settings: Settings) -> dict:
     if not cases:
         raise ValueError("Dataset vacío.")
-    scores = {category: {"count": 0, "correct": 0, "errors": 0} for category in ("billing", "technical", "account", "other")}
+    scores = {
+        category: {"count": 0, "correct": 0, "errors": 0}
+        for category in ("billing", "technical", "account", "other")
+    }
     # Las evals no mezclan sus requests con las métricas de uso de CLI.
     settings = settings.model_copy(update={"log_metrics": False})
     for case in cases:
@@ -41,7 +48,9 @@ def evaluate(cases: list[Case], settings: Settings) -> dict:
         except (ValueError, OSError):
             group["errors"] += 1
     for group in scores.values():
-        group["exact_match"] = group["correct"] / group["count"] if group["count"] else None
+        group["exact_match"] = (
+            group["correct"] / group["count"] if group["count"] else None
+        )
     errors = sum(group["errors"] for group in scores.values())
     return {
         "simulated": True,
@@ -56,7 +65,9 @@ def evaluate(cases: list[Case], settings: Settings) -> dict:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Evaluación estructural offline con mock.")
+    parser = argparse.ArgumentParser(
+        description="Evaluación estructural offline con mock."
+    )
     parser.add_argument("--dataset", type=Path, default=ROOT / "data/eval_sample.jsonl")
     parser.add_argument("--config", type=Path, default=ROOT / "config.toml")
     parser.add_argument("--prompt", choices=["v1_zero_shot", "v2_few_shot"])

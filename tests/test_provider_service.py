@@ -1,15 +1,15 @@
 """Frontera proveedor → texto → validación; todo se ejecuta offline."""
 
-from contextlib import redirect_stderr, redirect_stdout
-from io import StringIO
 import json
 import unittest
+from contextlib import redirect_stderr, redirect_stdout
+from io import StringIO
 from unittest.mock import Mock, patch
 
 from pydantic import ValidationError
 
-from src.main import main
 from src.llm.providers.base import Provider
+from src.main import main
 from src.support.service import simulate_response
 
 
@@ -45,10 +45,14 @@ class ProviderServiceTests(unittest.TestCase):
 
     def test_json_outside_contract_is_rejected(self):
         for change in (
-            {"category": "refund"}, {"confidence": 1.5},
-            {"actions": "Reembolsar"}, {"confidence": "0.5"},
+            {"category": "refund"},
+            {"confidence": 1.5},
+            {"actions": "Reembolsar"},
+            {"confidence": "0.5"},
         ):
-            provider = self.provider_returning(json.dumps({**self.valid_payload(), **change}))
+            provider = self.provider_returning(
+                json.dumps({**self.valid_payload(), **change})
+            )
             with self.subTest(change=change), self.assertRaises(ValidationError):
                 simulate_response("Consulta", provider)
 
@@ -65,11 +69,16 @@ class ProviderServiceTests(unittest.TestCase):
         ]
         for text in invalid_outputs:
             stdout, stderr = StringIO(), StringIO()
-            with self.subTest(text=text), patch(
-                "src.support.service.MockProvider.generate", return_value=text
-            ), patch("sys.argv", ["nubbix", "--no-metrics", "Me cobraron dos veces este mes."]), redirect_stdout(
-                stdout
-            ), redirect_stderr(stderr):
+            with (
+                self.subTest(text=text),
+                patch("src.support.service.MockProvider.generate", return_value=text),
+                patch(
+                    "sys.argv",
+                    ["nubbix", "--no-metrics", "Me cobraron dos veces este mes."],
+                ),
+                redirect_stdout(stdout),
+                redirect_stderr(stderr),
+            ):
                 code = main()
             self.assertEqual(code, 2)
             self.assertEqual(stdout.getvalue(), "")

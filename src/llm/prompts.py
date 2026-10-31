@@ -1,7 +1,8 @@
-"""Carga YAML 1.2 en su subconjunto JSON, sin dependencias nuevas."""
+"""Carga YAML mediante SafeLoader y valida el documento con Pydantic."""
 
 from typing import Literal
 
+import yaml
 from pydantic import BaseModel, ConfigDict, model_validator
 
 from ..runtime.config import ROOT
@@ -32,7 +33,9 @@ class PromptDocument(BaseModel):
     def render(self) -> str:
         parts = [self.instructions]
         for example in self.examples:
-            parts.append(f"Ejemplo de consulta: {example.query}\nRespuesta: {example.response.model_dump_json()}")
+            parts.append(
+                f"Ejemplo de consulta: {example.query}\nRespuesta: {example.response.model_dump_json()}"
+            )
         return "\n\n".join(parts)
 
 
@@ -40,7 +43,11 @@ def load_prompt(name: str) -> PromptDocument:
     if name not in ("v1_zero_shot", "v2_few_shot"):
         raise ValueError("Versión de prompt desconocida.")
     text = (ROOT / "prompts" / f"{name}.yaml").read_text(encoding="utf-8")
-    document = PromptDocument.model_validate_json(text)
+    try:
+        data = yaml.safe_load(text)
+    except yaml.YAMLError as error:
+        raise ValueError("YAML inválido o con tags no admitidos.") from error
+    document = PromptDocument.model_validate(data)
     expected = {"v1_zero_shot": "zero_shot", "v2_few_shot": "few_shot"}
     if document.version != name or document.technique != expected[name]:
         raise ValueError("Versión y técnica no coinciden con el archivo.")

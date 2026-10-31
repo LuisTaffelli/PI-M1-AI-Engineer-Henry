@@ -1,12 +1,12 @@
 """Regresiones de recursos/imports después de mover los módulos internos."""
 
 import json
-from pathlib import Path
 import subprocess
 import sys
-from tempfile import TemporaryDirectory
 import tomllib
 import unittest
+from pathlib import Path
+from tempfile import TemporaryDirectory
 
 from src.runtime.config import ROOT
 
@@ -28,8 +28,13 @@ class ModuleLayoutTests(unittest.TestCase):
         self.assertEqual(ROOT, Path(__file__).resolve().parents[1])
         for scenario, expected in (("fixed", 0), ("recover_once", 0), ("malformed", 2)):
             result = self.invoke_from_other_directory(
-                "src.main", "Me cobraron dos veces este mes.",
-                "--prompt", "v2_few_shot", "--mock-scenario", scenario, "--no-metrics",
+                "src.main",
+                "Me cobraron dos veces este mes.",
+                "--prompt",
+                "v2_few_shot",
+                "--mock-scenario",
+                scenario,
+                "--no-metrics",
             )
             with self.subTest(scenario=scenario):
                 self.assertEqual(result.returncode, expected, result.stderr)
@@ -41,7 +46,9 @@ class ModuleLayoutTests(unittest.TestCase):
 
     def test_eval_loads_dataset_outside_project_directory(self):
         for version in ("v1_zero_shot", "v2_few_shot"):
-            result = self.invoke_from_other_directory("evals.run_evals", "--prompt", version)
+            result = self.invoke_from_other_directory(
+                "evals.run_evals", "--prompt", version
+            )
             with self.subTest(version=version):
                 self.assertEqual(result.returncode, 0, result.stderr)
                 report = json.loads(result.stdout)

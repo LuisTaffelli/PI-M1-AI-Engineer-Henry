@@ -6,12 +6,12 @@ from uuid import uuid4
 
 from pydantic import ValidationError
 
-from ..runtime.config import ROOT, Settings
-from .guardrails import check_input, check_output
-from ..runtime.metrics import append_metric
 from ..llm.prompts import load_prompt
 from ..llm.providers.base import Provider
 from ..llm.providers.mock_provider import MockProvider
+from ..runtime.config import ROOT, Settings
+from ..runtime.metrics import append_metric
+from .guardrails import check_input, check_output
 from .schemas import SupportResponse
 
 
@@ -48,18 +48,23 @@ def simulate_response(
         raise RuntimeError("No se ejecutó ningún intento.")
     finally:
         if settings.log_metrics:
-            append_metric(ROOT / settings.metrics_path, {
-                "request_id": str(uuid4()),
-                "timestamp": datetime.now(timezone.utc).isoformat(),
-                "provider": "injected_test_double" if injected else settings.provider,
-                "simulated": True,
-                "prompt_version": settings.prompt,
-                "status": status,
-                "attempts": attempts,
-                "latency_seconds": perf_counter() - started,
-                "prompt_tokens": None,
-                "completion_tokens": None,
-                "total_tokens": None,
-                "cost_usd": None,
-                "usage_status": "unavailable_mock",
-            })
+            append_metric(
+                ROOT / settings.metrics_path,
+                {
+                    "request_id": str(uuid4()),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                    "provider": "injected_test_double"
+                    if injected
+                    else settings.provider,
+                    "simulated": True,
+                    "prompt_version": settings.prompt,
+                    "status": status,
+                    "attempts": attempts,
+                    "latency_seconds": perf_counter() - started,
+                    "prompt_tokens": None,
+                    "completion_tokens": None,
+                    "total_tokens": None,
+                    "cost_usd": None,
+                    "usage_status": "unavailable_mock",
+                },
+            )

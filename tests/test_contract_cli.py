@@ -1,10 +1,10 @@
 """Pruebas unitarias/de CLI offline; no son la suite académica de evals."""
 
 import json
-from pathlib import Path
 import subprocess
 import sys
 import unittest
+from pathlib import Path
 
 from pydantic import ValidationError
 
@@ -15,7 +15,12 @@ ROOT = Path(__file__).resolve().parents[1]
 
 class ContractTests(unittest.TestCase):
     def payload(self):
-        return {"answer": "Respuesta", "confidence": 0.5, "category": "billing", "actions": ["Revisar factura."]}
+        return {
+            "answer": "Respuesta",
+            "confidence": 0.5,
+            "category": "billing",
+            "actions": ["Revisar factura."],
+        }
 
     def test_valid_boundaries(self):
         for confidence in (0.0, 1.0):
@@ -24,11 +29,16 @@ class ContractTests(unittest.TestCase):
 
     def test_rejects_invalid_contract(self):
         invalid_changes = [
-            {"confidence": -0.1}, {"confidence": 1.1},
-            {"confidence": float("nan")}, {"confidence": "0.5"},
-            {"category": "refund"}, {"actions": "Revisar"},
-            {"actions": [{"name": "refund"}]}, {"actions": [" "]},
-            {"answer": " "}, {"unexpected": True},
+            {"confidence": -0.1},
+            {"confidence": 1.1},
+            {"confidence": float("nan")},
+            {"confidence": "0.5"},
+            {"category": "refund"},
+            {"actions": "Revisar"},
+            {"actions": [{"name": "refund"}]},
+            {"actions": [" "]},
+            {"answer": " "},
+            {"unexpected": True},
         ]
         for changes in invalid_changes:
             with self.subTest(changes=changes), self.assertRaises(ValidationError):
@@ -44,7 +54,12 @@ class ContractTests(unittest.TestCase):
 
 class CliTests(unittest.TestCase):
     def run_cli(self, *args):
-        return subprocess.run([sys.executable, "-m", "src.main", "--no-metrics", *args], cwd=ROOT, capture_output=True, text=True)
+        return subprocess.run(
+            [sys.executable, "-m", "src.main", "--no-metrics", *args],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+        )
 
     def test_json_stdout_and_simulation_disclosure(self):
         result = self.run_cli("Quiero consultar por las funciones del plan.")

@@ -12,7 +12,9 @@ class MockProvider:
 
     def generate(self, instructions: str, query: str) -> str:
         self.calls += 1
-        if self.scenario == "malformed" or (self.scenario == "recover_once" and self.calls == 1):
+        if self.scenario == "malformed" or (
+            self.scenario == "recover_once" and self.calls == 1
+        ):
             return '{"answer":'
         if self.scenario == "invalid_contract":
             return '{"answer":"SIMULACIÓN", "confidence": 2, "category":"refund", "actions":[]}'
@@ -22,7 +24,9 @@ class MockProvider:
                 "answer": "SIMULACIÓN: recibimos tu consulta; un agente humano debe revisarla.",
                 "confidence": 0.0,
                 "category": "other",
-                "actions": ["Revisar manualmente la consulta y asignar la categoría correcta."],
+                "actions": [
+                    "Revisar manualmente la consulta y asignar la categoría correcta."
+                ],
             },
             ensure_ascii=False,
         )

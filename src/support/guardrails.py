@@ -9,7 +9,9 @@ INJECTION = re.compile(
     r"ignor[aá]\s+(?:todas\s+)?(?:las\s+)?instrucciones\s+(?:previas|anteriores)",
     re.IGNORECASE,
 )
-CREDENTIAL = re.compile(r"(?:api[_ -]?key|password|contrase[nñ]a)\s*[:=]\s*\S+", re.IGNORECASE)
+CREDENTIAL = re.compile(
+    r"(?:api[_ -]?key|password|contrase[nñ]a)\s*[:=]\s*\S+", re.IGNORECASE
+)
 
 
 class GuardrailError(ValueError):

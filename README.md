@@ -63,9 +63,13 @@ fijo y registra métricas. Para escribir métricas con otra consulta sin Make:
 Esto agrega una línea a `data/metrics.jsonl`; una segunda ejecución conserva la
 primera. El contenido del ticket y la respuesta no se registran. `--no-metrics`
 desactiva la escritura. No se instalan dependencias ni se consulta la red al ejecutar.
-Python >=3.11 es una decisión técnica; las pruebas se corren con el entorno existente.
-Pydantic 2 es la única dependencia de runtime, declarada en `pyproject.toml` y
-`requirements.txt`. La correspondencia de nombres con la consigna está en
+Python >=3.12 es el mínimo declarado para la base de dependencias de referencia
+adoptada por decisión de Luis, siguiendo la recomendación que reportó del Teacher
+Assistant. No se presenta como obligación académica completa verificada.
+`requirements.txt` conserva exactamente las 44 versiones de esa referencia y es
+la única lista: setuptools la lee mediante dependencias dinámicas en `pyproject.toml`.
+**El conjunto completo no se instaló ni se probó integrado.** El .venv existente
+(Python 3.14.8/Pydantic 2.14.1) se amplió únicamente con PyYAML 6.0.3 y Ruff 0.17.3. La correspondencia de nombres con la consigna está en
 [docs/NOMENCLATURA.md](docs/NOMENCLATURA.md); no se alega cumplimiento completo.
 
 Estos comandos usan el árbol fuente desde esta raíz. Desde otra carpeta se puede
@@ -74,6 +78,21 @@ verifica la ejecución de módulos con `PYTHONPATH=/ruta/nubbix-support` y el
 intérprete absoluto de su .venv, sin depender del paquete antiguo instalado. La distribución instalada
 anteriormente no se reinstaló. Empaquetar config/datasets/prompts como recursos para
 uso fuera del árbol fuente sigue pendiente; no se promete una CLI global instalada.
+
+## Chequeos de desarrollo con Ruff
+
+```bash
+make lint           # imports y errores básicos: E4/E7/E9/F/I
+make format-check   # comprobar estilo sin escribir
+make format         # formatear; revisar el diff después
+make check          # lint + formato + pruebas
+```
+
+Ruff 0.17.3 se declara aparte en `[project.optional-dependencies].dev`; no se agrega
+al requirements TA ni se cambia su contenido. La configuración apunta a Python
+3.12 y líneas de 88 caracteres. Los fixes aplicados fueron seguros y revisados;
+no se habilitaron unsafe-fixes. Ninguno de estos comandos instala paquetes.
+Para consultar versiones ya instaladas: `.venv/bin/python -m pip show PyYAML ruff`.
 
 ## Configuración y prompts
 
@@ -92,10 +111,13 @@ propuestas técnicas, no políticas de negocio impuestas por Henry.
 - `prompts/v2_few_shot.yaml`: mismas instrucciones y dos ejemplos sintéticos.
 - `prompts/CHANGELOG.md`: hipótesis y cambios; ninguna versión es ganadora todavía.
 
-Los `.yaml` usan sintaxis JSON, válida en YAML 1.2. Como PyYAML no está instalado y
-no se autorizó instalarlo en esta etapa, el cargador admite **solo ese subconjunto**
-con validación Pydantic. No admite bloques YAML, comentarios ni anclas. Para cambiar
-a YAML de bloques hace falta acordar una dependencia reputada y su instalación.
+Los `.yaml` usan YAML legible, con instrucciones multilínea plegadas (`>-`).
+`yaml.safe_load()` convierte el documento a datos y Pydantic valida sus tipos,
+campos y restricciones. Se rechazan errores de sintaxis y tags de objetos Python;
+no se utiliza `unsafe_load`. Como PyYAML interpreta algunos escalares (por ejemplo,
+`yes`) como booleanos, los textos ambiguos deben ir entre comillas y se mantiene
+la validación estricta. La migración preservó los datos/instrucciones de ambos
+prompts; no se cambió la técnica ni se eligió una variante ganadora.
 Las instrucciones y ejemplos están fuera del código; consulta e instrucciones
 viajan por separado al proveedor. El mock ignora ambos y devuelve valores fijos.
 
@@ -275,7 +297,7 @@ ignorado por Git. No se fabricó una medición de LLM.
 
 ## Preparar un clon nuevo
 
-Requiere Python 3.11+ disponible. Estos comandos de instalación son instrucciones
+Requiere Python 3.12+ disponible. Estos comandos de instalación son instrucciones
 para un entorno nuevo; la revisión de publicación usó el .venv ya existente:
 
 ```bash
@@ -308,3 +330,52 @@ make -C /ruta/nubbix-support run
 agregó una métrica sin alterar las anteriores. El contrato, comandos y resultados
 no cambiaron. Los módulos internos se movieron; no se reinstaló el paquete ni se
 agregaron dependencias. La distribución global/recursos empaquetados sigue pendiente.
+
+## Base de dependencias recomendada por el TA — 31/10/2026
+
+Luis decidió conservar sin cambios la referencia de 44 versiones que indicó que
+recomendó el Teacher Assistant. No se infiere que cada paquete sea requisito del PI.
+El SHA-256 del archivo de referencia y de requirements.txt es:
+`4f5abcda3dbc5e732f1d63b0826e0a46b64b0037f13be84d03d410e89b6dcd06`.
+
+No se agrega Ruff a esa copia. La autorización posterior permitió instalar únicamente
+PyYAML 6.0.3 y Ruff 0.17.3 en .venv y adaptar el cargador a safe_load; no se integraron
+SDKs ni se instalaron los otros paquetes de la lista. Ruff se declara como extra dev.
+El mínimo 3.12
+responde a las restricciones verificadas de las versiones de NumPy/SciPy incluidas;
+no se sostiene compatibilidad con 3.11 para esta base.
+
+`pyproject.toml` referencia requirements.txt usando el mecanismo de
+[dependencias dinámicas de setuptools](https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html#dynamic-metadata),
+sin una segunda lista contradictoria. setuptools>=77 ya era el backend declarado;
+no se instaló ni actualizó. No se ejecutó un build o instalación del conjunto nuevo.
+Las afirmaciones históricas de dependencias mínimas en secciones anteriores
+corresponden a los incrementos de esa fecha, no a la declaración actual.
+
+## PyYAML y Ruff instalados con autorización — 31/10/2026
+
+Se instalaron únicamente estos dos paquetes nuevos en .venv, desde PyPI oficial:
+
+```bash
+.venv/bin/python -m pip install --no-cache-dir --index-url https://pypi.org/simple --no-deps PyYAML==6.0.3 ruff==0.17.3
+make check
+```
+
+Versiones efectivas: PyYAML 6.0.3, Ruff 0.17.3; se conserva Python 3.14.8 y
+Pydantic 2.14.1. Quedan 38 de las 44 dependencias de referencia sin instalar: las
+restantes ya estaban en el entorno o son PyYAML. No se ejecutó pip install del
+requirements completo ni del extra dev (que resolvería también las dependencias
+runtime del proyecto). No se prueba ni certifica ese conjunto integrado.
+
+Ruff corrigió diez incidencias de imports con fixes seguros y formateó doce archivos;
+se revisó el diff y se comparó el AST normalizado del resto del código, sin cambios
+semánticos fuera del cargador y sus pruebas. No se usaron unsafe-fixes.
+
+Resultado: lint correcto, 21 archivos con formato correcto, 35 pruebas aprobadas.
+Se verificó YAML multilínea, sintaxis inválida, tipos inválidos y rechazo de tags
+Python sin ejecución. La migración conserva exactamente los datos de ambos prompts.
+CLI fixed/recover_once retorna 0 con JSON simulado; malformed/invalid_contract,
+2 con stdout vacío. Ambos runners conservan cuatro muestras y Exact Match mock
+0.25, sin pretensión de evaluar un modelo real. Requirements fue verificado byte
+a byte contra la referencia y su hash sigue intacto. No se integraron proveedores,
+leyeron credenciales ni hicieron llamadas pagas.

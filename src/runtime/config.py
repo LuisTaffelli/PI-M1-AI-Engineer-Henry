@@ -1,7 +1,7 @@
 """Configuración TOML local; no lee entorno ni archivos de credenciales."""
 
-from pathlib import Path
 import tomllib
+from pathlib import Path
 from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -13,7 +13,9 @@ class Settings(BaseModel):
     model_config = ConfigDict(extra="forbid", strict=True)
     provider: Literal["mock"] = "mock"
     prompt: Literal["v1_zero_shot", "v2_few_shot"] = "v1_zero_shot"
-    mock_scenario: Literal["fixed", "malformed", "invalid_contract", "recover_once"] = "fixed"
+    mock_scenario: Literal["fixed", "malformed", "invalid_contract", "recover_once"] = (
+        "fixed"
+    )
     max_attempts: int = Field(default=2, ge=1, le=3)
     max_query_chars: int = Field(default=4000, ge=1, le=20000)
     log_metrics: bool = False

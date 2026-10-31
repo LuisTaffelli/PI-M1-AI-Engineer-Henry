@@ -6,8 +6,21 @@ build-backend = "setuptools.build_meta"
 name = "nubbix-support"
 version = "0.1.0"
 description = "Base educativa offline del PI con prompts y proveedor simulado"
-requires-python = ">=3.11"
-dependencies = ["pydantic>=2.12,<3"]
+requires-python = ">=3.12"
+dynamic = ["dependencies"]
+
+[project.optional-dependencies]
+dev = ["ruff==0.17.3"]
 
 [tool.setuptools]
 packages = ["src", "src.support", "src.llm", "src.llm.providers", "src.runtime", "evals"]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
+[tool.ruff]
+target-version = "py312"
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]
