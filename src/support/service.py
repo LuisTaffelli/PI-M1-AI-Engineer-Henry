@@ -6,12 +6,12 @@ from uuid import uuid4
 
 from pydantic import ValidationError
 
-from .config import ROOT, Settings
+from ..runtime.config import ROOT, Settings
 from .guardrails import check_input, check_output
-from .metrics import append_metric
-from .prompts import load_prompt
-from .providers.base import Provider
-from .providers.mock_provider import MockProvider
+from ..runtime.metrics import append_metric
+from ..llm.prompts import load_prompt
+from ..llm.providers.base import Provider
+from ..llm.providers.mock_provider import MockProvider
 from .schemas import SupportResponse
 
 

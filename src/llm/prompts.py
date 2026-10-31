@@ -4,8 +4,8 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, model_validator
 
-from .config import ROOT
-from .schemas import NonEmptyText, SupportResponse
+from ..runtime.config import ROOT
+from ..support.schemas import NonEmptyText, SupportResponse
 
 
 class Example(BaseModel):

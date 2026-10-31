@@ -8,9 +8,9 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict
 
-from src.config import ROOT, Settings, load_settings
-from src.schemas import NonEmptyText
-from src.service import simulate_response
+from src.runtime.config import ROOT, Settings, load_settings
+from src.support.schemas import NonEmptyText
+from src.support.service import simulate_response
 
 
 class Case(BaseModel):

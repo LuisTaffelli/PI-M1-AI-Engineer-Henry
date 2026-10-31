@@ -4,8 +4,8 @@ import argparse
 import sys
 from pathlib import Path
 
-from .service import simulate_response
-from .config import ROOT, load_settings
+from .support.service import simulate_response
+from .runtime.config import ROOT, load_settings
 
 
 def main() -> int:

@@ -5,6 +5,42 @@ mock: no clasifica con IA ni ejecuta acciones. No hay credenciales ni llamadas r
 Los once tests del incremento anterior se conservan; esta etapa agrega configuración,
 prompts, retry de validación, controles básicos, métricas y un runner demostrativo.
 
+## Organización por responsabilidad
+
+```text
+src/
+├── main.py                 # entrada CLI compatible
+├── support/
+│   ├── schemas.py          # contrato de respuesta
+│   ├── guardrails.py       # controles del caso de soporte
+│   └── service.py          # recorrido y retry
+├── llm/
+│   ├── prompts.py          # carga/render del contexto
+│   └── providers/
+│       ├── base.py         # contrato del proveedor
+│       └── mock_provider.py
+└── runtime/
+    ├── config.py           # configuración y raíz de recursos
+    └── metrics.py          # persistencia JSONL
+prompts/                    # YAML versionados, sin cambios de ruta
+config.toml                 # configuración, sin cambios de ruta
+evals/run_evals.py          # entrada de eval compatible
+data/eval_sample.jsonl      # muestra sintética, no dataset final
+tests/
+```
+
+`support` agrupa el problema que resolvemos; `llm`, la preparación del contexto y
+los adaptadores; `runtime`, la configuración y escritura local. La CLI conecta
+las opciones al servicio. El servicio usa los otros grupos; los adaptadores no
+conocen la CLI ni escriben métricas. Los prompts usan el contrato de respuesta
+para validar sus ejemplos. No se agregan contenedores, factories ni capas vacías.
+
+Los imports internos cambiaron, por ejemplo `src.service` ahora es
+`src.support.service`. Se conservan `python -m src.main` y
+`python -m evals.run_evals`, los flags y el contrato JSON. `ROOT` se resuelve desde
+`runtime/config.py` hacia la raíz del proyecto: mover módulos no mueve recursos.
+Las rutas relativas de métricas siguen ancladas a esa raíz.
+
 ## Ejecutar sin instalar nada
 
 Desde esta carpeta, usando el entorno ya instalado:
@@ -32,7 +68,10 @@ Pydantic 2 es la única dependencia de runtime, declarada en `pyproject.toml` y
 `requirements.txt`. La correspondencia de nombres con la consigna está en
 [docs/NOMENCLATURA.md](docs/NOMENCLATURA.md); no se alega cumplimiento completo.
 
-Estos comandos usan el árbol fuente desde esta raíz. La distribución instalada
+Estos comandos usan el árbol fuente desde esta raíz. Desde otra carpeta se puede
+usar `make -C /ruta/nubbix-support test` o cambiar primero a esta raíz. También se
+verifica la ejecución de módulos con `PYTHONPATH=/ruta/nubbix-support` y el
+intérprete absoluto de su .venv, sin depender del paquete antiguo instalado. La distribución instalada
 anteriormente no se reinstaló. Empaquetar config/datasets/prompts como recursos para
 uso fuera del árbol fuente sigue pendiente; no se promete una CLI global instalada.
 
@@ -62,14 +101,14 @@ viajan por separado al proveedor. El mock ignora ambos y devuelve valores fijos.
 
 ## Flujo y orden de lectura
 
-1. `src/schemas.py`: contrato de salida; `confidence` es una señal autodeclarada
+1. `src/support/schemas.py`: contrato de salida; `confidence` es una señal autodeclarada
    del modelo sobre la categoría, no una probabilidad calibrada ni un veredicto
    de acierto. No se extrae hoy de una API. `actions` son sugerencias humanas.
-2. `config.toml` y `src/config.py`: opciones y validación de configuración.
-3. `prompts/*.yaml` y `src/prompts.py`: versiones, validación y render de ejemplos.
-4. `src/providers/base.py` y `mock_provider.py`: `generate(instructions, query)`
+2. `config.toml` y `src/runtime/config.py`: opciones y validación de configuración.
+3. `prompts/*.yaml` y `src/llm/prompts.py`: versiones, validación y render de ejemplos.
+4. `src/llm/providers/base.py` y `mock_provider.py`: `generate(instructions, query)`
    devuelve texto sin validar. Los escenarios de mock son herramientas de prueba.
-5. `src/service.py`: controla entrada → carga prompt → proveedor → parsea/valida
+5. `src/support/service.py`: controla entrada → carga prompt → proveedor → parsea/valida
    → controla salida → registra métricas. Solo repite errores de parsing/schema,
    hasta agotar el límite. No repite bloqueos de seguridad ni errores del proveedor.
 6. `src/main.py`: conecta flags y configuración; escribe JSON en stdout solo si
@@ -249,3 +288,23 @@ python -m venv .venv
 El repositorio conserva el estado educativo offline: subirlo a GitHub no implica
 entrega académica ni integración con proveedores. No incluye el entorno virtual,
 credenciales, métricas generadas ni apuntes personales externos.
+
+## Verificación del refactor modular — 31/10/2026
+
+31 tests aprobados: los 28 previos más carga de CLI/config/prompts y eval/dataset
+desde otra carpeta con PYTHONPATH explícito, y cobertura de paquetes en pyproject.
+Se compararon stdout, stderr y código de salida antes/después: idénticos para CLI
+normal, recuperación, error de parsing y ambas variantes del runner.
+
+Desde /tmp se verificaron los atajos documentados:
+
+```bash
+make -C /ruta/nubbix-support test
+make -C /ruta/nubbix-support eval
+make -C /ruta/nubbix-support run
+```
+
+`test` pasó 31 pruebas; `eval` conservó 4 casos y Exact Match simulado 0.25; `run`
+agregó una métrica sin alterar las anteriores. El contrato, comandos y resultados
+no cambiaron. Los módulos internos se movieron; no se reinstaló el paquete ni se
+agregaron dependencias. La distribución global/recursos empaquetados sigue pendiente.

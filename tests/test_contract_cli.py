@@ -8,7 +8,7 @@ import unittest
 
 from pydantic import ValidationError
 
-from src.schemas import SupportResponse
+from src.support.schemas import SupportResponse
 
 ROOT = Path(__file__).resolve().parents[1]
 

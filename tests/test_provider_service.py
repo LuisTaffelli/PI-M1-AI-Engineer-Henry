@@ -9,8 +9,8 @@ from unittest.mock import Mock, patch
 from pydantic import ValidationError
 
 from src.main import main
-from src.providers.base import Provider
-from src.service import simulate_response
+from src.llm.providers.base import Provider
+from src.support.service import simulate_response
 
 
 class ProviderServiceTests(unittest.TestCase):
@@ -66,7 +66,7 @@ class ProviderServiceTests(unittest.TestCase):
         for text in invalid_outputs:
             stdout, stderr = StringIO(), StringIO()
             with self.subTest(text=text), patch(
-                "src.service.MockProvider.generate", return_value=text
+                "src.support.service.MockProvider.generate", return_value=text
             ), patch("sys.argv", ["nubbix", "--no-metrics", "Me cobraron dos veces este mes."]), redirect_stdout(
                 stdout
             ), redirect_stderr(stderr):

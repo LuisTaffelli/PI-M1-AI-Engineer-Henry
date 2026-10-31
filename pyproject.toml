@@ -10,4 +10,4 @@ requires-python = ">=3.11"
 dependencies = ["pydantic>=2.12,<3"]
 
 [tool.setuptools]
-packages = ["src", "src.providers", "evals"]
+packages = ["src", "src.support", "src.llm", "src.llm.providers", "src.runtime", "evals"]

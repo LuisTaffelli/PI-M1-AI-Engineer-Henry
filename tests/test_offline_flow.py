@@ -11,12 +11,12 @@ from unittest.mock import Mock, patch
 from pydantic import ValidationError
 
 from evals.run_evals import evaluate, load_cases
-from src.config import ROOT, Settings, load_settings
-from src.guardrails import GuardrailError
-from src.prompts import PromptDocument, load_prompt
-from src.providers.base import Provider
-from src.providers.mock_provider import MockProvider
-from src.service import simulate_response
+from src.runtime.config import ROOT, Settings, load_settings
+from src.support.guardrails import GuardrailError
+from src.llm.prompts import PromptDocument, load_prompt
+from src.llm.providers.base import Provider
+from src.llm.providers.mock_provider import MockProvider
+from src.support.service import simulate_response
 
 
 class OfflineFlowTests(unittest.TestCase):
@@ -159,7 +159,7 @@ class OfflineFlowTests(unittest.TestCase):
         from contextlib import redirect_stdout, redirect_stderr
         from io import StringIO
         stdout, stderr = StringIO(), StringIO()
-        with patch("src.service.append_metric", side_effect=OSError("fallo local")), patch("sys.argv", ["nubbix", "Consulta"]), redirect_stdout(stdout), redirect_stderr(stderr):
+        with patch("src.support.service.append_metric", side_effect=OSError("fallo local")), patch("sys.argv", ["nubbix", "Consulta"]), redirect_stdout(stdout), redirect_stderr(stderr):
             code = main()
         self.assertEqual(code, 2)
         self.assertEqual(stdout.getvalue(), "")
