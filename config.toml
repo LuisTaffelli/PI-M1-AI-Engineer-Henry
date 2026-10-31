@@ -1,0 +1,8 @@
+# Configuración offline. La CLI puede sobreescribir prompt/proveedor/escenario.
+provider = "mock"
+prompt = "v1_zero_shot"
+mock_scenario = "fixed"
+max_attempts = 2
+max_query_chars = 4000
+log_metrics = true
+metrics_path = "data/metrics.jsonl"

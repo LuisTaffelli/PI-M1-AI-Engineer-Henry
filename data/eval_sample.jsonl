@@ -1,0 +1,4 @@
+{"query": "Me cobraron dos veces este mes.", "expected_category": "billing"}
+{"query": "El dashboard muestra un error al abrirlo.", "expected_category": "technical"}
+{"query": "Necesito cambiar los permisos de un integrante.", "expected_category": "account"}
+{"query": "Quisiera conocer las funciones del plan.", "expected_category": "other"}

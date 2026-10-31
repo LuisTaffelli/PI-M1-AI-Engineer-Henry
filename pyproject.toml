@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nubbix-support"
+version = "0.1.0"
+description = "Base educativa offline del PI con prompts y proveedor simulado"
+requires-python = ">=3.11"
+dependencies = ["pydantic>=2.12,<3"]
+
+[tool.setuptools]
+packages = ["src", "src.providers", "evals"]

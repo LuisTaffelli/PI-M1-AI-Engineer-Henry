@@ -1,0 +1,2 @@
+# Mantener alineado con project.dependencies de pyproject.toml.
+pydantic>=2.12,<3
