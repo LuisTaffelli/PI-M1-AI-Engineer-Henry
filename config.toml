@@ -1,4 +1,5 @@
-# Configuración offline. La CLI puede sobreescribir prompt/proveedor/escenario.
+# Predeterminado offline: mock. La CLI puede seleccionar otro proveedor.
+# OpenAI/Gemini requieren modelo explícito y clave de proceso; no se carga .env.
 provider = "mock"
 prompt = "v1_zero_shot"
 mock_scenario = "fixed"

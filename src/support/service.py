@@ -1,4 +1,4 @@
-"""Orquesta el flujo offline. No hay SDKs ni acceso a red."""
+"""Orquesta validación, proveedor y retry; el mock sigue siendo predeterminado."""
 
 from datetime import datetime, timezone
 from time import perf_counter
@@ -7,12 +7,14 @@ from uuid import uuid4
 from pydantic import ValidationError
 
 from ..llm.prompts import load_prompt
-from ..llm.providers.base import Provider
+from ..llm.providers.base import Provider, ProviderError
+from ..llm.providers.gemini_provider import GeminiProvider
 from ..llm.providers.mock_provider import MockProvider
+from ..llm.providers.openai_provider import OpenAIProvider
 from ..runtime.config import ROOT, Settings
 from ..runtime.metrics import append_metric
 from .guardrails import check_input, check_output
-from .schemas import SupportResponse
+from .schemas import SupportResponse, validation_failure_code
 
 
 def _validation_feedback(error: ValidationError) -> str:
@@ -60,6 +62,7 @@ def simulate_response(
     started = perf_counter()
     attempts = 0
     status = "rejected_input"
+    failure_code = None
     injected = provider is not None
     try:
         check_input(query, settings.max_query_chars)
@@ -68,7 +71,19 @@ def simulate_response(
         base_instructions = prompt.render()
         instructions = base_instructions
         if provider is None:
-            provider = MockProvider(settings.mock_scenario)
+            if settings.provider == "mock":
+                provider = MockProvider(settings.mock_scenario)
+            elif settings.provider == "openai":
+                provider = OpenAIProvider(
+                    model=settings.model or "",
+                    max_output_tokens=settings.openai_max_output_tokens,
+                )
+            else:
+                provider = GeminiProvider(
+                    model=settings.model or "",
+                    max_output_tokens=settings.gemini_max_output_tokens,
+                    response_schema=SupportResponse.model_json_schema(),
+                )
         for attempt in range(1, settings.max_attempts + 1):
             attempts = attempt
             status = "provider_error"
@@ -87,6 +102,17 @@ def simulate_response(
             status = "ok"
             return response
         raise RuntimeError("No se ejecutó ningún intento.")
+    except ProviderError as error:
+        failure_code = error.code
+        raise
+    except ValidationError as error:
+        # Settings/prompts también usan Pydantic: no confundirlos con salida del modelo.
+        failure_code = (
+            validation_failure_code(error)
+            if status == "invalid_response"
+            else "configuration_invalid"
+        )
+        raise
     finally:
         if settings.log_metrics:
             append_metric(
@@ -97,15 +123,19 @@ def simulate_response(
                     "provider": "injected_test_double"
                     if injected
                     else settings.provider,
-                    "simulated": True,
+                    "simulated": injected or settings.provider == "mock",
                     "prompt_version": settings.prompt,
                     "status": status,
+                    "failure_stage": None if status == "ok" else status,
+                    "failure_code": failure_code,
                     "attempts": attempts,
                     "latency_seconds": perf_counter() - started,
                     "prompt_tokens": None,
                     "completion_tokens": None,
                     "total_tokens": None,
                     "cost_usd": None,
-                    "usage_status": "unavailable_mock",
+                    "usage_status": "unavailable_mock"
+                    if settings.provider == "mock"
+                    else "not_collected",
                 },
             )

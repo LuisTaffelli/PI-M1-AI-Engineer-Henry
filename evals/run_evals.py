@@ -31,6 +31,10 @@ def load_cases(path: Path) -> list[Case]:
 
 
 def evaluate(cases: list[Case], settings: Settings) -> dict:
+    if settings.provider != "mock":
+        raise ValueError(
+            "Este runner de checkpoint admite sólo mock, sin llamadas API."
+        )
     if not cases:
         raise ValueError("Dataset vacío.")
     scores = {
