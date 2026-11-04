@@ -51,6 +51,13 @@ def envelope(text):
 
 class OpenAIProviderTests(unittest.TestCase):
     def setUp(self):
+        directory = TemporaryDirectory()
+        self.addCleanup(directory.cleanup)
+        dotenv = patch(
+            "src.runtime.credentials.DOTENV_PATH", Path(directory.name) / ".env"
+        )
+        dotenv.start()
+        self.addCleanup(dotenv.stop)
         blocker = patch(
             "src.llm.providers.openai_provider.urlopen",
             side_effect=AssertionError("La prueba intentó usar una red no simulada."),

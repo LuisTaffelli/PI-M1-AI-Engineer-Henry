@@ -58,6 +58,13 @@ def envelope(name, text=VALID, counts=(10, 2, 12)):
 
 class TokenUsageTests(unittest.TestCase):
     def setUp(self):
+        directory = TemporaryDirectory()
+        self.addCleanup(directory.cleanup)
+        dotenv = patch(
+            "src.runtime.credentials.DOTENV_PATH", Path(directory.name) / ".env"
+        )
+        dotenv.start()
+        self.addCleanup(dotenv.stop)
         for module in ("gemini_provider", "openai_provider"):
             blocker = patch(
                 f"src.llm.providers.{module}.urlopen",
