@@ -12,8 +12,8 @@ La síntesis local de consigna pide al menos 30 casos etiquetados y scores globa
 y por categoría. Los ocho casos por categoría, IDs, justificaciones y banderas de
 ambigüedad son decisiones pedagógicas nuestras. No constituyen nombres exigidos
 por la rúbrica ni una distribución observada del tráfico real. Se fijaron estas
-etiquetas antes de ejecutar el runner sobre este corpus; **no hubo llamadas a LLM
-con él**. En la revisión del 04/11/2026 Luis confirmó nubbix-b07=billing y
+etiquetas antes de ejecutar el runner sobre este corpus; al crearlo no hubo llamadas
+a LLM con él. Las pruebas locales posteriores se registran en docs/RESULTADOS_EVAL_LOCAL.md. En la revisión del 04/11/2026 Luis confirmó nubbix-b07=billing y
 nubbix-a07=account. Las otras 30 etiquetas siguen propuestas, incluidas las seis
 fronteras restantes analizadas abajo por IA. La corrección del formato no demuestra
 que una etiqueta sea correcta ni constituye aprobación humana.
@@ -143,7 +143,12 @@ etiquetas fijadas antes de evaluar. No se afirma un holdout ciego hoy: el mismo
 asistente ayudó a escribir prompts y corpus. El check de coincidencias detecta
 copias normalizadas, no garantiza independencia semántica.
 
-Primero confirmar las seis fronteras aún propuestas y revisar las otras 24
-etiquetas, después acordar diseño de comparación, presupuesto y autorización. El runner aún no habilita evals con
-LLM reales. Este incremento prepara datos y controles, no completa la comparación
-empírica ni la selección final de prompt que pide la consigna.
+La revisión técnica posterior de los 32 casos está en docs/REVISION_ETIQUETAS.md;
+conserva todas las referencias y no las presenta como aprobadas por una persona.
+Sólo b07/a07 tienen confirmación humana previa. El runner general sigue mock y el
+runner local optativo ahora admite comparar el corpus completo con presupuesto
+explícito. La suite suplementaria eval_robustness.jsonl tiene ocho paráfrasis con
+referencias propuestas; no sustituye el mínimo de 30 ni es un holdout independiente.
+Las consultas sin objetivo único figuran aparte, sin imponerles una etiqueta.
+Resultados y límites: docs/RESULTADOS_EVAL_LOCAL.md. La comparación local no certifica
+calidad general ni completa la revisión humana o la rúbrica.
