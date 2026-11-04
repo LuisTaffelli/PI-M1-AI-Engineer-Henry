@@ -9,12 +9,11 @@ from pathlib import Path
 from statistics import median
 
 from evals.run_evals import check_dataset, load_cases
+from src.llm.prompt_catalog import DEFAULT_COMPARISON, PROMPT_NAMES
 from src.llm.prompts import load_prompt
 from src.runtime.config import ROOT, Settings, load_settings
 from src.runtime.metrics import append_metric
 from src.support.service import simulate_response
-
-PROMPTS = ("v1_zero_shot", "v2_few_shot")
 
 
 def _sha(path: Path) -> str:
@@ -23,7 +22,7 @@ def _sha(path: Path) -> str:
 
 def summarize(rows: list[dict]) -> dict:
     reports = {}
-    for prompt in PROMPTS:
+    for prompt in PROMPT_NAMES:
         group = [row for row in rows if row["prompt_version"] == prompt]
         if not group:
             continue
@@ -94,9 +93,16 @@ def run_sample(
     all_cases: bool = False,
     max_generations: int = 8,
     diagnostic_suite: bool = False,
+    prompts: tuple[str, ...] = DEFAULT_COMPARISON,
 ) -> dict:
     if not allow_local_inference or settings.provider != "ollama":
         raise ValueError("Se requiere permiso explícito y provider=ollama.")
+    if (
+        not prompts
+        or len(set(prompts)) != len(prompts)
+        or any(name not in PROMPT_NAMES for name in prompts)
+    ):
+        raise ValueError("Elegí versiones conocidas, sin repetirlas.")
     if all_cases and case_ids:
         raise ValueError("Elegí IDs o corpus completo, no ambos.")
     if not all_cases and (
@@ -110,7 +116,7 @@ def run_sample(
     if (
         type(max_generations) is not int
         or not 2 <= max_generations <= 64
-        or len(case_ids) * len(PROMPTS) > max_generations
+        or len(case_ids) * len(prompts) > max_generations
     ):
         raise ValueError(
             "La corrida excede el presupuesto explícito (máximo 64 generaciones)."
@@ -118,7 +124,7 @@ def run_sample(
     indexed = {case.case_id: case for case in cases}
     if any(case_id not in indexed for case_id in case_ids):
         raise ValueError("ID ausente en el dataset.")
-    for prompt in PROMPTS:
+    for prompt in prompts:
         load_prompt(prompt)
     output = output.resolve()
     # Falla si ya existe: una segunda ejecución nunca borra una corrida anterior.
@@ -139,9 +145,10 @@ def run_sample(
         "suite_kind": "supplementary_diagnostic" if diagnostic_suite else "base_corpus",
         "max_generations": max_generations,
         "all_cases": all_cases,
+        "prompts": list(prompts),
         "dataset_sha256": _sha(dataset),
         "prompt_sha256": {
-            name: _sha(ROOT / "prompts" / f"{name}.yaml") for name in PROMPTS
+            name: _sha(ROOT / "prompts" / f"{name}.yaml") for name in prompts
         },
         "source_sha256": {
             str(path.relative_to(ROOT)): _sha(path)
@@ -155,7 +162,7 @@ def run_sample(
         },
         "label_review_status": "not_verified_by_this_run",
         "order": "prompt_then_case_id_order; no warmup or randomization",
-        "planned_generations": len(case_ids) * len(PROMPTS),
+        "planned_generations": len(case_ids) * len(prompts),
         "cases": [
             {
                 "case_id": case_id,
@@ -167,7 +174,7 @@ def run_sample(
     }
     (output / "plan.json").write_text(json.dumps(plan, indent=2) + "\n")
     rows = []
-    for prompt in PROMPTS:
+    for prompt in prompts:
         current = settings.model_copy(update={"prompt": prompt})
         for case_id in case_ids:
             case = indexed[case_id]
@@ -221,6 +228,7 @@ def main() -> int:
     selection.add_argument("--case-id", action="append")
     selection.add_argument("--all-cases", action="store_true")
     parser.add_argument("--max-generations", type=int, default=8)
+    parser.add_argument("--prompt", action="append", choices=PROMPT_NAMES)
     parser.add_argument("--diagnostic-suite", action="store_true")
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--allow-local-inference", action="store_true")
@@ -235,6 +243,7 @@ def main() -> int:
             all_cases=args.all_cases,
             max_generations=args.max_generations,
             diagnostic_suite=args.diagnostic_suite,
+            prompts=tuple(args.prompt) if args.prompt else DEFAULT_COMPARISON,
         )
     except (ValueError, OSError):
         print(

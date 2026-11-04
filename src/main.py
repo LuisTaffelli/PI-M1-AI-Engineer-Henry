@@ -6,6 +6,7 @@ from pathlib import Path
 
 from pydantic import ValidationError
 
+from .llm.prompt_catalog import PROMPT_NAMES
 from .llm.providers.base import ProviderError
 from .runtime.config import ROOT, load_settings
 from .support.schemas import SupportResponse, validation_failure_code
@@ -23,7 +24,7 @@ def main() -> int:
         "--model",
         help="Modelo elegido; obligatorio para proveedores distintos de mock.",
     )
-    parser.add_argument("--prompt", choices=["v1_zero_shot", "v2_few_shot"])
+    parser.add_argument("--prompt", choices=PROMPT_NAMES)
     parser.add_argument(
         "--mock-scenario",
         choices=["fixed", "malformed", "invalid_contract", "recover_once"],

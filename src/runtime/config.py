@@ -6,6 +6,7 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
+from ..llm.prompt_catalog import PromptName
 from ..llm.providers.ollama_provider import normalize_base_url
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -21,7 +22,7 @@ class Settings(BaseModel):
     ollama_max_output_tokens: int = Field(default=256, ge=16, le=4096)
     ollama_num_ctx: int = Field(default=2048, ge=512, le=16384)
     ollama_timeout_seconds: int = Field(default=120, ge=1, le=300)
-    prompt: Literal["v1_zero_shot", "v2_few_shot"] = "v1_zero_shot"
+    prompt: PromptName = "v1_zero_shot"
     mock_scenario: Literal["fixed", "malformed", "invalid_contract", "recover_once"] = (
         "fixed"
     )

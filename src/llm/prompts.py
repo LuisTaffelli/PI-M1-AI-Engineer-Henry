@@ -7,6 +7,7 @@ from pydantic import BaseModel, ConfigDict, model_validator
 
 from ..runtime.config import ROOT
 from ..support.schemas import NonEmptyText, SupportResponse
+from .prompt_catalog import PROMPT_TECHNIQUES
 
 
 class Example(BaseModel):
@@ -40,7 +41,7 @@ class PromptDocument(BaseModel):
 
 
 def load_prompt(name: str) -> PromptDocument:
-    if name not in ("v1_zero_shot", "v2_few_shot"):
+    if name not in PROMPT_TECHNIQUES:
         raise ValueError("Versión de prompt desconocida.")
     text = (ROOT / "prompts" / f"{name}.yaml").read_text(encoding="utf-8")
     try:
@@ -48,7 +49,6 @@ def load_prompt(name: str) -> PromptDocument:
     except yaml.YAMLError as error:
         raise ValueError("YAML inválido o con tags no admitidos.") from error
     document = PromptDocument.model_validate(data)
-    expected = {"v1_zero_shot": "zero_shot", "v2_few_shot": "few_shot"}
-    if document.version != name or document.technique != expected[name]:
+    if document.version != name or document.technique != PROMPT_TECHNIQUES[name]:
         raise ValueError("Versión y técnica no coinciden con el archivo.")
     return document

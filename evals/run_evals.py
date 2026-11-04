@@ -10,6 +10,7 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict
 
+from src.llm.prompt_catalog import PROMPT_NAMES
 from src.llm.prompts import load_prompt
 from src.runtime.config import ROOT, Settings, load_settings
 from src.support.schemas import NonEmptyText
@@ -67,7 +68,7 @@ def check_dataset(cases: list[Case], *, minimum_cases: int = 30) -> dict:
     # Se revisan ambas variantes para que cambiar prompt no habilite contaminación.
     examples = {
         normalized_query(example.query)
-        for name in ("v1_zero_shot", "v2_few_shot")
+        for name in PROMPT_NAMES
         for example in load_prompt(name).examples
     }
     if set(queries) & examples:
@@ -130,7 +131,7 @@ def main() -> int:
     )
     parser.add_argument("--dataset", type=Path, default=ROOT / "data/eval_sample.jsonl")
     parser.add_argument("--config", type=Path, default=ROOT / "config.toml")
-    parser.add_argument("--prompt", choices=["v1_zero_shot", "v2_few_shot"])
+    parser.add_argument("--prompt", choices=PROMPT_NAMES)
     parser.add_argument(
         "--check-dataset",
         action="store_true",
