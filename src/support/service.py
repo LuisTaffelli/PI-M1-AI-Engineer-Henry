@@ -10,6 +10,7 @@ from ..llm.prompts import load_prompt
 from ..llm.providers.base import GenerationResult, Provider, ProviderError
 from ..llm.providers.gemini_provider import GeminiProvider
 from ..llm.providers.mock_provider import MockProvider
+from ..llm.providers.ollama_provider import OllamaProvider
 from ..llm.providers.openai_provider import OpenAIProvider
 from ..llm.usage import TokenUsage, summarize_usage
 from ..runtime.config import ROOT, Settings
@@ -81,10 +82,19 @@ def simulate_response(
                     model=settings.model or "",
                     max_output_tokens=settings.openai_max_output_tokens,
                 )
-            else:
+            elif settings.provider == "gemini":
                 provider = GeminiProvider(
                     model=settings.model or "",
                     max_output_tokens=settings.gemini_max_output_tokens,
+                    response_schema=SupportResponse.model_json_schema(),
+                )
+            else:
+                provider = OllamaProvider(
+                    model=settings.model or "",
+                    base_url=settings.ollama_base_url,
+                    max_output_tokens=settings.ollama_max_output_tokens,
+                    num_ctx=settings.ollama_num_ctx,
+                    timeout_seconds=settings.ollama_timeout_seconds,
                     response_schema=SupportResponse.model_json_schema(),
                 )
         for attempt in range(1, settings.max_attempts + 1):

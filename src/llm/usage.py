@@ -91,6 +91,16 @@ def gemini_usage(raw: object) -> TokenUsage:
     )
 
 
+def ollama_usage(raw: object) -> TokenUsage:
+    if not isinstance(raw, dict):
+        return TokenUsage()
+    inputs = _count(raw.get("prompt_eval_count"))
+    outputs = _count(raw.get("eval_count"))
+    # Ollama no devuelve total_tokens: es suma derivada de sus dos contadores.
+    total = inputs + outputs if inputs is not None and outputs is not None else None
+    return TokenUsage(inputs, outputs, total)
+
+
 def summarize_usage(attempts: list[TokenUsage]) -> dict:
     observed = [asdict(usage) for usage in attempts]
     complete = bool(attempts) and all(usage.complete for usage in attempts)

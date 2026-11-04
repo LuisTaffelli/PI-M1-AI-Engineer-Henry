@@ -20,6 +20,7 @@ class ProviderError(ValueError):
             "invalid_content",
             "non_text_output",
             "empty_output",
+            "local_model_required",
         }
     )
 

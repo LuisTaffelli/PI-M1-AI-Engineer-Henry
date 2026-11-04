@@ -1,0 +1,12 @@
+# Modelo observado en este equipo; verificar primero ollama list.
+# No descarga/importa modelos. No usa .env ni API keys.
+provider = "ollama"
+model = "qwen2.5-coder:0.5b-test"
+prompt = "v1_zero_shot"
+max_attempts = 1
+ollama_base_url = "http://127.0.0.1:11434"
+ollama_max_output_tokens = 256
+ollama_num_ctx = 2048
+ollama_timeout_seconds = 120
+log_metrics = true
+metrics_path = "data/metrics_ollama.jsonl"

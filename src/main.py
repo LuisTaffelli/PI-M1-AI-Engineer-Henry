@@ -18,9 +18,10 @@ def main() -> int:
     )
     parser.add_argument("query", help="Consulta de soporte, entre comillas.")
     parser.add_argument("--config", type=Path, default=ROOT / "config.toml")
-    parser.add_argument("--provider", choices=["mock", "openai", "gemini"])
+    parser.add_argument("--provider", choices=["mock", "openai", "gemini", "ollama"])
     parser.add_argument(
-        "--model", help="Modelo elegido; obligatorio para proveedores remotos."
+        "--model",
+        help="Modelo elegido; obligatorio para proveedores distintos de mock.",
     )
     parser.add_argument("--prompt", choices=["v1_zero_shot", "v2_few_shot"])
     parser.add_argument(
@@ -75,7 +76,9 @@ def main() -> int:
             file=sys.stderr,
         )
     else:
-        label = "OpenAI" if settings.provider == "openai" else "Gemini"
+        label = {"openai": "OpenAI", "gemini": "Gemini", "ollama": "Ollama local"}[
+            settings.provider
+        ]
         print(
             f"{label}: salida validada; confidence es autodeclarada.", file=sys.stderr
         )
