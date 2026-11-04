@@ -23,3 +23,6 @@ data/metrics*.jsonl
 # Pesos locales: no pertenecen al código del PI.
 *.gguf
 *.safetensors
+
+# Corridas exploratorias locales: conservarlas fuera del historial público.
+data/local_runs/

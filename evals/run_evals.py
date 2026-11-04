@@ -47,10 +47,10 @@ def normalized_query(text: str) -> str:
     )
 
 
-def check_dataset(cases: list[Case]) -> dict:
+def check_dataset(cases: list[Case], *, minimum_cases: int = 30) -> dict:
     """Control del corpus de trabajo; el sample legacy no pasa como dataset de 30."""
-    if len(cases) < 30:
-        raise ValueError("El corpus requiere al menos 30 casos.")
+    if len(cases) < minimum_cases:
+        raise ValueError(f"El corpus requiere al menos {minimum_cases} casos.")
     ids = [case.case_id for case in cases]
     if any(not case.case_id or not case.label_reason for case in cases):
         raise ValueError("Falta ID o justificación de etiqueta.")
