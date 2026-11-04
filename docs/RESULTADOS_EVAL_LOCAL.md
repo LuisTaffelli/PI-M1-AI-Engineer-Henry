@@ -134,6 +134,7 @@ escenarios sin objetivo único quedan en REVISION_ETIQUETAS.md, fuera del score,
 hasta acordar un criterio. Seguridad sigue con heurísticas: falta una suite propia
 con expectativas de bloqueo y controles legítimos, separada de clasificación.
 No se entrenó el modelo, alteraron pesos o persiguió corregir cada fallo.
-No hay nuevos commits ni push. Una posible decisión didáctica es usar v2 como
+La corrida no realizó commits ni push. Después se organizaron los cambios en commits
+locales, sin publicación. Una posible decisión didáctica es usar v2 como
 candidato a contrastar en nuevos escenarios por su global observado, dejando
 expresos los retrocesos en technical/ambiguos y sin declararlo ganador definitivo.

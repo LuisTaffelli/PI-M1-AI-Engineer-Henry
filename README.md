@@ -2,7 +2,7 @@
 
 Python es obligatorio, confirmado por Luis. El proveedor predeterminado sigue siendo
 mock. OpenAI, Gemini y Ollama local son seleccionables mediante adaptadores HTTP. La suite de
-126 tests es offline; pruebas reales puntuales autorizadas verificaron salida válida
+135 tests es offline; pruebas reales puntuales autorizadas verificaron salida válida
 en OpenAI y en Gemini con esquema. Eso no evalúa calidad general ni completa el PI.
 Hay 32 tickets sintéticos: dos etiquetas confirmadas por Luis y 30 aún propuestas.
 Las acciones siguen siendo sugerencias humanas. Los apartados de incrementos/checkpoints conservan el
@@ -14,11 +14,28 @@ mock. El servicio normaliza tokens reportados, conserva caché y suma intentos; 
 calculadora Decimal admite tarifas versionadas. No hay precios comerciales activos,
 y el costo queda en null sin tarifas verificadas y datos suficientes. Los registros de pruebas remotas se conservan fuera
 de Git. Nivel de facturación y cargos reales no verificados.
-No hay carga automática de .env ni una evaluación real comparativa de prompts.
+No hay carga automática de .env. La comparación de los 32 tickets se realizó sólo
+con Ollama; no hay benchmark pareado de proveedores comerciales.
 
 Ollama local tiene configuración y límites explícitos en [docs/OLLAMA.md](docs/OLLAMA.md).
 El 0.5B pasó contrato pero erró una categoría en una muestra: forma y calidad son
 verificaciones distintas. No hubo nuevas llamadas remotas para este incremento.
+
+## Preparación de experimentos — 04/11/2026
+
+Se compararon ambos prompts en el corpus de 32 tickets y, separadamente, ocho
+paráfrasis. Coincidencias con referencias propuestas: v1 11/32 y v2 18/32 en el
+base; 3/8 y 4/8 en paráfrasis. Hubo tres respuestas incompletas incluidas como fallos.
+V1 coincidió más en technical y en los casos marcados ambiguos: no hay ganador
+universal ni ajuste para perseguir cada error. Modelo, límites y etiquetas se conservaron.
+
+[Resultados y comandos](docs/RESULTADOS_EVAL_LOCAL.md),
+[revisión técnica de las 32 referencias](docs/REVISION_ETIQUETAS.md) y
+[matriz de escenarios](docs/EXPERIMENTOS.md). Sólo dos etiquetas tenían confirmación
+humana previa; la revisión de IA no convierte las otras en aprobadas por una persona.
+El runner optativo `python -m evals.run_local_sample --help` exige permiso y presupuesto
+explícitos, conserva resultados y sólo admite Ollama local. El runner general sigue
+mock. Los escenarios sin objetivo único no reciben una etiqueta forzada ni entran al score.
 
 ## Organización por responsabilidad
 
@@ -34,8 +51,8 @@ src/
 │   └── providers/
 │       ├── base.py         # contrato del proveedor
 │       ├── mock_provider.py
-│       ├── openai_provider.py # HTTP Responses, sin SDK instalado
-│       ├── gemini_provider.py # HTTP Interactions v1beta, sin SDK instalado
+│       ├── openai_provider.py # HTTP Responses, sin usar SDK
+│       ├── gemini_provider.py # HTTP Interactions v1beta, sin usar SDK
 │       └── ollama_provider.py # sólo loopback, sin claves ni descarga
 └── runtime/
     ├── config.py           # configuración y raíz de recursos
@@ -60,6 +77,51 @@ Los imports internos cambiaron, por ejemplo `src.service` ahora es
 `python -m evals.run_evals`, los flags y el contrato JSON. `ROOT` se resuelve desde
 `runtime/config.py` hacia la raíz del proyecto: mover módulos no mueve recursos.
 Las rutas relativas de métricas siguen ancladas a esa raíz.
+
+## Instalación y reproducción desde el checkout
+
+Requisitos: Python >=3.12 con `venv` y pip disponibles, acceso a PyPI para instalar,
+y una copia completa del repositorio con config, prompts, datasets y tests. Se
+verificó Linux x86_64 con Python 3.14.8; otras versiones/plataformas aún no se
+probaron. Para los atajos `make` se necesita GNU Make; los comandos Python y Ruff
+se pueden ejecutar directamente sin Make.
+
+Desde la raíz del checkout, elegí una ruta **nueva** para el entorno; no reemplaces
+uno existente. El siguiente recorrido incluye runtime y herramientas de desarrollo:
+
+```bash
+python3 -m venv /tmp/nubbix-entrega
+PIP_CONFIG_FILE=/dev/null /tmp/nubbix-entrega/bin/python -m pip --isolated \
+  --disable-pip-version-check install --no-cache-dir --only-binary=:all: \
+  --index-url https://pypi.org/simple -r requirements-dev.txt
+/tmp/nubbix-entrega/bin/python -m pip check
+make check PYTHON=/tmp/nubbix-entrega/bin/python RUFF=/tmp/nubbix-entrega/bin/ruff
+/tmp/nubbix-entrega/bin/python -m src.main 'Consulta sintética' --no-metrics
+/tmp/nubbix-entrega/bin/python -m evals.run_evals \
+  --dataset data/eval_dataset.jsonl --check-dataset
+```
+
+`requirements-dev.txt` instala `.[dev]`: obtiene los 44 pins de `requirements.txt`
+y Ruff del extra de pyproject, sin repetirlos. Para sólo ejecución desde el checkout,
+`pip install -r requirements.txt` instala las dependencias; `pip install .` instala
+además el proyecto y usa su backend de build. No hace falta instalar SDK adicionales.
+El build usa setuptools>=77 en un entorno aislado que pip administra. La opción
+`--only-binary=:all:` evita compilar dependencias de terceros; su disponibilidad
+para otras plataformas/versiones de Python no está comprobada.
+
+Mock es el default y no requiere red, claves ni Ollama después de la instalación.
+Ollama es **opcional y externo a pip**: necesita servidor local activo y un modelo
+GGUF ya instalado; verificar `ollama list` antes de usar su configuración de ejemplo.
+El tag del ejemplo fue observado en este equipo: en otra máquina elegir un tag local
+existente y ajustar el TOML; no asumir que ese nombre existe en un registro público.
+Este proyecto no descarga modelos. OpenAI/Gemini son opcionales, usan claves del
+entorno del proceso y requieren autorización/presupuesto para cada experimento;
+no se cargan secretos desde `.env` automáticamente. Ningún test hace llamadas reales.
+
+Ejecutar desde el checkout es el recorrido comprobado. El wheel construido no
+incluye config/prompts/datasets: la CLI del paquete aislado, fuera del checkout,
+todavía no funciona. Ver [reproducibilidad](docs/REPRODUCIBILIDAD.md) para evidencia,
+comandos exactos y límites; [experimentos](docs/EXPERIMENTOS.md) para comparación.
 
 ## Ejecutar sin instalar nada
 
@@ -89,8 +151,8 @@ Python >=3.12 es el mínimo declarado para la base de dependencias de referencia
 adoptada por decisión de Luis, siguiendo la recomendación que reportó del Teacher
 Assistant. No se presenta como obligación académica completa verificada.
 `requirements.txt` conserva exactamente las 44 versiones de esa referencia y es
-la única lista: setuptools la lee mediante dependencias dinámicas en `pyproject.toml`.
-**El conjunto completo no se instaló ni se probó integrado.** El .venv existente
+la fuente única de dependencias runtime: setuptools la lee mediante dependencias dinámicas en `pyproject.toml`.
+**El conjunto completo se instaló y probó en un entorno nuevo el 04/11/2026:** 44 pins exactos, Ruff, build del proyecto, pip check y 132 tests correctos en Linux x86_64/Python 3.14.8. El .venv original existente
 (Python 3.14.8/Pydantic 2.14.1) se amplió únicamente con PyYAML 6.0.3 y Ruff 0.17.3. La correspondencia de nombres con la consigna está en
 [docs/NOMENCLATURA.md](docs/NOMENCLATURA.md); no se alega cumplimiento completo.
 
@@ -100,6 +162,10 @@ verifica la ejecución de módulos con `PYTHONPATH=/ruta/nubbix-support` y el
 intérprete absoluto de su .venv, sin depender del paquete antiguo instalado. La distribución instalada
 anteriormente no se reinstaló. Empaquetar config/datasets/prompts como recursos para
 uso fuera del árbol fuente sigue pendiente; no se promete una CLI global instalada.
+
+La [verificación de reproducibilidad](docs/REPRODUCIBILIDAD.md) distingue el entorno
+nuevo comprobado de la distribución antigua del .venv original, que no se modificó.
+Los comandos históricos de abajo conservan su contexto; usar el recorrido actual.
 
 ## Chequeos de desarrollo con Ruff
 

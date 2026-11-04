@@ -136,7 +136,8 @@ La comparación local posterior ya cubre los 32 tickets y ocho paráfrasis; ver
 RESULTADOS_EVAL_LOCAL.md. Queda discutir las referencias propuestas y otros escenarios
 que se acuerden, y registrar los límites de seguridad.
 La matriz está en EXPERIMENTOS.md. El alcance de extras/rúbrica sigue parcialmente
-pendiente en las fuentes disponibles. No hubo nuevos commits ni push de estos cambios.
+pendiente en las fuentes disponibles. Durante la verificación no hubo commits ni push; posteriormente se organizaron
+los cambios en commits locales por tema, sin publicación.
 
 
 ## Verificación posterior del runner ampliado
