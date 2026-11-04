@@ -7,7 +7,8 @@ from http.client import HTTPException
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
-from .base import ProviderError
+from ..usage import openai_usage
+from .base import GenerationResult, ProviderError
 
 ENDPOINT = "https://api.openai.com/v1/responses"
 Transport = Callable[[Request, float], object]
@@ -38,7 +39,7 @@ class OpenAIProvider:
         self.max_output_tokens = max_output_tokens
         self._transport = transport if transport is not None else _post_json
 
-    def generate(self, instructions: str, query: str) -> str:
+    def generate(self, instructions: str, query: str) -> GenerationResult:
         payload = {
             "model": self.model,
             "instructions": instructions,
@@ -62,26 +63,36 @@ class OpenAIProvider:
             raise ProviderError("OpenAI rechazó la solicitud HTTP.") from None
         except (URLError, OSError, HTTPException, ValueError):
             raise ProviderError("No se pudo obtener una respuesta de OpenAI.") from None
-        if not isinstance(data, dict) or data.get("status") != "completed":
-            raise ProviderError("OpenAI no completó una respuesta utilizable.")
-        output = data.get("output")
-        if not isinstance(output, list):
-            raise ProviderError("Formato de respuesta OpenAI no admitido.")
-        texts = []
-        for item in output:
-            if not isinstance(item, dict) or item.get("type") != "message":
-                continue
-            content = item.get("content")
-            if not isinstance(content, list):
-                raise ProviderError("Formato de mensaje OpenAI no admitido.")
-            for part in content:
-                if not isinstance(part, dict) or part.get("type") != "output_text":
-                    raise ProviderError("OpenAI no entregó sólo texto de respuesta.")
-                text = part.get("text")
-                if not isinstance(text, str):
-                    raise ProviderError("OpenAI entregó texto inválido.")
-                texts.append(text)
-        if not texts or not "".join(texts).strip():
-            raise ProviderError("OpenAI no entregó texto de respuesta.")
-        # No validar aquí el contrato Nubbix: eso corresponde al servicio/retry.
-        return "".join(texts)
+        usage = openai_usage(data.get("usage") if isinstance(data, dict) else None)
+        try:
+            return GenerationResult(_extract_text(data), usage)
+        except ProviderError as error:
+            # Puede haber consumo aun con incomplete/refusal/texto no utilizable.
+            error.usage = usage
+            raise
+
+
+def _extract_text(data: object) -> str:
+    if not isinstance(data, dict) or data.get("status") != "completed":
+        raise ProviderError("OpenAI no completó una respuesta utilizable.")
+    output = data.get("output")
+    if not isinstance(output, list):
+        raise ProviderError("Formato de respuesta OpenAI no admitido.")
+    texts = []
+    for item in output:
+        if not isinstance(item, dict) or item.get("type") != "message":
+            continue
+        content = item.get("content")
+        if not isinstance(content, list):
+            raise ProviderError("Formato de mensaje OpenAI no admitido.")
+        for part in content:
+            if not isinstance(part, dict) or part.get("type") != "output_text":
+                raise ProviderError("OpenAI no entregó sólo texto de respuesta.")
+            text = part.get("text")
+            if not isinstance(text, str):
+                raise ProviderError("OpenAI entregó texto inválido.")
+            texts.append(text)
+    if not texts or not "".join(texts).strip():
+        raise ProviderError("OpenAI no entregó texto de respuesta.")
+    # No validar aquí el contrato Nubbix: eso corresponde al servicio/retry.
+    return "".join(texts)

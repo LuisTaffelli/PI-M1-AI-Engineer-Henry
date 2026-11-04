@@ -93,7 +93,7 @@ class GeminiStructuredOutputTests(unittest.TestCase):
             "fixture", api_key=KEY, response_schema=schema, transport=transport
         )
         self.assertEqual(
-            provider.generate("Instrucciones", "Consulta"), json.dumps(VALID)
+            (provider.generate("Instrucciones", "Consulta")).text, json.dumps(VALID)
         )
         self.assertEqual(schema, snapshot)
         self.assertEqual(

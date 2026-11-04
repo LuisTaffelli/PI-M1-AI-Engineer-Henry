@@ -62,7 +62,9 @@ class GeminiProviderTests(unittest.TestCase):
             json.dumps(envelope(answer_text())).encode()
         )
         provider = GeminiProvider("fixture-model", api_key=FAKE_KEY)
-        self.assertEqual(provider.generate("Instrucciones", "Consulta"), answer_text())
+        self.assertEqual(
+            (provider.generate("Instrucciones", "Consulta")).text, answer_text()
+        )
         request = self.urlopen.call_args.args[0]
         self.assertEqual(request.full_url, ENDPOINT)
         self.assertEqual(request.get_method(), "POST")
@@ -260,7 +262,7 @@ class GeminiProviderTests(unittest.TestCase):
             self.assertTrue(record["simulated"])  # inyección de prueba
             self.assertIsNone(record["total_tokens"])
             self.assertIsNone(record["cost_usd"])
-            self.assertEqual(record["usage_status"], "not_collected")
+            self.assertEqual(record["usage_status"], "unavailable")
 
     def test_sample_eval_runner_cannot_silently_make_openai_calls(self):
         with self.assertRaisesRegex(ValueError, "sólo mock"):

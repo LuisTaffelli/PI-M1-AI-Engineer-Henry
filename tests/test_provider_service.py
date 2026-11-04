@@ -8,7 +8,7 @@ from unittest.mock import Mock, patch
 
 from pydantic import ValidationError
 
-from src.llm.providers.base import Provider
+from src.llm.providers.base import GenerationResult, Provider
 from src.main import main
 from src.support.service import simulate_response
 
@@ -24,7 +24,7 @@ class ProviderServiceTests(unittest.TestCase):
 
     def provider_returning(self, text):
         provider = Mock(spec=Provider)
-        provider.generate.return_value = text
+        provider.generate.return_value = GenerationResult(text)
         return provider
 
     def test_valid_json_is_parsed_and_query_reaches_provider(self):
@@ -71,7 +71,10 @@ class ProviderServiceTests(unittest.TestCase):
             stdout, stderr = StringIO(), StringIO()
             with (
                 self.subTest(text=text),
-                patch("src.support.service.MockProvider.generate", return_value=text),
+                patch(
+                    "src.support.service.MockProvider.generate",
+                    return_value=GenerationResult(text or ""),
+                ),
                 patch(
                     "sys.argv",
                     ["nubbix", "--no-metrics", "Me cobraron dos veces este mes."],

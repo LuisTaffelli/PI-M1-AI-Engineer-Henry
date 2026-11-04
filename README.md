@@ -2,7 +2,7 @@
 
 Python es obligatorio, confirmado por Luis. El proveedor predeterminado sigue siendo
 mock. OpenAI y Gemini son seleccionables mediante adaptadores HTTP. La suite de
-88 tests es offline; pruebas reales puntuales autorizadas verificaron salida válida
+101 tests es offline; pruebas reales puntuales autorizadas verificaron salida válida
 en OpenAI y en Gemini con esquema. Eso no evalúa calidad general ni completa el PI.
 Hay 32 tickets sintéticos: dos etiquetas confirmadas por Luis y 30 aún propuestas.
 Las acciones siguen siendo sugerencias humanas. Los apartados de incrementos/checkpoints conservan el
@@ -10,8 +10,9 @@ estado de cada etapa; este resumen describe el estado actual del 04/11/2026.
 
 El servicio mantiene Pydantic, retry acotado con feedback y diagnósticos seguros.
 Gemini solicita JSON con el esquema de SupportResponse. Las evals permanecen sólo
-mock; tokens/costos del servicio siguen sin normalizar y los registros de pruebas
-remotas se conservan fuera de Git. Nivel de facturación y cargos reales no verificados.
+mock. El servicio normaliza tokens reportados y suma sus intentos; el costo queda
+en null sin tarifas verificadas. Los registros de pruebas remotas se conservan fuera
+de Git. Nivel de facturación y cargos reales no verificados.
 No hay carga automática de .env ni una evaluación real comparativa de prompts.
 
 ## Organización por responsabilidad
@@ -170,7 +171,8 @@ viajan por separado al proveedor. El mock ignora ambos y devuelve valores fijos.
 2. `config.toml` y `src/runtime/config.py`: opciones y validación de configuración.
 3. `prompts/*.yaml` y `src/llm/prompts.py`: versiones, validación y render de ejemplos.
 4. `src/llm/providers/base.py` y `mock_provider.py`: `generate(instructions, query)`
-   devuelve texto sin validar. Los escenarios de mock son herramientas de prueba.
+   devuelve GenerationResult con texto sin validar y TokenUsage. Los escenarios de
+   mock son herramientas de prueba; no inventan consumo.
 5. `src/support/service.py`: controla entrada → carga prompt → proveedor → parsea/valida
    → controla salida → registra métricas. Solo repite errores de parsing/schema,
    hasta agotar el límite. El siguiente intento recibe un resumen seguro del último
@@ -209,13 +211,24 @@ El mock normal, aun para «Me cobraron dos veces este mes», sigue devolviendo:
 ## Qué muestran las métricas y evals
 
 Cada request del servicio con registro habilitado agrega un JSONL con timestamp,
-id, proveedor, versión, estado, intentos y latencia real total (sin incluir la escritura
-del log). Tokens y costo siguen siendo `null`: `usage_status=unavailable_mock` para mock y
-`not_collected` para las ramas remotas, que todavía no normaliza usage ni tarifas. No
-se inventan consumos ni costos cero. `simulated` es true para mock o un proveedor
-inyectado de prueba; false para una rama remota normal no significa que se haya
-completado una petición (ver status/attempts). Configuraciones inválidas que no llegan al servicio
-no generan una línea. Si falla el almacenamiento, no se promete un registro persistido.
+id, proveedor, versión, estado, intentos y latencia total (sin incluir escritura).
+El servicio suma prompt_tokens/completion_tokens/total_tokens de todos los intentos
+sólo cuando sus contadores son completos y consistentes. usage_by_attempt conserva
+los tres contadores numéricos o null de cada intento; no contiene texto, claves ni
+el objeto usage HTTP original. JSON inválido, contrato inválido o rechazo del
+contenido no eliminan tokens ya reportados. Una respuesta incompleta también puede
+informar consumo; un error de red sin usage se registra como desconocido.
+
+usage_status distingue reported, partial, unavailable, unavailable_mock y
+not_requested. Con partial los tres totales agregados quedan null para no presentar
+un subtotal conocido como consumo completo; el detalle observado permanece por
+intento. El mock no tiene uso ni costo conocido, no se asigna cero. cost_usd sigue
+null en todos los casos: no hay tarifas verificadas ni lectura de facturación.
+`simulated` es true para mock o un proveedor inyectado de prueba; false para una
+rama remota normal no prueba que se haya completado una petición (ver status).
+Configuraciones inválidas que no llegan al servicio no generan una línea. Si falla
+el almacenamiento, no se promete un registro persistido. Más detalle en el
+incremento de consumo del 04/11 al final de este README.
 
 `data/eval_sample.jsonl` contiene **cuatro casos sintéticos ilustrativos**, con
 etiquetas propuestas para revisar con Luis. El runner valida primero el dataset,
@@ -244,7 +257,8 @@ pueden bloquear textos legítimos y dejar pasar ataques. No son moderación comp
 ni garantizan seguridad. Faltan políticas de contenido/negocio acordadas y evaluación
 adversarial; no se genera una suite bonus ni `run_adversarial.py` vacío.
 
-También quedan pendientes usage/tarifas reales, rate limits/backoff, manejo de errores
+También quedan pendientes tarifas/costo, verificar normalización con respuestas remotas futuras,
+rate limits/backoff y manejo de errores
 de APIs, dataset revisado de 30+ casos independiente de few-shot, comparación real,
 selección documentada y revisión de rúbrica/extras. La estructura se agrega cuando
 hay una función concreta; no hay archivos vacíos para aparentar cumplimiento.
@@ -764,7 +778,7 @@ no se incluyen en el repositorio. No hay autorización permanente para nuevas
 llamadas de evaluación por publicar código.
 
 Pendiente: revisar etiquetas y fronteras del corpus, acordar y ejecutar una
-comparación real de prompts/proveedores, integrar métricas de uso/costo, rate limits
+comparación real de prompts/proveedores, verificar normalización de uso e integrar costo, rate limits
 y políticas/guardrails, además de contrastar entrega contra la rúbrica completa.
 
 ## Revisión de etiquetas — 04/11/2026
@@ -781,3 +795,83 @@ El control offline comprueba integridad/separación, no valida el estado humano 
 las etiquetas. No hay nuevos resultados de LLM ni decisiones de desempate para
 tickets sin objetivo principal o con múltiples pedidos. No se hizo ninguna llamada
 a modelos para esta revisión.
+
+## Consumo por intento — incremento offline, 04/11/2026
+
+`Provider.generate` devuelve ahora `GenerationResult(text, usage)`. Es un cambio
+del contrato interno: dobles/adaptadores propios que devolvían str deben envolverlo
+en GenerationResult. `simulate_response` sigue devolviendo SupportResponse y la
+CLI conserva exclusivamente answer/confidence/category/actions. No acepta strings
+legacy silenciosamente: falla con ProviderError controlado si un proveedor incumple
+el nuevo contrato. El texto se oculta del repr del resultado y no se copia a métricas.
+
+Orden de lectura: src/llm/providers/base.py → src/llm/usage.py → adaptadores →
+src/support/service.py → tests/test_token_usage.py. El mock devuelve uso desconocido;
+no tokeniza la respuesta fija ni genera costos simulados. No se agregan SDKs o pins.
+
+### Normalización
+
+- OpenAI: input_tokens→prompt_tokens, output_tokens→completion_tokens y total_tokens
+  reportado. Los desgloses cached y reasoning están incluidos y no se suman de nuevo.
+- Gemini Interactions: total_input_tokens→prompt_tokens; initial_input_tokens no se
+  añade ni sustituye ese campo. completion_tokens suma total_output_tokens y
+  total_thought_tokens cuando reconcilian con total_tokens. Si total ya coincide
+  con entrada+salida y pensamiento falta o es cero, se usa salida. Desglose dudoso,
+  herramientas no soportadas o total ausente dejan completion desconocido. No se
+  inventa un total a partir del texto ni se suman tokens cached otra vez.
+- Sólo se admiten enteros no negativos; bool, strings, floats y negativos pasan a
+  desconocido al normalizar. Usage no dict o ausente no invalida una respuesta de
+  soporte correcta, pero no permite afirmar consumo cero. Campos extra se descartan.
+
+Fuentes primarias consultadas para los campos, sin peticiones de inferencia:
+[Usage de Interactions](https://aistudio.google.com/api-reference/interactions-api),
+[Responses usage](https://openai.github.io/openai-agents-python/ref/usage/) y
+[reasoning tokens de OpenAI](https://developers.openai.com/api/docs/guides/reasoning).
+Se normaliza la respuesta HTTP de cada solicitud independiente; no se mezclan
+contadores acumulados de streaming/sesiones ni se implementan herramientas.
+
+### Agregación y errores
+
+Cada intento abre un registro de consumo desconocido. Al recibir GenerationResult
+se reemplaza por su TokenUsage **antes** de Pydantic/guardrail. Si el adaptador
+rechaza un envelope válido con usage (por ejemplo, incomplete), adjunta únicamente
+los contadores normalizados al ProviderError. Si no hay respuesta HTTP utilizable,
+ese intento permanece desconocido. El servicio conserva límites y política de retry.
+
+Ejemplo de fixture, no medición real: un JSON roto informa 10 entrada+2 salida y
+el segundo intento válido 20+4. La request registra 30 entrada, 6 salida y36 total,
+con usage_by_attempt de12 y24. Incluso al agotar intentos se conserva el consumo
+reportado. Si un intento no informa usage, usage_status=partial y los tres totales
+agregados quedan null; los valores conocidos quedan visibles en usage_by_attempt.
+
+| usage_status | Significado |
+|---|---|
+| reported | Todos los intentos tienen tres contadores reconciliados; agregados sumados. No prueba cobro ni procedencia real si simulated=true. |
+| partial | Hay algún contador conocido, pero falta o no reconcilia al menos un intento; agregados null. |
+| unavailable | Se intentó generar, sin ningún contador utilizable. |
+| unavailable_mock | Mock sin contadores; no equivale a costo cero. |
+| not_requested | No se llegó a invocar generate; usage_by_attempt vacío. |
+
+La CLI no imprime usage ni mezcla metadatos con el JSON de soporte. No se usa
+confidence para inferir consumo o acierto. cost_usd permanece null aun con usage
+completo: faltan tarifas versionadas y cálculo revisado, y nunca equivale a saldo
+o cargo real. Esta tanda no hizo llamadas a proveedores ni leyó claves. Las pruebas
+reales históricas anteriores no validan automáticamente este nuevo contrato.
+
+Verificación: 101 tests offline, incluidos13 nuevos de consumo, más lint/formato.
+Se cubren normalización/caché/pensamiento, cero frente a ausente, datos malformados,
+retry exitoso y agotado, respuesta incomplete/red/guardrail, append sin reutilizar
+uso anterior, privacidad y falta de clave sin leer el entorno real. Los fixtures
+marcan simulated=true; no se publican métricas locales o respuestas reales.
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m unittest discover -s tests -q
+.venv/bin/ruff check --no-cache src evals tests
+.venv/bin/ruff format --check --no-cache src evals tests
+.venv/bin/python -m src.main 'Consulta sintética' --provider mock --no-metrics
+.venv/bin/python -m evals.run_evals --dataset data/eval_dataset.jsonl --check-dataset
+```
+
+Los scripts auxiliares de pruebas remotas anteriores esperaban str y deben
+adaptarse al nuevo resultado antes de un eventual uso autorizado. No se ejecutaron
+ni se modificaron automáticamente. Las evals siguen bloqueando proveedores remotos.

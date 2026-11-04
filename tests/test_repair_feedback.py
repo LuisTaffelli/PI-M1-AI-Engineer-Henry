@@ -8,7 +8,7 @@ from unittest.mock import Mock
 
 from pydantic import ValidationError
 
-from src.llm.providers.base import Provider
+from src.llm.providers.base import GenerationResult, Provider
 from src.llm.providers.mock_provider import MockProvider
 from src.runtime.config import Settings
 from src.support.service import simulate_response
@@ -16,11 +16,11 @@ from src.support.service import simulate_response
 
 class RepairFeedbackTests(unittest.TestCase):
     def valid_text(self):
-        return MockProvider().generate("", "")
+        return MockProvider().generate("", "").text
 
     def test_parse_error_is_corrected_only_after_receiving_feedback(self):
         provider = Mock(spec=Provider)
-        provider.generate.side_effect = lambda instructions, query: (
+        provider.generate.side_effect = lambda instructions, query: GenerationResult(
             self.valid_text()
             if "La salida debe ser JSON válido y completo" in instructions
             else '{"answer":'
@@ -37,9 +37,9 @@ class RepairFeedbackTests(unittest.TestCase):
         payload = json.loads(self.valid_text())
         provider = Mock(spec=Provider)
         provider.generate.side_effect = [
-            json.dumps({**payload, "category": "refund"}),
-            json.dumps({**payload, "confidence": 2.0}),
-            self.valid_text(),
+            GenerationResult(json.dumps({**payload, "category": "refund"})),
+            GenerationResult(json.dumps({**payload, "confidence": 2.0})),
+            GenerationResult(self.valid_text()),
         ]
         simulate_response("Consulta", provider, settings=Settings(max_attempts=3))
         instructions = [call.args[0] for call in provider.generate.call_args_list]
@@ -55,7 +55,7 @@ class RepairFeedbackTests(unittest.TestCase):
         payload = json.loads(self.valid_text())
         payload.update({marker: marker, "answer": [marker], "confidence": marker})
         provider = Mock(spec=Provider)
-        provider.generate.return_value = json.dumps(payload)
+        provider.generate.return_value = GenerationResult(json.dumps(payload))
         with TemporaryDirectory() as directory:
             path = Path(directory) / "metrics.jsonl"
             with self.assertRaises(ValidationError):
@@ -77,7 +77,7 @@ class RepairFeedbackTests(unittest.TestCase):
     def test_exhaustion_keeps_exact_attempt_limit(self):
         for limit in (1, 2, 3):
             provider = Mock(spec=Provider)
-            provider.generate.return_value = "not JSON"
+            provider.generate.return_value = GenerationResult("not JSON")
             with self.subTest(limit=limit), self.assertRaises(ValidationError):
                 simulate_response(
                     "Consulta", provider, settings=Settings(max_attempts=limit)
@@ -87,7 +87,10 @@ class RepairFeedbackTests(unittest.TestCase):
     def test_feedback_is_bounded_even_for_large_unknown_field_names(self):
         payload = {"unknown" + "x" * 2000 + str(i): "private" for i in range(20)}
         provider = Mock(spec=Provider)
-        provider.generate.side_effect = [json.dumps(payload), self.valid_text()]
+        provider.generate.side_effect = [
+            GenerationResult(json.dumps(payload)),
+            GenerationResult(self.valid_text()),
+        ]
         simulate_response("Consulta", provider)
         first, second = [call.args[0] for call in provider.generate.call_args_list]
         feedback = second[len(first) :]

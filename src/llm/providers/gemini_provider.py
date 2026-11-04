@@ -7,7 +7,8 @@ from http.client import HTTPException
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
-from .base import ProviderError
+from ..usage import gemini_usage
+from .base import GenerationResult, ProviderError
 
 ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/interactions"
 Transport = Callable[[Request, float], object]
@@ -39,7 +40,7 @@ class GeminiProvider:
         self._transport = transport if transport is not None else _post_json
         self.response_schema = response_schema
 
-    def generate(self, instructions: str, query: str) -> str:
+    def generate(self, instructions: str, query: str) -> GenerationResult:
         payload = {
             "model": self.model,
             "system_instruction": instructions,
@@ -75,43 +76,53 @@ class GeminiProvider:
             raise ProviderError(
                 "No se pudo obtener una respuesta de Gemini.", code="transport_error"
             ) from None
-        if not isinstance(data, dict):
+        usage = gemini_usage(data.get("usage") if isinstance(data, dict) else None)
+        try:
+            return GenerationResult(_extract_text(data), usage)
+        except ProviderError as error:
+            # Puede haber consumo aun con incomplete/refusal/texto no utilizable.
+            error.usage = usage
+            raise
+
+
+def _extract_text(data: object) -> str:
+    if not isinstance(data, dict):
+        raise ProviderError(
+            "Formato de respuesta Gemini no admitido.", code="invalid_envelope"
+        )
+    if data.get("status") != "completed":
+        raise ProviderError(
+            "Gemini no completó una respuesta utilizable.",
+            code="incomplete_response",
+        )
+    steps = data.get("steps")
+    if not isinstance(steps, list):
+        raise ProviderError(
+            "Formato de respuesta Gemini no admitido.", code="invalid_envelope"
+        )
+    texts = []
+    for step in steps:
+        if not isinstance(step, dict) or step.get("type") != "model_output":
+            continue
+        content = step.get("content")
+        if not isinstance(content, list):
             raise ProviderError(
-                "Formato de respuesta Gemini no admitido.", code="invalid_envelope"
+                "Formato de mensaje Gemini no admitido.", code="invalid_content"
             )
-        if data.get("status") != "completed":
-            raise ProviderError(
-                "Gemini no completó una respuesta utilizable.",
-                code="incomplete_response",
-            )
-        steps = data.get("steps")
-        if not isinstance(steps, list):
-            raise ProviderError(
-                "Formato de respuesta Gemini no admitido.", code="invalid_envelope"
-            )
-        texts = []
-        for step in steps:
-            if not isinstance(step, dict) or step.get("type") != "model_output":
-                continue
-            content = step.get("content")
-            if not isinstance(content, list):
+        for part in content:
+            if not isinstance(part, dict) or part.get("type") != "text":
                 raise ProviderError(
-                    "Formato de mensaje Gemini no admitido.", code="invalid_content"
+                    "Gemini no entregó sólo texto de respuesta.",
+                    code="non_text_output",
                 )
-            for part in content:
-                if not isinstance(part, dict) or part.get("type") != "text":
-                    raise ProviderError(
-                        "Gemini no entregó sólo texto de respuesta.",
-                        code="non_text_output",
-                    )
-                text = part.get("text")
-                if not isinstance(text, str):
-                    raise ProviderError(
-                        "Gemini entregó texto inválido.", code="invalid_content"
-                    )
-                texts.append(text)
-        if not texts or not "".join(texts).strip():
-            raise ProviderError(
-                "Gemini no entregó texto de respuesta.", code="empty_output"
-            )
-        return "".join(texts)
+            text = part.get("text")
+            if not isinstance(text, str):
+                raise ProviderError(
+                    "Gemini entregó texto inválido.", code="invalid_content"
+                )
+            texts.append(text)
+    if not texts or not "".join(texts).strip():
+        raise ProviderError(
+            "Gemini no entregó texto de respuesta.", code="empty_output"
+        )
+    return "".join(texts)

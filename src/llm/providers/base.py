@@ -1,6 +1,9 @@
 """Interfaz mínima independiente de SDKs y de la validación de negocio."""
 
+from dataclasses import dataclass, field
 from typing import Protocol
+
+from ..usage import TokenUsage
 
 
 class ProviderError(ValueError):
@@ -20,12 +23,29 @@ class ProviderError(ValueError):
         }
     )
 
-    def __init__(self, message: str, *, code: str = "provider_error") -> None:
+    def __init__(
+        self,
+        message: str,
+        *,
+        code: str = "provider_error",
+        usage: TokenUsage | None = None,
+    ) -> None:
         super().__init__(message)
         self.code = code if code in self.CODES else "provider_error"
+        self.usage = usage if isinstance(usage, TokenUsage) else TokenUsage()
+
+
+@dataclass(frozen=True)
+class GenerationResult:
+    text: str = field(repr=False)
+    usage: TokenUsage = field(default_factory=TokenUsage)
+
+    def __post_init__(self):
+        if not isinstance(self.text, str) or not isinstance(self.usage, TokenUsage):
+            raise ValueError("Resultado interno de proveedor inválido.")
 
 
 class Provider(Protocol):
-    def generate(self, instructions: str, query: str) -> str:
-        """Recibir instrucciones y consulta; devolver texto sin validar."""
+    def generate(self, instructions: str, query: str) -> GenerationResult:
+        """Devolver texto sin validar y consumo opcional, nunca el objeto HTTP crudo."""
         ...

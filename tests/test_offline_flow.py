@@ -12,7 +12,7 @@ from pydantic import ValidationError
 
 from evals.run_evals import evaluate, load_cases
 from src.llm.prompts import PromptDocument, load_prompt
-from src.llm.providers.base import Provider
+from src.llm.providers.base import GenerationResult, Provider
 from src.llm.providers.mock_provider import MockProvider
 from src.runtime.config import ROOT, Settings, load_settings
 from src.support.guardrails import GuardrailError
@@ -117,10 +117,10 @@ class OfflineFlowTests(unittest.TestCase):
             provider.generate.assert_not_called()
 
     def test_output_guardrail_is_not_retried(self):
-        payload = json.loads(MockProvider().generate("", ""))
+        payload = json.loads((MockProvider().generate("", "")).text)
         payload["answer"] = "password=DEMO_ONLY_NOT_A_SECRET"
         provider = Mock(spec=Provider)
-        provider.generate.return_value = json.dumps(payload)
+        provider.generate.return_value = GenerationResult(json.dumps(payload))
         with self.assertRaises(GuardrailError):
             simulate_response("Consulta", provider, settings=Settings(max_attempts=3))
         provider.generate.assert_called_once()

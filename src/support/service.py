@@ -7,10 +7,11 @@ from uuid import uuid4
 from pydantic import ValidationError
 
 from ..llm.prompts import load_prompt
-from ..llm.providers.base import Provider, ProviderError
+from ..llm.providers.base import GenerationResult, Provider, ProviderError
 from ..llm.providers.gemini_provider import GeminiProvider
 from ..llm.providers.mock_provider import MockProvider
 from ..llm.providers.openai_provider import OpenAIProvider
+from ..llm.usage import TokenUsage, summarize_usage
 from ..runtime.config import ROOT, Settings
 from ..runtime.metrics import append_metric
 from .guardrails import check_input, check_output
@@ -63,6 +64,7 @@ def simulate_response(
     attempts = 0
     status = "rejected_input"
     failure_code = None
+    usage_by_attempt: list[TokenUsage] = []
     injected = provider is not None
     try:
         check_input(query, settings.max_query_chars)
@@ -87,7 +89,16 @@ def simulate_response(
         for attempt in range(1, settings.max_attempts + 1):
             attempts = attempt
             status = "provider_error"
-            raw_text = provider.generate(instructions, query)
+            usage_by_attempt.append(TokenUsage())
+            try:
+                result = provider.generate(instructions, query)
+                if not isinstance(result, GenerationResult):
+                    raise ProviderError("El proveedor incumple el contrato interno.")
+                usage_by_attempt[-1] = result.usage
+            except ProviderError as error:
+                usage_by_attempt[-1] = error.usage
+                raise
+            raw_text = result.text
             status = "invalid_response"
             try:
                 response = SupportResponse.model_validate_json(raw_text)
@@ -115,6 +126,11 @@ def simulate_response(
         raise
     finally:
         if settings.log_metrics:
+            usage_metrics = summarize_usage(usage_by_attempt)
+            if usage_metrics["usage_status"] == "unavailable" and isinstance(
+                provider, MockProvider
+            ):
+                usage_metrics["usage_status"] = "unavailable_mock"
             append_metric(
                 ROOT / settings.metrics_path,
                 {
@@ -130,12 +146,7 @@ def simulate_response(
                     "failure_code": failure_code,
                     "attempts": attempts,
                     "latency_seconds": perf_counter() - started,
-                    "prompt_tokens": None,
-                    "completion_tokens": None,
-                    "total_tokens": None,
+                    **usage_metrics,
                     "cost_usd": None,
-                    "usage_status": "unavailable_mock"
-                    if settings.provider == "mock"
-                    else "not_collected",
                 },
             )

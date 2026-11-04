@@ -8,7 +8,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest.mock import Mock, patch
 
-from src.llm.providers.base import ProviderError
+from src.llm.providers.base import GenerationResult, ProviderError
 from src.llm.providers.gemini_provider import GeminiProvider
 from src.main import main
 from src.runtime.config import Settings
@@ -59,7 +59,7 @@ class FailureDiagnosticsTests(unittest.TestCase):
             {"type": "text", "text": text[:20]},
             {"type": "text", "text": text[20:], "annotations": []},
         ]
-        self.assertEqual(self.provider(reply).generate(MARKER, MARKER), text)
+        self.assertEqual((self.provider(reply).generate(MARKER, MARKER)).text, text)
 
     def test_extraction_codes_are_fixed_and_never_copy_external_values(self):
         for reply, code in (
@@ -192,7 +192,7 @@ class FailureDiagnosticsTests(unittest.TestCase):
                 patch(
                     "src.support.service.MockProvider.generate",
                     side_effect=side_effect,
-                    return_value=result,
+                    return_value=GenerationResult(result or ""),
                 ),
                 patch(
                     "sys.argv", ["nubbix", MARKER, "--provider", "mock", "--no-metrics"]
