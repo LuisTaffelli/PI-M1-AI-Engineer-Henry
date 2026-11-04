@@ -154,3 +154,10 @@ observadas, sin sumar sus casos a accuracy ni elegir un prompt seguro. Una
 corrección de normalización Unicode se verificó antes/después sin cambiar el texto
 original que recibe el modelo. Ver SEGURIDAD_PAREADA.md para resultados y políticas
 pendientes. Ninguno de estos pasos activa un modo de reasoning o modifica pesos.
+
+### Evaluación de corpus multiproveedor
+
+El nuevo comando `python -m evals.run_provider_evals` permite seleccionar OpenAI,
+Gemini, Ollama o mock y comparar los mismos prompts y referencias. Por defecto
+sólo previsualiza; la ejecución remota exige dos opciones explícitas y una cota
+de llamadas que incluye reintentos. Ver [guía de evaluación multiproveedor](EVALUACION_PROVEEDORES.md) para comandos, privacidad, métricas y límites de gasto.

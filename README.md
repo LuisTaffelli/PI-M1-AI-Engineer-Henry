@@ -1031,3 +1031,10 @@ Al retomar la integración se verificaron nuevamente 126 tests, lint, formato y 
 corpus de 32 casos. Una generación local nueva volvió a dar `account` para un cobro
 duplicado esperado como `billing` (1,393 s; 232/39/271 tokens). La conectividad y el
 contrato funcionan; queda pendiente evaluar calidad con etiquetas revisadas.
+
+### Evaluación de corpus multiproveedor
+
+El nuevo comando `python -m evals.run_provider_evals` permite seleccionar OpenAI,
+Gemini, Ollama o mock y comparar los mismos prompts y referencias. Por defecto
+sólo previsualiza; la ejecución remota exige dos opciones explícitas y una cota
+de llamadas que incluye reintentos. Ver [guía de evaluación multiproveedor](docs/EVALUACION_PROVEEDORES.md) para comandos, privacidad, métricas y límites de gasto.

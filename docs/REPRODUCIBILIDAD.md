@@ -149,3 +149,10 @@ tres tests adicionales de presupuesto, corpus completo y distinción de suites.
 La evidencia de instalación anterior conserva sus hashes y 132 tests de aquel
 snapshot; no se reescribe como si hubiera instalado el código posterior. La
 comparación local posterior y sus hashes están en EVAL_LOCAL_2026-11-04.json.
+
+### Evaluación de corpus multiproveedor
+
+El nuevo comando `python -m evals.run_provider_evals` permite seleccionar OpenAI,
+Gemini, Ollama o mock y comparar los mismos prompts y referencias. Por defecto
+sólo previsualiza; la ejecución remota exige dos opciones explícitas y una cota
+de llamadas que incluye reintentos. Ver [guía de evaluación multiproveedor](EVALUACION_PROVEEDORES.md) para comandos, privacidad, métricas y límites de gasto.
