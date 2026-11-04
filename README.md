@@ -4,9 +4,9 @@ Python es obligatorio, confirmado por Luis. El proveedor predeterminado sigue si
 mock. OpenAI y Gemini son seleccionables mediante adaptadores HTTP. La suite de
 88 tests es offline; pruebas reales puntuales autorizadas verificaron salida válida
 en OpenAI y en Gemini con esquema. Eso no evalúa calidad general ni completa el PI.
-Hay 32 tickets sintéticos con etiquetas propuestas para revisar. Las acciones siguen
-siendo sugerencias humanas. Los apartados de incrementos/checkpoints conservan el
-estado de cada etapa; este resumen describe el estado actual del 03/11/2026.
+Hay 32 tickets sintéticos: dos etiquetas confirmadas por Luis y 30 aún propuestas.
+Las acciones siguen siendo sugerencias humanas. Los apartados de incrementos/checkpoints conservan el
+estado de cada etapa; este resumen describe el estado actual del 04/11/2026.
 
 El servicio mantiene Pydantic, retry acotado con feedback y diagnósticos seguros.
 Gemini solicita JSON con el esquema de SupportResponse. Las evals permanecen sólo
@@ -766,3 +766,18 @@ llamadas de evaluación por publicar código.
 Pendiente: revisar etiquetas y fronteras del corpus, acordar y ejecutar una
 comparación real de prompts/proveedores, integrar métricas de uso/costo, rate limits
 y políticas/guardrails, además de contrastar entrega contra la rúbrica completa.
+
+## Revisión de etiquetas — 04/11/2026
+
+Luis confirmó nubbix-b07=billing y nubbix-a07=account: factura es el recurso común,
+pero en un caso se pide revisar importe y en el otro acceso. Revisamos las otras
+seis fronteras con ese criterio y conservamos sus etiquetas propuestas. No las
+presentamos como aprobadas por Luis ni extendemos la confirmación a los otros24.
+El detalle y los límites están en [data/DATASET.md](data/DATASET.md).
+
+El JSONL no cambió:32casos,8/categoría y8fronteras marcadas. ambiguous=true no es un
+flag de aprobación; los dos casos confirmados siguen siendo ejemplos de frontera.
+El control offline comprueba integridad/separación, no valida el estado humano de
+las etiquetas. No hay nuevos resultados de LLM ni decisiones de desempate para
+tickets sin objetivo principal o con múltiples pedidos. No se hizo ninguna llamada
+a modelos para esta revisión.

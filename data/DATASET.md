@@ -13,8 +13,10 @@ y por categoría. Los ocho casos por categoría, IDs, justificaciones y banderas
 ambigüedad son decisiones pedagógicas nuestras. No constituyen nombres exigidos
 por la rúbrica ni una distribución observada del tráfico real. Se fijaron estas
 etiquetas antes de ejecutar el runner sobre este corpus; **no hubo llamadas a LLM
-con él**. Todas las etiquetas son propuestas de IA pendientes de revisión de Luis.
-La corrección del formato no demuestra que una etiqueta sea correcta.
+con él**. En la revisión del 04/11/2026 Luis confirmó nubbix-b07=billing y
+nubbix-a07=account. Las otras 30 etiquetas siguen propuestas, incluidas las seis
+fronteras restantes analizadas abajo por IA. La corrección del formato no demuestra
+que una etiqueta sea correcta ni constituye aprobación humana.
 
 ## Contrato por línea
 
@@ -22,8 +24,9 @@ La corrección del formato no demuestra que una etiqueta sea correcta.
 - query: único dato del caso que el runner envía al servicio.
 - expected_category: billing, technical, account u other.
 - label_reason: razón de la etiqueta propuesta; nunca se agrega al prompt.
-- ambiguous: booleano explícito. true marca una frontera a revisar, no una segunda
-  etiqueta ni una autorización para cambiar la referencia después de ver resultados.
+- ambiguous: booleano explícito. true marca una frontera entre categorías, incluso
+  cuando su etiqueta ya fue confirmada; no es un estado de aprobación, una segunda
+  etiqueta ni autorización para cambiar la referencia después de ver resultados.
 
 El loader mantiene compatibilidad con el sample anterior, cuyos casos sólo tienen
 query y expected_category. El control estricto del corpus exige los metadatos.
@@ -43,22 +46,49 @@ Estos criterios se apoyan en las categorías y ejemplos de la consigna, pero las
 resoluciones de frontera son anotación propuesta, no respuestas oficiales. No se
 inventan políticas de reembolso, plazos ni permisos empresariales.
 
-## Ocho fronteras para revisar con Luis
+## Revisión de las ocho fronteras — 04/11/2026
 
-| ID | Propuesta | Frontera / decisión |
-|---|---|---|
-| nubbix-b07 | billing | Descuento ausente frente a posible bug: el pedido es revisar importe, no una causa confirmada. |
-| nubbix-b08 | billing | Cambio de plan frente a cobro: pide revisar precio, su acceso funciona. |
-| nubbix-t07 | technical | Pago frente a sincronización: el importe está correcto; pide reparar estado integrado. |
-| nubbix-t08 | technical | Login frente a servidor: error HTTP500 compartido, no recuperación de acceso. |
-| nubbix-a07 | account | Factura frente a autorización: el documento existe; falla el permiso del solicitante. |
-| nubbix-a08 | account | Bloqueo de autenticación frente a falla técnica: pide recuperar acceso. |
-| nubbix-o07 | other | Exportación frente a consulta de capacidad previa a comprar; no hay falla. |
-| nubbix-o08 | other | Precios frente a facturación: todavía no es cliente ni tiene un cargo cuestionado. |
+Luis confirmó los dos ejemplos de factura/importes y factura/acceso porque la
+necesidad cambia según el texto. Aplicamos esa misma lectura al resto: objetivo
+principal explícito antes que palabra clave o causa técnica hipotética. La tabla
+distingue confirmación humana de revisión razonada del asistente.
+
+| ID | Etiqueta vigente | Necesidad que determina la propuesta | Estado de revisión |
+|---|---|---|---|
+| nubbix-b07 | billing | Revisar el importe por descuento faltante; el supuesto fallo es una hipótesis. | Confirmada por Luis. |
+| nubbix-b08 | billing | Revisar un cargo tras bajar de plan; el acceso funciona y no pide cambiar permisos. | Consistente con el criterio; propuesta IA, sin confirmación individual. |
+| nubbix-t07 | technical | Corregir sincronización: pago confirmado y comprobante correcto, sin importe cuestionado. | Consistente; propuesta IA, sin confirmación individual. |
+| nubbix-t08 | technical | Reportar HTTP500 compartido al ingresar; no pide recuperar contraseña ni autorización. | Consistente; propuesta IA, sin confirmación individual. |
+| nubbix-a07 | account | Revisar autorización de acceso a una factura existente. | Confirmada por Luis. |
+| nubbix-a08 | account | Recuperar acceso bloqueado tras intentos; no describe error del servidor ni deuda. | Consistente; propuesta IA, sin confirmación individual. |
+| nubbix-o07 | other | Consultar capacidad de exportación antes de comprar; no hay exportación fallida. | Consistente; propuesta IA, sin confirmación individual. |
+| nubbix-o08 | other | Comparar precios/prestaciones antes de contratar; no hay un cobro en disputa. | Consistente; propuesta IA, sin confirmación individual. |
+
+Las cuatro categorías y ejemplos de sincronización de pagos, permisos y consultas
+comerciales proceden de la consigna disponible. Priorizar la necesidad expresada
+y estas resoluciones particulares son criterios de anotación nuestros; sólo b07 y
+a07 tienen confirmación humana individual registrada. No se transfirió esa
+confirmación a las otras seis fronteras ni a los 24 casos no marcados.
+
+**Resultado de la revisión:** se conservan las ocho etiquetas y todos los textos.
+Los seis casos restantes expresan una necesidad principal suficiente para aplicar
+el criterio actual; no requieren inventar una regla de desempate nueva. No se
+cambió el JSONL ni ambiguous=true: la frontera temática persiste aunque dos
+etiquetas se hayan aprobado. El conteo de ocho ambiguos del runner sigue siendo
+correcto y no significa ocho etiquetas sin revisar.
+
+**Decisiones que sí quedarían abiertas con otros textos:** si sólo dijera «no puedo
+entrar» o mezclara dos pedidos principales (por ejemplo, revisar importe y recuperar
+acceso), el contrato sólo admite una category. Habría que acordar cuándo pedir
+aclaración y qué prioridad usar; no hay una política de desempate oficial en las
+fuentes disponibles. Esos escenarios no están presentes en estos seis tickets y
+no se resolvieron silenciosamente al revisarlos. Clasificar tampoco comprueba la
+causa real del HTTP500 ni autoriza reembolsos o desbloqueos: esas acciones requieren
+sus propias verificaciones/políticas, fuera de esta revisión.
 
 Las justificaciones completas están en cada línea. Los 24 casos no marcados
-también requieren revisión; ambiguous=false no certifica ausencia de dudas. Si
-Luis cambia una etiqueta, registrar el motivo antes de usar nuevas salidas para
+siguen pendientes de revisión humana; ambiguous=false no certifica ausencia de
+dudas. Si Luis cambia una etiqueta, registrar el motivo antes de usar nuevas salidas para
 comparar prompts. No ajustar la referencia para favorecer al proveedor observado.
 
 ## Controles offline
@@ -74,7 +104,8 @@ Desde la raíz del proyecto:
 El primer comando sólo comprueba datos/prompts, sin cargar claves, crear proveedor
 ni inferir. Exige 30 o más casos, las cuatro categorías, IDs/consultas únicos,
 metadatos explícitos y separación de los ejemplos de ambas variantes. Informa
-balance y lista de ambiguos, no aprobación humana ni procedencia del contenido.
+balance y lista de fronteras marcadas, no aprobación humana ni procedencia del contenido.
+El estado de revisión parcial se conserva en esta tabla; el check no lo interpreta.
 Normaliza caja, tildes, puntuación y espacios para detectar coincidencias. No
 reconoce paráfrasis o duplicados semánticos: sigue haciendo falta revisión humana.
 
@@ -112,7 +143,7 @@ etiquetas fijadas antes de evaluar. No se afirma un holdout ciego hoy: el mismo
 asistente ayudó a escribir prompts y corpus. El check de coincidencias detecta
 copias normalizadas, no garantiza independencia semántica.
 
-Primero revisar las ocho fronteras y las demás etiquetas, después acordar diseño
-de comparación, presupuesto y autorización. El runner aún no habilita evals con
+Primero confirmar las seis fronteras aún propuestas y revisar las otras 24
+etiquetas, después acordar diseño de comparación, presupuesto y autorización. El runner aún no habilita evals con
 LLM reales. Este incremento prepara datos y controles, no completa la comparación
 empírica ni la selección final de prompt que pide la consigna.
