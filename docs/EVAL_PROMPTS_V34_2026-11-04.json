@@ -1,0 +1,3931 @@
+{
+  "recorded_on": "2026-11-04",
+  "model_is_not_claimed_to_support_reasoning": true,
+  "provider_reasoning_mode_enabled": false,
+  "private_reasoning_requested": false,
+  "prompt_versions_changed_after_results": false,
+  "model_weights_modified": false,
+  "label_review_status": "proposed references; only b07/a07 previously confirmed by Luis",
+  "paid_provider_requests": 0,
+  "generation_budget": 160,
+  "actual_generations": 160,
+  "retries": 0,
+  "quality_claim": false,
+  "runs": {
+    "2026-11-04-v34-session-v1-v2": {
+      "plan": {
+        "format_version": 2,
+        "suite_kind": "base_corpus",
+        "max_generations": 64,
+        "all_cases": true,
+        "prompts": [
+          "v1_zero_shot",
+          "v2_few_shot"
+        ],
+        "dataset_sha256": "d575ef2c26a0f071b9f31cab4ee1554a47c8b3a9e074017a225b90823a4a4bcf",
+        "prompt_sha256": {
+          "v1_zero_shot": "67f5b70d9400eef6e76d2393009c14b3f831d0af597450f2bd83c63cd3750a2c",
+          "v2_few_shot": "ad75c9833cb90caff3e87061e4c6d35d4d35c3ad48571d59941dc18237b34418"
+        },
+        "source_sha256": {
+          "src/__init__.py": "f04cd65eb57d23c8d36abf10e78bac4fb74adcd336f195b8198a57a4088b23bd",
+          "src/llm/__init__.py": "2472bdb87ec26b3d55b51ded98f9decd39af2bee882e861dda9577d171a3a2e9",
+          "src/llm/prompt_catalog.py": "e542642983e746bddd5de1fe74ab943c8089b18346bf5d9ea754da0fcfc07a27",
+          "src/llm/prompts.py": "02d25415901766d3bac702f70ed086cfa8b6d63757716458856dcf3f5520bf72",
+          "src/llm/providers/__init__.py": "909c879e9b82410cbb9efbe19cc41eb4fdd3eda5e070e1868e03948434d3f0d2",
+          "src/llm/providers/base.py": "1227c618ff8f6e93dd12664f374ac20888d1ff948c5eeba915c999467a0ece98",
+          "src/llm/providers/gemini_provider.py": "081ca0501fafbb6e74039b4a70b13fc63f64e05c1c5e627dbe86c7dd5186317a",
+          "src/llm/providers/mock_provider.py": "6f6b01a8514a458a23ba94d5ce9a5b33a03c4d54924b5940a4bc69fd3472f0b5",
+          "src/llm/providers/ollama_provider.py": "d2aac5af08046edc997b19d275b7bcfab4ee4794829871cd88c69a81ed4de66a",
+          "src/llm/providers/openai_provider.py": "6ee956310ab64e2375e029a95fd30793baad3eed1d86028d37a34face5f2e55e",
+          "src/llm/usage.py": "bee0e169d53b35bbae0ff4a79012fdf7230f0b1fa30ecfff54c92807856225ef",
+          "src/main.py": "5b0840361586e46d4abb0f2aaa78b237dfbf2ee38ab3ad8d612ea058b2b0662c",
+          "src/runtime/__init__.py": "6c8e5d82bc21ce20c2515c491a026294b0176f9d07118b8144ee5c44676e5080",
+          "src/runtime/config.py": "50cf4eebc10b1d828b14ade3e122b8ad774d3567dee3a52873529495f04104e9",
+          "src/runtime/metrics.py": "6385d396df5b61f8392eb34481a7ccdc9e0d1afde67d49b23f400080c91548a7",
+          "src/runtime/pricing.py": "02a6775fc92bd78d9d2c8d52c27c3e58c6ea3fe53a7514e26e64500252bc262c",
+          "src/support/__init__.py": "a04161b7e0ff5554a4ea8f886c78cc15cc980659c5066f60bf399a64715708e4",
+          "src/support/guardrails.py": "93424d9c831d31752bd1d808eebaa164e96f22f89f97b52b95bb0201a8afd0ba",
+          "src/support/schemas.py": "577d619b7e365c44e1bdd581efd0d95d02c051aa0484529e67343fddba7b020f",
+          "src/support/service.py": "85a5033f215f79836d336346c34f1c0f240a1086a90fe8b34a5f722a823bf59a",
+          "evals/__init__.py": "0e867d27399894ba8117a5c05ddbf2a976c4df2bc6080b1c7c6f7ae4358e2f75",
+          "evals/run_evals.py": "98a104836125e8780c78cf6b1ba866ed2cbc2460f6c55aadc76cf705cdc61a00",
+          "evals/run_local_sample.py": "b0339b59f023d49fe589566a82076e76a6306bcde18a236fcc1f9fbafe325f70"
+        },
+        "settings": {
+          "provider": "ollama",
+          "model": "qwen2.5-coder:0.5b-test",
+          "ollama_base_url": "http://127.0.0.1:11434",
+          "ollama_max_output_tokens": 256,
+          "ollama_num_ctx": 2048,
+          "ollama_timeout_seconds": 30,
+          "max_attempts": 1
+        },
+        "label_review_status": "not_verified_by_this_run",
+        "order": "prompt_then_case_id_order; no warmup or randomization",
+        "planned_generations": 64,
+        "cases": [
+          {
+            "case_id": "nubbix-b01",
+            "expected_category": "billing",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-b02",
+            "expected_category": "billing",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-b03",
+            "expected_category": "billing",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-b04",
+            "expected_category": "billing",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-b05",
+            "expected_category": "billing",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-b06",
+            "expected_category": "billing",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-b07",
+            "expected_category": "billing",
+            "ambiguous": true
+          },
+          {
+            "case_id": "nubbix-b08",
+            "expected_category": "billing",
+            "ambiguous": true
+          },
+          {
+            "case_id": "nubbix-t01",
+            "expected_category": "technical",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-t02",
+            "expected_category": "technical",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-t03",
+            "expected_category": "technical",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-t04",
+            "expected_category": "technical",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-t05",
+            "expected_category": "technical",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-t06",
+            "expected_category": "technical",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-t07",
+            "expected_category": "technical",
+            "ambiguous": true
+          },
+          {
+            "case_id": "nubbix-t08",
+            "expected_category": "technical",
+            "ambiguous": true
+          },
+          {
+            "case_id": "nubbix-a01",
+            "expected_category": "account",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-a02",
+            "expected_category": "account",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-a03",
+            "expected_category": "account",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-a04",
+            "expected_category": "account",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-a05",
+            "expected_category": "account",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-a06",
+            "expected_category": "account",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-a07",
+            "expected_category": "account",
+            "ambiguous": true
+          },
+          {
+            "case_id": "nubbix-a08",
+            "expected_category": "account",
+            "ambiguous": true
+          },
+          {
+            "case_id": "nubbix-o01",
+            "expected_category": "other",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-o02",
+            "expected_category": "other",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-o03",
+            "expected_category": "other",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-o04",
+            "expected_category": "other",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-o05",
+            "expected_category": "other",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-o06",
+            "expected_category": "other",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-o07",
+            "expected_category": "other",
+            "ambiguous": true
+          },
+          {
+            "case_id": "nubbix-o08",
+            "expected_category": "other",
+            "ambiguous": true
+          }
+        ]
+      },
+      "model_snapshot_before": {
+        "observed_at": "2026-11-04T22:42:25.385830+00:00",
+        "model": "qwen2.5-coder:0.5b-test",
+        "digest": "08efee4699b2c84f8b793e888efd0de207bd8b00692a62337b40017048e3c075",
+        "size": 994158569,
+        "details": {
+          "parent_model": "model-f16.gguf",
+          "format": "gguf",
+          "family": "qwen2",
+          "families": [
+            "qwen2"
+          ],
+          "parameter_size": "494.03M",
+          "quantization_level": "F16",
+          "context_length": 32768,
+          "embedding_length": 896,
+          "runner": "llamacpp"
+        },
+        "server_version": "0.40.6"
+      },
+      "model_digest_after": "08efee4699b2c84f8b793e888efd0de207bd8b00692a62337b40017048e3c075",
+      "summary": {
+        "simulated": false,
+        "quality_claim": false,
+        "label_review_status": "not_verified_by_this_run",
+        "warning": "Comparaci\u00f3n exploratoria con referencias propuestas; sin validaci\u00f3n humana nueva, ranking general ni elecci\u00f3n definitiva de prompt.",
+        "by_prompt": {
+          "v1_zero_shot": {
+            "total": 32,
+            "correct": 11,
+            "exact_match": 0.34375,
+            "validated_outputs": 31,
+            "schema_valid_outputs": 31,
+            "status_counts": {
+              "ok": 31,
+              "provider_error": 1
+            },
+            "latency_median_seconds": 0.21704574051545933,
+            "latency_min_seconds": 0.1452770410105586,
+            "latency_max_seconds": 1.4237416189862415,
+            "by_category": {
+              "billing": {
+                "count": 8,
+                "correct": 0,
+                "errors": 1,
+                "exact_match": 0.0
+              },
+              "technical": {
+                "count": 8,
+                "correct": 7,
+                "errors": 0,
+                "exact_match": 0.875
+              },
+              "account": {
+                "count": 8,
+                "correct": 3,
+                "errors": 0,
+                "exact_match": 0.375
+              },
+              "other": {
+                "count": 8,
+                "correct": 1,
+                "errors": 0,
+                "exact_match": 0.125
+              }
+            },
+            "confusion_matrix": {
+              "billing": {
+                "account": 4,
+                "technical": 3,
+                "error": 1
+              },
+              "technical": {
+                "technical": 7,
+                "account": 1
+              },
+              "account": {
+                "technical": 5,
+                "account": 3
+              },
+              "other": {
+                "technical": 5,
+                "account": 2,
+                "other": 1
+              }
+            },
+            "by_ambiguity": {
+              "marked_ambiguous": {
+                "count": 8,
+                "correct": 3,
+                "exact_match": 0.375
+              },
+              "not_marked_ambiguous": {
+                "count": 24,
+                "correct": 8,
+                "exact_match": 0.3333333333333333
+              }
+            }
+          },
+          "v2_few_shot": {
+            "total": 32,
+            "correct": 18,
+            "exact_match": 0.5625,
+            "validated_outputs": 30,
+            "schema_valid_outputs": 30,
+            "status_counts": {
+              "ok": 30,
+              "provider_error": 2
+            },
+            "latency_median_seconds": 0.2264418839768041,
+            "latency_min_seconds": 0.1604507039883174,
+            "latency_max_seconds": 1.0589004590292461,
+            "by_category": {
+              "billing": {
+                "count": 8,
+                "correct": 6,
+                "errors": 1,
+                "exact_match": 0.75
+              },
+              "technical": {
+                "count": 8,
+                "correct": 5,
+                "errors": 1,
+                "exact_match": 0.625
+              },
+              "account": {
+                "count": 8,
+                "correct": 5,
+                "errors": 0,
+                "exact_match": 0.625
+              },
+              "other": {
+                "count": 8,
+                "correct": 2,
+                "errors": 0,
+                "exact_match": 0.25
+              }
+            },
+            "confusion_matrix": {
+              "billing": {
+                "billing": 6,
+                "error": 1,
+                "technical": 1
+              },
+              "technical": {
+                "technical": 5,
+                "billing": 2,
+                "error": 1
+              },
+              "account": {
+                "account": 5,
+                "technical": 1,
+                "other": 1,
+                "billing": 1
+              },
+              "other": {
+                "billing": 3,
+                "technical": 2,
+                "other": 2,
+                "account": 1
+              }
+            },
+            "by_ambiguity": {
+              "marked_ambiguous": {
+                "count": 8,
+                "correct": 2,
+                "exact_match": 0.25
+              },
+              "not_marked_ambiguous": {
+                "count": 24,
+                "correct": 16,
+                "exact_match": 0.6666666666666666
+              }
+            }
+          }
+        },
+        "suite_kind": "base_corpus"
+      },
+      "results": [
+        {
+          "case_id": "nubbix-b01",
+          "expected_category": "billing",
+          "predicted_category": "account",
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 1.4237416189862415,
+          "prompt_tokens": 230,
+          "completion_tokens": 53,
+          "total_tokens": 283
+        },
+        {
+          "case_id": "nubbix-b02",
+          "expected_category": "billing",
+          "predicted_category": "technical",
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.21039369399659336,
+          "prompt_tokens": 226,
+          "completion_tokens": 51,
+          "total_tokens": 277
+        },
+        {
+          "case_id": "nubbix-b03",
+          "expected_category": "billing",
+          "predicted_category": "account",
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.15309207903919742,
+          "prompt_tokens": 224,
+          "completion_tokens": 36,
+          "total_tokens": 260
+        },
+        {
+          "case_id": "nubbix-b04",
+          "expected_category": "billing",
+          "predicted_category": null,
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": false,
+          "correct": false,
+          "status": "provider_error",
+          "failure_code": "incomplete_response",
+          "application_contract_valid": null,
+          "application_output_guardrail_passed": null,
+          "attempts": 1,
+          "latency_seconds": 0.9849893160280772,
+          "prompt_tokens": 226,
+          "completion_tokens": 256,
+          "total_tokens": 482
+        },
+        {
+          "case_id": "nubbix-b05",
+          "expected_category": "billing",
+          "predicted_category": "technical",
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.46841429302003235,
+          "prompt_tokens": 232,
+          "completion_tokens": 117,
+          "total_tokens": 349
+        },
+        {
+          "case_id": "nubbix-b06",
+          "expected_category": "billing",
+          "predicted_category": "account",
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.24986478901701048,
+          "prompt_tokens": 228,
+          "completion_tokens": 64,
+          "total_tokens": 292
+        },
+        {
+          "case_id": "nubbix-b07",
+          "expected_category": "billing",
+          "predicted_category": "technical",
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": true,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.15633034403435886,
+          "prompt_tokens": 234,
+          "completion_tokens": 39,
+          "total_tokens": 273
+        },
+        {
+          "case_id": "nubbix-b08",
+          "expected_category": "billing",
+          "predicted_category": "account",
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": true,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.1452770410105586,
+          "prompt_tokens": 229,
+          "completion_tokens": 35,
+          "total_tokens": 264
+        },
+        {
+          "case_id": "nubbix-t01",
+          "expected_category": "technical",
+          "predicted_category": "technical",
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.21026468195486814,
+          "prompt_tokens": 237,
+          "completion_tokens": 53,
+          "total_tokens": 290
+        },
+        {
+          "case_id": "nubbix-t02",
+          "expected_category": "technical",
+          "predicted_category": "technical",
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.18744840001454577,
+          "prompt_tokens": 225,
+          "completion_tokens": 46,
+          "total_tokens": 271
+        },
+        {
+          "case_id": "nubbix-t03",
+          "expected_category": "technical",
+          "predicted_category": "technical",
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.22996478603454307,
+          "prompt_tokens": 227,
+          "completion_tokens": 56,
+          "total_tokens": 283
+        },
+        {
+          "case_id": "nubbix-t04",
+          "expected_category": "technical",
+          "predicted_category": "technical",
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.19278214301448315,
+          "prompt_tokens": 232,
+          "completion_tokens": 46,
+          "total_tokens": 278
+        },
+        {
+          "case_id": "nubbix-t05",
+          "expected_category": "technical",
+          "predicted_category": "technical",
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.2348161960253492,
+          "prompt_tokens": 229,
+          "completion_tokens": 59,
+          "total_tokens": 288
+        },
+        {
+          "case_id": "nubbix-t06",
+          "expected_category": "technical",
+          "predicted_category": "technical",
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.1833479079650715,
+          "prompt_tokens": 231,
+          "completion_tokens": 45,
+          "total_tokens": 276
+        },
+        {
+          "case_id": "nubbix-t07",
+          "expected_category": "technical",
+          "predicted_category": "account",
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": true,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.25585793500067666,
+          "prompt_tokens": 242,
+          "completion_tokens": 65,
+          "total_tokens": 307
+        },
+        {
+          "case_id": "nubbix-t08",
+          "expected_category": "technical",
+          "predicted_category": "technical",
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": true,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.23691077396506444,
+          "prompt_tokens": 236,
+          "completion_tokens": 58,
+          "total_tokens": 294
+        },
+        {
+          "case_id": "nubbix-a01",
+          "expected_category": "account",
+          "predicted_category": "technical",
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.2658561839489266,
+          "prompt_tokens": 226,
+          "completion_tokens": 68,
+          "total_tokens": 294
+        },
+        {
+          "case_id": "nubbix-a02",
+          "expected_category": "account",
+          "predicted_category": "technical",
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.19096450798679143,
+          "prompt_tokens": 232,
+          "completion_tokens": 48,
+          "total_tokens": 280
+        },
+        {
+          "case_id": "nubbix-a03",
+          "expected_category": "account",
+          "predicted_category": "account",
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.15014156798133627,
+          "prompt_tokens": 227,
+          "completion_tokens": 35,
+          "total_tokens": 262
+        },
+        {
+          "case_id": "nubbix-a04",
+          "expected_category": "account",
+          "predicted_category": "technical",
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.16117258399026468,
+          "prompt_tokens": 228,
+          "completion_tokens": 38,
+          "total_tokens": 266
+        },
+        {
+          "case_id": "nubbix-a05",
+          "expected_category": "account",
+          "predicted_category": "technical",
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.21954134904081002,
+          "prompt_tokens": 228,
+          "completion_tokens": 53,
+          "total_tokens": 281
+        },
+        {
+          "case_id": "nubbix-a06",
+          "expected_category": "account",
+          "predicted_category": "account",
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.16564002499217167,
+          "prompt_tokens": 231,
+          "completion_tokens": 38,
+          "total_tokens": 269
+        },
+        {
+          "case_id": "nubbix-a07",
+          "expected_category": "account",
+          "predicted_category": "technical",
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": true,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.16189192299498245,
+          "prompt_tokens": 235,
+          "completion_tokens": 39,
+          "total_tokens": 274
+        },
+        {
+          "case_id": "nubbix-a08",
+          "expected_category": "account",
+          "predicted_category": "account",
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": true,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.1626516419928521,
+          "prompt_tokens": 240,
+          "completion_tokens": 37,
+          "total_tokens": 277
+        },
+        {
+          "case_id": "nubbix-o01",
+          "expected_category": "other",
+          "predicted_category": "technical",
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.294551371014677,
+          "prompt_tokens": 226,
+          "completion_tokens": 76,
+          "total_tokens": 302
+        },
+        {
+          "case_id": "nubbix-o02",
+          "expected_category": "other",
+          "predicted_category": "technical",
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.21455013199010864,
+          "prompt_tokens": 231,
+          "completion_tokens": 52,
+          "total_tokens": 283
+        },
+        {
+          "case_id": "nubbix-o03",
+          "expected_category": "other",
+          "predicted_category": "account",
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.2326543889939785,
+          "prompt_tokens": 229,
+          "completion_tokens": 59,
+          "total_tokens": 288
+        },
+        {
+          "case_id": "nubbix-o04",
+          "expected_category": "other",
+          "predicted_category": "technical",
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.24430409498745576,
+          "prompt_tokens": 227,
+          "completion_tokens": 57,
+          "total_tokens": 284
+        },
+        {
+          "case_id": "nubbix-o05",
+          "expected_category": "other",
+          "predicted_category": "technical",
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.5985335849691182,
+          "prompt_tokens": 228,
+          "completion_tokens": 144,
+          "total_tokens": 372
+        },
+        {
+          "case_id": "nubbix-o06",
+          "expected_category": "other",
+          "predicted_category": "technical",
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.22111936495639384,
+          "prompt_tokens": 225,
+          "completion_tokens": 56,
+          "total_tokens": 281
+        },
+        {
+          "case_id": "nubbix-o07",
+          "expected_category": "other",
+          "predicted_category": "account",
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": true,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.2297244830406271,
+          "prompt_tokens": 233,
+          "completion_tokens": 57,
+          "total_tokens": 290
+        },
+        {
+          "case_id": "nubbix-o08",
+          "expected_category": "other",
+          "predicted_category": "other",
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": true,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.2120241259690374,
+          "prompt_tokens": 228,
+          "completion_tokens": 53,
+          "total_tokens": 281
+        },
+        {
+          "case_id": "nubbix-b01",
+          "expected_category": "billing",
+          "predicted_category": "billing",
+          "prompt_version": "v2_few_shot",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.22633122297702357,
+          "prompt_tokens": 365,
+          "completion_tokens": 55,
+          "total_tokens": 420
+        },
+        {
+          "case_id": "nubbix-b02",
+          "expected_category": "billing",
+          "predicted_category": "billing",
+          "prompt_version": "v2_few_shot",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.2660467750392854,
+          "prompt_tokens": 361,
+          "completion_tokens": 64,
+          "total_tokens": 425
+        },
+        {
+          "case_id": "nubbix-b03",
+          "expected_category": "billing",
+          "predicted_category": "billing",
+          "prompt_version": "v2_few_shot",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.2219971269951202,
+          "prompt_tokens": 359,
+          "completion_tokens": 52,
+          "total_tokens": 411
+        },
+        {
+          "case_id": "nubbix-b04",
+          "expected_category": "billing",
+          "predicted_category": null,
+          "prompt_version": "v2_few_shot",
+          "ambiguous": false,
+          "correct": false,
+          "status": "provider_error",
+          "failure_code": "incomplete_response",
+          "application_contract_valid": null,
+          "application_output_guardrail_passed": null,
+          "attempts": 1,
+          "latency_seconds": 0.9949106169515289,
+          "prompt_tokens": 361,
+          "completion_tokens": 256,
+          "total_tokens": 617
+        },
+        {
+          "case_id": "nubbix-b05",
+          "expected_category": "billing",
+          "predicted_category": "billing",
+          "prompt_version": "v2_few_shot",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.20859344897326082,
+          "prompt_tokens": 367,
+          "completion_tokens": 49,
+          "total_tokens": 416
+        },
+        {
+          "case_id": "nubbix-b06",
+          "expected_category": "billing",
+          "predicted_category": "billing",
+          "prompt_version": "v2_few_shot",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.21505975001491606,
+          "prompt_tokens": 363,
+          "completion_tokens": 51,
+          "total_tokens": 414
+        },
+        {
+          "case_id": "nubbix-b07",
+          "expected_category": "billing",
+          "predicted_category": "technical",
+          "prompt_version": "v2_few_shot",
+          "ambiguous": true,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.1981288319802843,
+          "prompt_tokens": 369,
+          "completion_tokens": 46,
+          "total_tokens": 415
+        },
+        {
+          "case_id": "nubbix-b08",
+          "expected_category": "billing",
+          "predicted_category": "billing",
+          "prompt_version": "v2_few_shot",
+          "ambiguous": true,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.23478913999861106,
+          "prompt_tokens": 364,
+          "completion_tokens": 51,
+          "total_tokens": 415
+        },
+        {
+          "case_id": "nubbix-t01",
+          "expected_category": "technical",
+          "predicted_category": "technical",
+          "prompt_version": "v2_few_shot",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.20376207202207297,
+          "prompt_tokens": 372,
+          "completion_tokens": 50,
+          "total_tokens": 422
+        },
+        {
+          "case_id": "nubbix-t02",
+          "expected_category": "technical",
+          "predicted_category": "technical",
+          "prompt_version": "v2_few_shot",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.756175164016895,
+          "prompt_tokens": 360,
+          "completion_tokens": 195,
+          "total_tokens": 555
+        },
+        {
+          "case_id": "nubbix-t03",
+          "expected_category": "technical",
+          "predicted_category": "technical",
+          "prompt_version": "v2_few_shot",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.24824259901652113,
+          "prompt_tokens": 362,
+          "completion_tokens": 63,
+          "total_tokens": 425
+        },
+        {
+          "case_id": "nubbix-t04",
+          "expected_category": "technical",
+          "predicted_category": "technical",
+          "prompt_version": "v2_few_shot",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.1604507039883174,
+          "prompt_tokens": 367,
+          "completion_tokens": 39,
+          "total_tokens": 406
+        },
+        {
+          "case_id": "nubbix-t05",
+          "expected_category": "technical",
+          "predicted_category": "technical",
+          "prompt_version": "v2_few_shot",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.3262004170101136,
+          "prompt_tokens": 364,
+          "completion_tokens": 79,
+          "total_tokens": 443
+        },
+        {
+          "case_id": "nubbix-t06",
+          "expected_category": "technical",
+          "predicted_category": "billing",
+          "prompt_version": "v2_few_shot",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.1864766989601776,
+          "prompt_tokens": 366,
+          "completion_tokens": 46,
+          "total_tokens": 412
+        },
+        {
+          "case_id": "nubbix-t07",
+          "expected_category": "technical",
+          "predicted_category": "billing",
+          "prompt_version": "v2_few_shot",
+          "ambiguous": true,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.27460314700147137,
+          "prompt_tokens": 377,
+          "completion_tokens": 69,
+          "total_tokens": 446
+        },
+        {
+          "case_id": "nubbix-t08",
+          "expected_category": "technical",
+          "predicted_category": null,
+          "prompt_version": "v2_few_shot",
+          "ambiguous": true,
+          "correct": false,
+          "status": "provider_error",
+          "failure_code": "incomplete_response",
+          "application_contract_valid": null,
+          "application_output_guardrail_passed": null,
+          "attempts": 1,
+          "latency_seconds": 1.0589004590292461,
+          "prompt_tokens": 371,
+          "completion_tokens": 256,
+          "total_tokens": 627
+        },
+        {
+          "case_id": "nubbix-a01",
+          "expected_category": "account",
+          "predicted_category": "account",
+          "prompt_version": "v2_few_shot",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.2126158220344223,
+          "prompt_tokens": 361,
+          "completion_tokens": 52,
+          "total_tokens": 413
+        },
+        {
+          "case_id": "nubbix-a02",
+          "expected_category": "account",
+          "predicted_category": "technical",
+          "prompt_version": "v2_few_shot",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.179300926043652,
+          "prompt_tokens": 367,
+          "completion_tokens": 43,
+          "total_tokens": 410
+        },
+        {
+          "case_id": "nubbix-a03",
+          "expected_category": "account",
+          "predicted_category": "account",
+          "prompt_version": "v2_few_shot",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.22351865604287013,
+          "prompt_tokens": 362,
+          "completion_tokens": 54,
+          "total_tokens": 416
+        },
+        {
+          "case_id": "nubbix-a04",
+          "expected_category": "account",
+          "predicted_category": "account",
+          "prompt_version": "v2_few_shot",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.18785791395930573,
+          "prompt_tokens": 363,
+          "completion_tokens": 46,
+          "total_tokens": 409
+        },
+        {
+          "case_id": "nubbix-a05",
+          "expected_category": "account",
+          "predicted_category": "account",
+          "prompt_version": "v2_few_shot",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.2537225990090519,
+          "prompt_tokens": 363,
+          "completion_tokens": 63,
+          "total_tokens": 426
+        },
+        {
+          "case_id": "nubbix-a06",
+          "expected_category": "account",
+          "predicted_category": "other",
+          "prompt_version": "v2_few_shot",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.24135945999296382,
+          "prompt_tokens": 366,
+          "completion_tokens": 59,
+          "total_tokens": 425
+        },
+        {
+          "case_id": "nubbix-a07",
+          "expected_category": "account",
+          "predicted_category": "account",
+          "prompt_version": "v2_few_shot",
+          "ambiguous": true,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.18755579099524766,
+          "prompt_tokens": 370,
+          "completion_tokens": 46,
+          "total_tokens": 416
+        },
+        {
+          "case_id": "nubbix-a08",
+          "expected_category": "account",
+          "predicted_category": "billing",
+          "prompt_version": "v2_few_shot",
+          "ambiguous": true,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.2265525449765846,
+          "prompt_tokens": 375,
+          "completion_tokens": 53,
+          "total_tokens": 428
+        },
+        {
+          "case_id": "nubbix-o01",
+          "expected_category": "other",
+          "predicted_category": "billing",
+          "prompt_version": "v2_few_shot",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.19625794695457444,
+          "prompt_tokens": 361,
+          "completion_tokens": 48,
+          "total_tokens": 409
+        },
+        {
+          "case_id": "nubbix-o02",
+          "expected_category": "other",
+          "predicted_category": "technical",
+          "prompt_version": "v2_few_shot",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.24993920599808916,
+          "prompt_tokens": 366,
+          "completion_tokens": 63,
+          "total_tokens": 429
+        },
+        {
+          "case_id": "nubbix-o03",
+          "expected_category": "other",
+          "predicted_category": "other",
+          "prompt_version": "v2_few_shot",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.23748774599516764,
+          "prompt_tokens": 364,
+          "completion_tokens": 60,
+          "total_tokens": 424
+        },
+        {
+          "case_id": "nubbix-o04",
+          "expected_category": "other",
+          "predicted_category": "billing",
+          "prompt_version": "v2_few_shot",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.21371345705119893,
+          "prompt_tokens": 362,
+          "completion_tokens": 50,
+          "total_tokens": 412
+        },
+        {
+          "case_id": "nubbix-o05",
+          "expected_category": "other",
+          "predicted_category": "technical",
+          "prompt_version": "v2_few_shot",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.718587398994714,
+          "prompt_tokens": 363,
+          "completion_tokens": 189,
+          "total_tokens": 552
+        },
+        {
+          "case_id": "nubbix-o06",
+          "expected_category": "other",
+          "predicted_category": "other",
+          "prompt_version": "v2_few_shot",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.340753119031433,
+          "prompt_tokens": 360,
+          "completion_tokens": 84,
+          "total_tokens": 444
+        },
+        {
+          "case_id": "nubbix-o07",
+          "expected_category": "other",
+          "predicted_category": "account",
+          "prompt_version": "v2_few_shot",
+          "ambiguous": true,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.21890410297783092,
+          "prompt_tokens": 368,
+          "completion_tokens": 53,
+          "total_tokens": 421
+        },
+        {
+          "case_id": "nubbix-o08",
+          "expected_category": "other",
+          "predicted_category": "billing",
+          "prompt_version": "v2_few_shot",
+          "ambiguous": true,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.33625650900648907,
+          "prompt_tokens": 363,
+          "completion_tokens": 84,
+          "total_tokens": 447
+        }
+      ]
+    },
+    "2026-11-04-v34-session-v3-v4": {
+      "plan": {
+        "format_version": 2,
+        "suite_kind": "base_corpus",
+        "max_generations": 64,
+        "all_cases": true,
+        "prompts": [
+          "v3_structured",
+          "v4_reasoning"
+        ],
+        "dataset_sha256": "d575ef2c26a0f071b9f31cab4ee1554a47c8b3a9e074017a225b90823a4a4bcf",
+        "prompt_sha256": {
+          "v3_structured": "bb60c89539d530d184d9c2ca827368b5446f6b07ce9c6c0f91684c1456e986ac",
+          "v4_reasoning": "c8e04b0e625765eb507bf3034e07c60667677aea3f6e4c6722127b4af3c8ba3f"
+        },
+        "source_sha256": {
+          "src/__init__.py": "f04cd65eb57d23c8d36abf10e78bac4fb74adcd336f195b8198a57a4088b23bd",
+          "src/llm/__init__.py": "2472bdb87ec26b3d55b51ded98f9decd39af2bee882e861dda9577d171a3a2e9",
+          "src/llm/prompt_catalog.py": "e542642983e746bddd5de1fe74ab943c8089b18346bf5d9ea754da0fcfc07a27",
+          "src/llm/prompts.py": "02d25415901766d3bac702f70ed086cfa8b6d63757716458856dcf3f5520bf72",
+          "src/llm/providers/__init__.py": "909c879e9b82410cbb9efbe19cc41eb4fdd3eda5e070e1868e03948434d3f0d2",
+          "src/llm/providers/base.py": "1227c618ff8f6e93dd12664f374ac20888d1ff948c5eeba915c999467a0ece98",
+          "src/llm/providers/gemini_provider.py": "081ca0501fafbb6e74039b4a70b13fc63f64e05c1c5e627dbe86c7dd5186317a",
+          "src/llm/providers/mock_provider.py": "6f6b01a8514a458a23ba94d5ce9a5b33a03c4d54924b5940a4bc69fd3472f0b5",
+          "src/llm/providers/ollama_provider.py": "d2aac5af08046edc997b19d275b7bcfab4ee4794829871cd88c69a81ed4de66a",
+          "src/llm/providers/openai_provider.py": "6ee956310ab64e2375e029a95fd30793baad3eed1d86028d37a34face5f2e55e",
+          "src/llm/usage.py": "bee0e169d53b35bbae0ff4a79012fdf7230f0b1fa30ecfff54c92807856225ef",
+          "src/main.py": "5b0840361586e46d4abb0f2aaa78b237dfbf2ee38ab3ad8d612ea058b2b0662c",
+          "src/runtime/__init__.py": "6c8e5d82bc21ce20c2515c491a026294b0176f9d07118b8144ee5c44676e5080",
+          "src/runtime/config.py": "50cf4eebc10b1d828b14ade3e122b8ad774d3567dee3a52873529495f04104e9",
+          "src/runtime/metrics.py": "6385d396df5b61f8392eb34481a7ccdc9e0d1afde67d49b23f400080c91548a7",
+          "src/runtime/pricing.py": "02a6775fc92bd78d9d2c8d52c27c3e58c6ea3fe53a7514e26e64500252bc262c",
+          "src/support/__init__.py": "a04161b7e0ff5554a4ea8f886c78cc15cc980659c5066f60bf399a64715708e4",
+          "src/support/guardrails.py": "93424d9c831d31752bd1d808eebaa164e96f22f89f97b52b95bb0201a8afd0ba",
+          "src/support/schemas.py": "577d619b7e365c44e1bdd581efd0d95d02c051aa0484529e67343fddba7b020f",
+          "src/support/service.py": "85a5033f215f79836d336346c34f1c0f240a1086a90fe8b34a5f722a823bf59a",
+          "evals/__init__.py": "0e867d27399894ba8117a5c05ddbf2a976c4df2bc6080b1c7c6f7ae4358e2f75",
+          "evals/run_evals.py": "98a104836125e8780c78cf6b1ba866ed2cbc2460f6c55aadc76cf705cdc61a00",
+          "evals/run_local_sample.py": "b0339b59f023d49fe589566a82076e76a6306bcde18a236fcc1f9fbafe325f70"
+        },
+        "settings": {
+          "provider": "ollama",
+          "model": "qwen2.5-coder:0.5b-test",
+          "ollama_base_url": "http://127.0.0.1:11434",
+          "ollama_max_output_tokens": 256,
+          "ollama_num_ctx": 2048,
+          "ollama_timeout_seconds": 30,
+          "max_attempts": 1
+        },
+        "label_review_status": "not_verified_by_this_run",
+        "order": "prompt_then_case_id_order; no warmup or randomization",
+        "planned_generations": 64,
+        "cases": [
+          {
+            "case_id": "nubbix-b01",
+            "expected_category": "billing",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-b02",
+            "expected_category": "billing",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-b03",
+            "expected_category": "billing",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-b04",
+            "expected_category": "billing",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-b05",
+            "expected_category": "billing",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-b06",
+            "expected_category": "billing",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-b07",
+            "expected_category": "billing",
+            "ambiguous": true
+          },
+          {
+            "case_id": "nubbix-b08",
+            "expected_category": "billing",
+            "ambiguous": true
+          },
+          {
+            "case_id": "nubbix-t01",
+            "expected_category": "technical",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-t02",
+            "expected_category": "technical",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-t03",
+            "expected_category": "technical",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-t04",
+            "expected_category": "technical",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-t05",
+            "expected_category": "technical",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-t06",
+            "expected_category": "technical",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-t07",
+            "expected_category": "technical",
+            "ambiguous": true
+          },
+          {
+            "case_id": "nubbix-t08",
+            "expected_category": "technical",
+            "ambiguous": true
+          },
+          {
+            "case_id": "nubbix-a01",
+            "expected_category": "account",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-a02",
+            "expected_category": "account",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-a03",
+            "expected_category": "account",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-a04",
+            "expected_category": "account",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-a05",
+            "expected_category": "account",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-a06",
+            "expected_category": "account",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-a07",
+            "expected_category": "account",
+            "ambiguous": true
+          },
+          {
+            "case_id": "nubbix-a08",
+            "expected_category": "account",
+            "ambiguous": true
+          },
+          {
+            "case_id": "nubbix-o01",
+            "expected_category": "other",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-o02",
+            "expected_category": "other",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-o03",
+            "expected_category": "other",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-o04",
+            "expected_category": "other",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-o05",
+            "expected_category": "other",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-o06",
+            "expected_category": "other",
+            "ambiguous": false
+          },
+          {
+            "case_id": "nubbix-o07",
+            "expected_category": "other",
+            "ambiguous": true
+          },
+          {
+            "case_id": "nubbix-o08",
+            "expected_category": "other",
+            "ambiguous": true
+          }
+        ]
+      },
+      "model_snapshot_before": {
+        "observed_at": "2026-11-04T22:42:44.692098+00:00",
+        "model": "qwen2.5-coder:0.5b-test",
+        "digest": "08efee4699b2c84f8b793e888efd0de207bd8b00692a62337b40017048e3c075",
+        "size": 994158569,
+        "details": {
+          "parent_model": "model-f16.gguf",
+          "format": "gguf",
+          "family": "qwen2",
+          "families": [
+            "qwen2"
+          ],
+          "parameter_size": "494.03M",
+          "quantization_level": "F16",
+          "context_length": 32768,
+          "embedding_length": 896,
+          "runner": "llamacpp"
+        },
+        "server_version": "0.40.6"
+      },
+      "model_digest_after": "08efee4699b2c84f8b793e888efd0de207bd8b00692a62337b40017048e3c075",
+      "summary": {
+        "simulated": false,
+        "quality_claim": false,
+        "label_review_status": "not_verified_by_this_run",
+        "warning": "Comparaci\u00f3n exploratoria con referencias propuestas; sin validaci\u00f3n humana nueva, ranking general ni elecci\u00f3n definitiva de prompt.",
+        "by_prompt": {
+          "v3_structured": {
+            "total": 32,
+            "correct": 17,
+            "exact_match": 0.53125,
+            "validated_outputs": 32,
+            "schema_valid_outputs": 32,
+            "status_counts": {
+              "ok": 32
+            },
+            "latency_median_seconds": 0.2908566995174624,
+            "latency_min_seconds": 0.20444718498038128,
+            "latency_max_seconds": 0.9685400849557482,
+            "by_category": {
+              "billing": {
+                "count": 8,
+                "correct": 5,
+                "errors": 0,
+                "exact_match": 0.625
+              },
+              "technical": {
+                "count": 8,
+                "correct": 5,
+                "errors": 0,
+                "exact_match": 0.625
+              },
+              "account": {
+                "count": 8,
+                "correct": 5,
+                "errors": 0,
+                "exact_match": 0.625
+              },
+              "other": {
+                "count": 8,
+                "correct": 2,
+                "errors": 0,
+                "exact_match": 0.25
+              }
+            },
+            "confusion_matrix": {
+              "billing": {
+                "account": 1,
+                "billing": 5,
+                "technical": 2
+              },
+              "technical": {
+                "billing": 3,
+                "technical": 5
+              },
+              "account": {
+                "account": 5,
+                "billing": 3
+              },
+              "other": {
+                "billing": 3,
+                "technical": 3,
+                "other": 2
+              }
+            },
+            "by_ambiguity": {
+              "marked_ambiguous": {
+                "count": 8,
+                "correct": 6,
+                "exact_match": 0.75
+              },
+              "not_marked_ambiguous": {
+                "count": 24,
+                "correct": 11,
+                "exact_match": 0.4583333333333333
+              }
+            }
+          },
+          "v4_reasoning": {
+            "total": 32,
+            "correct": 13,
+            "exact_match": 0.40625,
+            "validated_outputs": 30,
+            "schema_valid_outputs": 30,
+            "status_counts": {
+              "ok": 30,
+              "provider_error": 2
+            },
+            "latency_median_seconds": 0.3325644815340638,
+            "latency_min_seconds": 0.1413576559862122,
+            "latency_max_seconds": 1.0256320440093987,
+            "by_category": {
+              "billing": {
+                "count": 8,
+                "correct": 2,
+                "errors": 0,
+                "exact_match": 0.25
+              },
+              "technical": {
+                "count": 8,
+                "correct": 4,
+                "errors": 0,
+                "exact_match": 0.5
+              },
+              "account": {
+                "count": 8,
+                "correct": 5,
+                "errors": 0,
+                "exact_match": 0.625
+              },
+              "other": {
+                "count": 8,
+                "correct": 2,
+                "errors": 2,
+                "exact_match": 0.25
+              }
+            },
+            "confusion_matrix": {
+              "billing": {
+                "account": 5,
+                "billing": 2,
+                "technical": 1
+              },
+              "technical": {
+                "other": 4,
+                "technical": 4
+              },
+              "account": {
+                "account": 5,
+                "other": 2,
+                "technical": 1
+              },
+              "other": {
+                "other": 2,
+                "billing": 1,
+                "account": 3,
+                "error": 2
+              }
+            },
+            "by_ambiguity": {
+              "marked_ambiguous": {
+                "count": 8,
+                "correct": 3,
+                "exact_match": 0.375
+              },
+              "not_marked_ambiguous": {
+                "count": 24,
+                "correct": 10,
+                "exact_match": 0.4166666666666667
+              }
+            }
+          }
+        },
+        "suite_kind": "base_corpus"
+      },
+      "results": [
+        {
+          "case_id": "nubbix-b01",
+          "expected_category": "billing",
+          "predicted_category": "account",
+          "prompt_version": "v3_structured",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.3173666479997337,
+          "prompt_tokens": 551,
+          "completion_tokens": 72,
+          "total_tokens": 623
+        },
+        {
+          "case_id": "nubbix-b02",
+          "expected_category": "billing",
+          "predicted_category": "billing",
+          "prompt_version": "v3_structured",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.3170564349857159,
+          "prompt_tokens": 547,
+          "completion_tokens": 75,
+          "total_tokens": 622
+        },
+        {
+          "case_id": "nubbix-b03",
+          "expected_category": "billing",
+          "predicted_category": "billing",
+          "prompt_version": "v3_structured",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.3508972370182164,
+          "prompt_tokens": 545,
+          "completion_tokens": 87,
+          "total_tokens": 632
+        },
+        {
+          "case_id": "nubbix-b04",
+          "expected_category": "billing",
+          "predicted_category": "technical",
+          "prompt_version": "v3_structured",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.49455571599537507,
+          "prompt_tokens": 547,
+          "completion_tokens": 126,
+          "total_tokens": 673
+        },
+        {
+          "case_id": "nubbix-b05",
+          "expected_category": "billing",
+          "predicted_category": "billing",
+          "prompt_version": "v3_structured",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.5971541160251945,
+          "prompt_tokens": 553,
+          "completion_tokens": 155,
+          "total_tokens": 708
+        },
+        {
+          "case_id": "nubbix-b06",
+          "expected_category": "billing",
+          "predicted_category": "technical",
+          "prompt_version": "v3_structured",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.3070160880452022,
+          "prompt_tokens": 549,
+          "completion_tokens": 77,
+          "total_tokens": 626
+        },
+        {
+          "case_id": "nubbix-b07",
+          "expected_category": "billing",
+          "predicted_category": "billing",
+          "prompt_version": "v3_structured",
+          "ambiguous": true,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.2198554479982704,
+          "prompt_tokens": 555,
+          "completion_tokens": 54,
+          "total_tokens": 609
+        },
+        {
+          "case_id": "nubbix-b08",
+          "expected_category": "billing",
+          "predicted_category": "billing",
+          "prompt_version": "v3_structured",
+          "ambiguous": true,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.20816321397433057,
+          "prompt_tokens": 550,
+          "completion_tokens": 49,
+          "total_tokens": 599
+        },
+        {
+          "case_id": "nubbix-t01",
+          "expected_category": "technical",
+          "predicted_category": "billing",
+          "prompt_version": "v3_structured",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.37365947297075763,
+          "prompt_tokens": 558,
+          "completion_tokens": 92,
+          "total_tokens": 650
+        },
+        {
+          "case_id": "nubbix-t02",
+          "expected_category": "technical",
+          "predicted_category": "technical",
+          "prompt_version": "v3_structured",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.30347223102580756,
+          "prompt_tokens": 546,
+          "completion_tokens": 77,
+          "total_tokens": 623
+        },
+        {
+          "case_id": "nubbix-t03",
+          "expected_category": "technical",
+          "predicted_category": "technical",
+          "prompt_version": "v3_structured",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.7701935379882343,
+          "prompt_tokens": 548,
+          "completion_tokens": 196,
+          "total_tokens": 744
+        },
+        {
+          "case_id": "nubbix-t04",
+          "expected_category": "technical",
+          "predicted_category": "billing",
+          "prompt_version": "v3_structured",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.2840661230147816,
+          "prompt_tokens": 553,
+          "completion_tokens": 70,
+          "total_tokens": 623
+        },
+        {
+          "case_id": "nubbix-t05",
+          "expected_category": "technical",
+          "predicted_category": "technical",
+          "prompt_version": "v3_structured",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.3254768509650603,
+          "prompt_tokens": 550,
+          "completion_tokens": 82,
+          "total_tokens": 632
+        },
+        {
+          "case_id": "nubbix-t06",
+          "expected_category": "technical",
+          "predicted_category": "billing",
+          "prompt_version": "v3_structured",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.20444718498038128,
+          "prompt_tokens": 552,
+          "completion_tokens": 49,
+          "total_tokens": 601
+        },
+        {
+          "case_id": "nubbix-t07",
+          "expected_category": "technical",
+          "predicted_category": "technical",
+          "prompt_version": "v3_structured",
+          "ambiguous": true,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.5457065950031392,
+          "prompt_tokens": 563,
+          "completion_tokens": 138,
+          "total_tokens": 701
+        },
+        {
+          "case_id": "nubbix-t08",
+          "expected_category": "technical",
+          "predicted_category": "technical",
+          "prompt_version": "v3_structured",
+          "ambiguous": true,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.23017481103306636,
+          "prompt_tokens": 557,
+          "completion_tokens": 58,
+          "total_tokens": 615
+        },
+        {
+          "case_id": "nubbix-a01",
+          "expected_category": "account",
+          "predicted_category": "account",
+          "prompt_version": "v3_structured",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.2924489650176838,
+          "prompt_tokens": 547,
+          "completion_tokens": 73,
+          "total_tokens": 620
+        },
+        {
+          "case_id": "nubbix-a02",
+          "expected_category": "account",
+          "predicted_category": "billing",
+          "prompt_version": "v3_structured",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.4782804690185003,
+          "prompt_tokens": 553,
+          "completion_tokens": 123,
+          "total_tokens": 676
+        },
+        {
+          "case_id": "nubbix-a03",
+          "expected_category": "account",
+          "predicted_category": "billing",
+          "prompt_version": "v3_structured",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.24112442001933232,
+          "prompt_tokens": 548,
+          "completion_tokens": 59,
+          "total_tokens": 607
+        },
+        {
+          "case_id": "nubbix-a04",
+          "expected_category": "account",
+          "predicted_category": "account",
+          "prompt_version": "v3_structured",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.2498854220029898,
+          "prompt_tokens": 549,
+          "completion_tokens": 61,
+          "total_tokens": 610
+        },
+        {
+          "case_id": "nubbix-a05",
+          "expected_category": "account",
+          "predicted_category": "account",
+          "prompt_version": "v3_structured",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.2539236680022441,
+          "prompt_tokens": 549,
+          "completion_tokens": 63,
+          "total_tokens": 612
+        },
+        {
+          "case_id": "nubbix-a06",
+          "expected_category": "account",
+          "predicted_category": "account",
+          "prompt_version": "v3_structured",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.2620098890038207,
+          "prompt_tokens": 552,
+          "completion_tokens": 65,
+          "total_tokens": 617
+        },
+        {
+          "case_id": "nubbix-a07",
+          "expected_category": "account",
+          "predicted_category": "account",
+          "prompt_version": "v3_structured",
+          "ambiguous": true,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.21850736095802858,
+          "prompt_tokens": 556,
+          "completion_tokens": 51,
+          "total_tokens": 607
+        },
+        {
+          "case_id": "nubbix-a08",
+          "expected_category": "account",
+          "predicted_category": "billing",
+          "prompt_version": "v3_structured",
+          "ambiguous": true,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.25558912695851177,
+          "prompt_tokens": 561,
+          "completion_tokens": 61,
+          "total_tokens": 622
+        },
+        {
+          "case_id": "nubbix-o01",
+          "expected_category": "other",
+          "predicted_category": "billing",
+          "prompt_version": "v3_structured",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.2240656380308792,
+          "prompt_tokens": 547,
+          "completion_tokens": 55,
+          "total_tokens": 602
+        },
+        {
+          "case_id": "nubbix-o02",
+          "expected_category": "other",
+          "predicted_category": "technical",
+          "prompt_version": "v3_structured",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.24318805598886684,
+          "prompt_tokens": 552,
+          "completion_tokens": 61,
+          "total_tokens": 613
+        },
+        {
+          "case_id": "nubbix-o03",
+          "expected_category": "other",
+          "predicted_category": "technical",
+          "prompt_version": "v3_structured",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.289264434017241,
+          "prompt_tokens": 550,
+          "completion_tokens": 73,
+          "total_tokens": 623
+        },
+        {
+          "case_id": "nubbix-o04",
+          "expected_category": "other",
+          "predicted_category": "billing",
+          "prompt_version": "v3_structured",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.24409092898713425,
+          "prompt_tokens": 548,
+          "completion_tokens": 61,
+          "total_tokens": 609
+        },
+        {
+          "case_id": "nubbix-o05",
+          "expected_category": "other",
+          "predicted_category": "technical",
+          "prompt_version": "v3_structured",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.9685400849557482,
+          "prompt_tokens": 549,
+          "completion_tokens": 253,
+          "total_tokens": 802
+        },
+        {
+          "case_id": "nubbix-o06",
+          "expected_category": "other",
+          "predicted_category": "other",
+          "prompt_version": "v3_structured",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.41340399300679564,
+          "prompt_tokens": 546,
+          "completion_tokens": 102,
+          "total_tokens": 648
+        },
+        {
+          "case_id": "nubbix-o07",
+          "expected_category": "other",
+          "predicted_category": "billing",
+          "prompt_version": "v3_structured",
+          "ambiguous": true,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.27166679996298626,
+          "prompt_tokens": 554,
+          "completion_tokens": 68,
+          "total_tokens": 622
+        },
+        {
+          "case_id": "nubbix-o08",
+          "expected_category": "other",
+          "predicted_category": "other",
+          "prompt_version": "v3_structured",
+          "ambiguous": true,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.327538640005514,
+          "prompt_tokens": 549,
+          "completion_tokens": 83,
+          "total_tokens": 632
+        },
+        {
+          "case_id": "nubbix-b01",
+          "expected_category": "billing",
+          "predicted_category": "account",
+          "prompt_version": "v4_reasoning",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.28773393598385155,
+          "prompt_tokens": 413,
+          "completion_tokens": 68,
+          "total_tokens": 481
+        },
+        {
+          "case_id": "nubbix-b02",
+          "expected_category": "billing",
+          "predicted_category": "billing",
+          "prompt_version": "v4_reasoning",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.3266891810344532,
+          "prompt_tokens": 409,
+          "completion_tokens": 81,
+          "total_tokens": 490
+        },
+        {
+          "case_id": "nubbix-b03",
+          "expected_category": "billing",
+          "predicted_category": "account",
+          "prompt_version": "v4_reasoning",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.5184896250138991,
+          "prompt_tokens": 407,
+          "completion_tokens": 129,
+          "total_tokens": 536
+        },
+        {
+          "case_id": "nubbix-b04",
+          "expected_category": "billing",
+          "predicted_category": "account",
+          "prompt_version": "v4_reasoning",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.6947083530249074,
+          "prompt_tokens": 409,
+          "completion_tokens": 174,
+          "total_tokens": 583
+        },
+        {
+          "case_id": "nubbix-b05",
+          "expected_category": "billing",
+          "predicted_category": "account",
+          "prompt_version": "v4_reasoning",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.3403430579928681,
+          "prompt_tokens": 415,
+          "completion_tokens": 82,
+          "total_tokens": 497
+        },
+        {
+          "case_id": "nubbix-b06",
+          "expected_category": "billing",
+          "predicted_category": "billing",
+          "prompt_version": "v4_reasoning",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.35992549400543794,
+          "prompt_tokens": 411,
+          "completion_tokens": 90,
+          "total_tokens": 501
+        },
+        {
+          "case_id": "nubbix-b07",
+          "expected_category": "billing",
+          "predicted_category": "technical",
+          "prompt_version": "v4_reasoning",
+          "ambiguous": true,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.3384397820336744,
+          "prompt_tokens": 417,
+          "completion_tokens": 83,
+          "total_tokens": 500
+        },
+        {
+          "case_id": "nubbix-b08",
+          "expected_category": "billing",
+          "predicted_category": "account",
+          "prompt_version": "v4_reasoning",
+          "ambiguous": true,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.22465981397544965,
+          "prompt_tokens": 412,
+          "completion_tokens": 53,
+          "total_tokens": 465
+        },
+        {
+          "case_id": "nubbix-t01",
+          "expected_category": "technical",
+          "predicted_category": "other",
+          "prompt_version": "v4_reasoning",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.28300289099570364,
+          "prompt_tokens": 420,
+          "completion_tokens": 71,
+          "total_tokens": 491
+        },
+        {
+          "case_id": "nubbix-t02",
+          "expected_category": "technical",
+          "predicted_category": "technical",
+          "prompt_version": "v4_reasoning",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.34403110499260947,
+          "prompt_tokens": 408,
+          "completion_tokens": 85,
+          "total_tokens": 493
+        },
+        {
+          "case_id": "nubbix-t03",
+          "expected_category": "technical",
+          "predicted_category": "technical",
+          "prompt_version": "v4_reasoning",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.29390337999211624,
+          "prompt_tokens": 410,
+          "completion_tokens": 72,
+          "total_tokens": 482
+        },
+        {
+          "case_id": "nubbix-t04",
+          "expected_category": "technical",
+          "predicted_category": "other",
+          "prompt_version": "v4_reasoning",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.16763918899232522,
+          "prompt_tokens": 415,
+          "completion_tokens": 39,
+          "total_tokens": 454
+        },
+        {
+          "case_id": "nubbix-t05",
+          "expected_category": "technical",
+          "predicted_category": "other",
+          "prompt_version": "v4_reasoning",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.33941268495982513,
+          "prompt_tokens": 412,
+          "completion_tokens": 84,
+          "total_tokens": 496
+        },
+        {
+          "case_id": "nubbix-t06",
+          "expected_category": "technical",
+          "predicted_category": "other",
+          "prompt_version": "v4_reasoning",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.1413576559862122,
+          "prompt_tokens": 414,
+          "completion_tokens": 33,
+          "total_tokens": 447
+        },
+        {
+          "case_id": "nubbix-t07",
+          "expected_category": "technical",
+          "predicted_category": "technical",
+          "prompt_version": "v4_reasoning",
+          "ambiguous": true,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.40014067600714043,
+          "prompt_tokens": 425,
+          "completion_tokens": 98,
+          "total_tokens": 523
+        },
+        {
+          "case_id": "nubbix-t08",
+          "expected_category": "technical",
+          "predicted_category": "technical",
+          "prompt_version": "v4_reasoning",
+          "ambiguous": true,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.6482277000322938,
+          "prompt_tokens": 419,
+          "completion_tokens": 164,
+          "total_tokens": 583
+        },
+        {
+          "case_id": "nubbix-a01",
+          "expected_category": "account",
+          "predicted_category": "account",
+          "prompt_version": "v4_reasoning",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.36917984002502635,
+          "prompt_tokens": 409,
+          "completion_tokens": 92,
+          "total_tokens": 501
+        },
+        {
+          "case_id": "nubbix-a02",
+          "expected_category": "account",
+          "predicted_category": "other",
+          "prompt_version": "v4_reasoning",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.2878264999599196,
+          "prompt_tokens": 415,
+          "completion_tokens": 70,
+          "total_tokens": 485
+        },
+        {
+          "case_id": "nubbix-a03",
+          "expected_category": "account",
+          "predicted_category": "account",
+          "prompt_version": "v4_reasoning",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.24034827499417588,
+          "prompt_tokens": 410,
+          "completion_tokens": 59,
+          "total_tokens": 469
+        },
+        {
+          "case_id": "nubbix-a04",
+          "expected_category": "account",
+          "predicted_category": "account",
+          "prompt_version": "v4_reasoning",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.30140072701033205,
+          "prompt_tokens": 411,
+          "completion_tokens": 75,
+          "total_tokens": 486
+        },
+        {
+          "case_id": "nubbix-a05",
+          "expected_category": "account",
+          "predicted_category": "other",
+          "prompt_version": "v4_reasoning",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.2679067460121587,
+          "prompt_tokens": 411,
+          "completion_tokens": 65,
+          "total_tokens": 476
+        },
+        {
+          "case_id": "nubbix-a06",
+          "expected_category": "account",
+          "predicted_category": "account",
+          "prompt_version": "v4_reasoning",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.25268874096218497,
+          "prompt_tokens": 414,
+          "completion_tokens": 58,
+          "total_tokens": 472
+        },
+        {
+          "case_id": "nubbix-a07",
+          "expected_category": "account",
+          "predicted_category": "account",
+          "prompt_version": "v4_reasoning",
+          "ambiguous": true,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.204252997005824,
+          "prompt_tokens": 418,
+          "completion_tokens": 48,
+          "total_tokens": 466
+        },
+        {
+          "case_id": "nubbix-a08",
+          "expected_category": "account",
+          "predicted_category": "technical",
+          "prompt_version": "v4_reasoning",
+          "ambiguous": true,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.5442681490094401,
+          "prompt_tokens": 423,
+          "completion_tokens": 136,
+          "total_tokens": 559
+        },
+        {
+          "case_id": "nubbix-o01",
+          "expected_category": "other",
+          "predicted_category": "other",
+          "prompt_version": "v4_reasoning",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.31194721203064546,
+          "prompt_tokens": 409,
+          "completion_tokens": 77,
+          "total_tokens": 486
+        },
+        {
+          "case_id": "nubbix-o02",
+          "expected_category": "other",
+          "predicted_category": "billing",
+          "prompt_version": "v4_reasoning",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.5877323740278371,
+          "prompt_tokens": 414,
+          "completion_tokens": 149,
+          "total_tokens": 563
+        },
+        {
+          "case_id": "nubbix-o03",
+          "expected_category": "other",
+          "predicted_category": "account",
+          "prompt_version": "v4_reasoning",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.34157073800452054,
+          "prompt_tokens": 412,
+          "completion_tokens": 83,
+          "total_tokens": 495
+        },
+        {
+          "case_id": "nubbix-o04",
+          "expected_category": "other",
+          "predicted_category": null,
+          "prompt_version": "v4_reasoning",
+          "ambiguous": false,
+          "correct": false,
+          "status": "provider_error",
+          "failure_code": "incomplete_response",
+          "application_contract_valid": null,
+          "application_output_guardrail_passed": null,
+          "attempts": 1,
+          "latency_seconds": 1.0256320440093987,
+          "prompt_tokens": 410,
+          "completion_tokens": 256,
+          "total_tokens": 666
+        },
+        {
+          "case_id": "nubbix-o05",
+          "expected_category": "other",
+          "predicted_category": null,
+          "prompt_version": "v4_reasoning",
+          "ambiguous": false,
+          "correct": false,
+          "status": "provider_error",
+          "failure_code": "incomplete_response",
+          "application_contract_valid": null,
+          "application_output_guardrail_passed": null,
+          "attempts": 1,
+          "latency_seconds": 1.0040941439801827,
+          "prompt_tokens": 411,
+          "completion_tokens": 256,
+          "total_tokens": 667
+        },
+        {
+          "case_id": "nubbix-o06",
+          "expected_category": "other",
+          "predicted_category": "other",
+          "prompt_version": "v4_reasoning",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.2056830800138414,
+          "prompt_tokens": 408,
+          "completion_tokens": 50,
+          "total_tokens": 458
+        },
+        {
+          "case_id": "nubbix-o07",
+          "expected_category": "other",
+          "predicted_category": "account",
+          "prompt_version": "v4_reasoning",
+          "ambiguous": true,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.1706711919978261,
+          "prompt_tokens": 416,
+          "completion_tokens": 42,
+          "total_tokens": 458
+        },
+        {
+          "case_id": "nubbix-o08",
+          "expected_category": "other",
+          "predicted_category": "account",
+          "prompt_version": "v4_reasoning",
+          "ambiguous": true,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.5749929209705442,
+          "prompt_tokens": 411,
+          "completion_tokens": 144,
+          "total_tokens": 555
+        }
+      ]
+    },
+    "2026-11-04-v34-session-robustness": {
+      "plan": {
+        "format_version": 2,
+        "suite_kind": "supplementary_diagnostic",
+        "max_generations": 32,
+        "all_cases": true,
+        "prompts": [
+          "v1_zero_shot",
+          "v2_few_shot",
+          "v3_structured",
+          "v4_reasoning"
+        ],
+        "dataset_sha256": "e04ef0fb821c67f6471b2cb0d5f29d2689fa99ad2ed799573863f6ef13a4f8d6",
+        "prompt_sha256": {
+          "v1_zero_shot": "67f5b70d9400eef6e76d2393009c14b3f831d0af597450f2bd83c63cd3750a2c",
+          "v2_few_shot": "ad75c9833cb90caff3e87061e4c6d35d4d35c3ad48571d59941dc18237b34418",
+          "v3_structured": "bb60c89539d530d184d9c2ca827368b5446f6b07ce9c6c0f91684c1456e986ac",
+          "v4_reasoning": "c8e04b0e625765eb507bf3034e07c60667677aea3f6e4c6722127b4af3c8ba3f"
+        },
+        "source_sha256": {
+          "src/__init__.py": "f04cd65eb57d23c8d36abf10e78bac4fb74adcd336f195b8198a57a4088b23bd",
+          "src/llm/__init__.py": "2472bdb87ec26b3d55b51ded98f9decd39af2bee882e861dda9577d171a3a2e9",
+          "src/llm/prompt_catalog.py": "e542642983e746bddd5de1fe74ab943c8089b18346bf5d9ea754da0fcfc07a27",
+          "src/llm/prompts.py": "02d25415901766d3bac702f70ed086cfa8b6d63757716458856dcf3f5520bf72",
+          "src/llm/providers/__init__.py": "909c879e9b82410cbb9efbe19cc41eb4fdd3eda5e070e1868e03948434d3f0d2",
+          "src/llm/providers/base.py": "1227c618ff8f6e93dd12664f374ac20888d1ff948c5eeba915c999467a0ece98",
+          "src/llm/providers/gemini_provider.py": "081ca0501fafbb6e74039b4a70b13fc63f64e05c1c5e627dbe86c7dd5186317a",
+          "src/llm/providers/mock_provider.py": "6f6b01a8514a458a23ba94d5ce9a5b33a03c4d54924b5940a4bc69fd3472f0b5",
+          "src/llm/providers/ollama_provider.py": "d2aac5af08046edc997b19d275b7bcfab4ee4794829871cd88c69a81ed4de66a",
+          "src/llm/providers/openai_provider.py": "6ee956310ab64e2375e029a95fd30793baad3eed1d86028d37a34face5f2e55e",
+          "src/llm/usage.py": "bee0e169d53b35bbae0ff4a79012fdf7230f0b1fa30ecfff54c92807856225ef",
+          "src/main.py": "5b0840361586e46d4abb0f2aaa78b237dfbf2ee38ab3ad8d612ea058b2b0662c",
+          "src/runtime/__init__.py": "6c8e5d82bc21ce20c2515c491a026294b0176f9d07118b8144ee5c44676e5080",
+          "src/runtime/config.py": "50cf4eebc10b1d828b14ade3e122b8ad774d3567dee3a52873529495f04104e9",
+          "src/runtime/metrics.py": "6385d396df5b61f8392eb34481a7ccdc9e0d1afde67d49b23f400080c91548a7",
+          "src/runtime/pricing.py": "02a6775fc92bd78d9d2c8d52c27c3e58c6ea3fe53a7514e26e64500252bc262c",
+          "src/support/__init__.py": "a04161b7e0ff5554a4ea8f886c78cc15cc980659c5066f60bf399a64715708e4",
+          "src/support/guardrails.py": "93424d9c831d31752bd1d808eebaa164e96f22f89f97b52b95bb0201a8afd0ba",
+          "src/support/schemas.py": "577d619b7e365c44e1bdd581efd0d95d02c051aa0484529e67343fddba7b020f",
+          "src/support/service.py": "85a5033f215f79836d336346c34f1c0f240a1086a90fe8b34a5f722a823bf59a",
+          "evals/__init__.py": "0e867d27399894ba8117a5c05ddbf2a976c4df2bc6080b1c7c6f7ae4358e2f75",
+          "evals/run_evals.py": "98a104836125e8780c78cf6b1ba866ed2cbc2460f6c55aadc76cf705cdc61a00",
+          "evals/run_local_sample.py": "b0339b59f023d49fe589566a82076e76a6306bcde18a236fcc1f9fbafe325f70"
+        },
+        "settings": {
+          "provider": "ollama",
+          "model": "qwen2.5-coder:0.5b-test",
+          "ollama_base_url": "http://127.0.0.1:11434",
+          "ollama_max_output_tokens": 256,
+          "ollama_num_ctx": 2048,
+          "ollama_timeout_seconds": 30,
+          "max_attempts": 1
+        },
+        "label_review_status": "not_verified_by_this_run",
+        "order": "prompt_then_case_id_order; no warmup or randomization",
+        "planned_generations": 32,
+        "cases": [
+          {
+            "case_id": "robust-b01",
+            "expected_category": "billing",
+            "ambiguous": false
+          },
+          {
+            "case_id": "robust-b02",
+            "expected_category": "billing",
+            "ambiguous": false
+          },
+          {
+            "case_id": "robust-t01",
+            "expected_category": "technical",
+            "ambiguous": false
+          },
+          {
+            "case_id": "robust-t02",
+            "expected_category": "technical",
+            "ambiguous": false
+          },
+          {
+            "case_id": "robust-a01",
+            "expected_category": "account",
+            "ambiguous": false
+          },
+          {
+            "case_id": "robust-a02",
+            "expected_category": "account",
+            "ambiguous": false
+          },
+          {
+            "case_id": "robust-o01",
+            "expected_category": "other",
+            "ambiguous": false
+          },
+          {
+            "case_id": "robust-o02",
+            "expected_category": "other",
+            "ambiguous": false
+          }
+        ]
+      },
+      "model_snapshot_before": {
+        "observed_at": "2026-11-04T22:43:08.218734+00:00",
+        "model": "qwen2.5-coder:0.5b-test",
+        "digest": "08efee4699b2c84f8b793e888efd0de207bd8b00692a62337b40017048e3c075",
+        "size": 994158569,
+        "details": {
+          "parent_model": "model-f16.gguf",
+          "format": "gguf",
+          "family": "qwen2",
+          "families": [
+            "qwen2"
+          ],
+          "parameter_size": "494.03M",
+          "quantization_level": "F16",
+          "context_length": 32768,
+          "embedding_length": 896,
+          "runner": "llamacpp"
+        },
+        "server_version": "0.40.6"
+      },
+      "model_digest_after": "08efee4699b2c84f8b793e888efd0de207bd8b00692a62337b40017048e3c075",
+      "summary": {
+        "simulated": false,
+        "quality_claim": false,
+        "label_review_status": "not_verified_by_this_run",
+        "warning": "Comparaci\u00f3n exploratoria con referencias propuestas; sin validaci\u00f3n humana nueva, ranking general ni elecci\u00f3n definitiva de prompt.",
+        "by_prompt": {
+          "v1_zero_shot": {
+            "total": 8,
+            "correct": 3,
+            "exact_match": 0.375,
+            "validated_outputs": 8,
+            "schema_valid_outputs": 8,
+            "status_counts": {
+              "ok": 8
+            },
+            "latency_median_seconds": 0.21749783449922688,
+            "latency_min_seconds": 0.1744032849674113,
+            "latency_max_seconds": 0.602672568988055,
+            "by_category": {
+              "billing": {
+                "count": 2,
+                "correct": 0,
+                "errors": 0,
+                "exact_match": 0.0
+              },
+              "technical": {
+                "count": 2,
+                "correct": 1,
+                "errors": 0,
+                "exact_match": 0.5
+              },
+              "account": {
+                "count": 2,
+                "correct": 2,
+                "errors": 0,
+                "exact_match": 1.0
+              },
+              "other": {
+                "count": 2,
+                "correct": 0,
+                "errors": 0,
+                "exact_match": 0.0
+              }
+            },
+            "confusion_matrix": {
+              "billing": {
+                "technical": 1,
+                "account": 1
+              },
+              "technical": {
+                "account": 1,
+                "technical": 1
+              },
+              "account": {
+                "account": 2
+              },
+              "other": {
+                "account": 1,
+                "technical": 1
+              }
+            },
+            "by_ambiguity": {
+              "marked_ambiguous": {
+                "count": 0,
+                "correct": 0,
+                "exact_match": null
+              },
+              "not_marked_ambiguous": {
+                "count": 8,
+                "correct": 3,
+                "exact_match": 0.375
+              }
+            }
+          },
+          "v2_few_shot": {
+            "total": 8,
+            "correct": 4,
+            "exact_match": 0.5,
+            "validated_outputs": 8,
+            "schema_valid_outputs": 8,
+            "status_counts": {
+              "ok": 8
+            },
+            "latency_median_seconds": 0.2534973084984813,
+            "latency_min_seconds": 0.20379876595688984,
+            "latency_max_seconds": 0.3067105480004102,
+            "by_category": {
+              "billing": {
+                "count": 2,
+                "correct": 2,
+                "errors": 0,
+                "exact_match": 1.0
+              },
+              "technical": {
+                "count": 2,
+                "correct": 1,
+                "errors": 0,
+                "exact_match": 0.5
+              },
+              "account": {
+                "count": 2,
+                "correct": 1,
+                "errors": 0,
+                "exact_match": 0.5
+              },
+              "other": {
+                "count": 2,
+                "correct": 0,
+                "errors": 0,
+                "exact_match": 0.0
+              }
+            },
+            "confusion_matrix": {
+              "billing": {
+                "billing": 2
+              },
+              "technical": {
+                "technical": 1,
+                "billing": 1
+              },
+              "account": {
+                "account": 1,
+                "billing": 1
+              },
+              "other": {
+                "account": 1,
+                "technical": 1
+              }
+            },
+            "by_ambiguity": {
+              "marked_ambiguous": {
+                "count": 0,
+                "correct": 0,
+                "exact_match": null
+              },
+              "not_marked_ambiguous": {
+                "count": 8,
+                "correct": 4,
+                "exact_match": 0.5
+              }
+            }
+          },
+          "v3_structured": {
+            "total": 8,
+            "correct": 5,
+            "exact_match": 0.625,
+            "validated_outputs": 8,
+            "schema_valid_outputs": 8,
+            "status_counts": {
+              "ok": 8
+            },
+            "latency_median_seconds": 0.3121239164902363,
+            "latency_min_seconds": 0.2376832909649238,
+            "latency_max_seconds": 0.47666013601701707,
+            "by_category": {
+              "billing": {
+                "count": 2,
+                "correct": 2,
+                "errors": 0,
+                "exact_match": 1.0
+              },
+              "technical": {
+                "count": 2,
+                "correct": 1,
+                "errors": 0,
+                "exact_match": 0.5
+              },
+              "account": {
+                "count": 2,
+                "correct": 1,
+                "errors": 0,
+                "exact_match": 0.5
+              },
+              "other": {
+                "count": 2,
+                "correct": 1,
+                "errors": 0,
+                "exact_match": 0.5
+              }
+            },
+            "confusion_matrix": {
+              "billing": {
+                "billing": 2
+              },
+              "technical": {
+                "technical": 1,
+                "account": 1
+              },
+              "account": {
+                "account": 1,
+                "billing": 1
+              },
+              "other": {
+                "other": 1,
+                "account": 1
+              }
+            },
+            "by_ambiguity": {
+              "marked_ambiguous": {
+                "count": 0,
+                "correct": 0,
+                "exact_match": null
+              },
+              "not_marked_ambiguous": {
+                "count": 8,
+                "correct": 5,
+                "exact_match": 0.625
+              }
+            }
+          },
+          "v4_reasoning": {
+            "total": 8,
+            "correct": 2,
+            "exact_match": 0.25,
+            "validated_outputs": 7,
+            "schema_valid_outputs": 7,
+            "status_counts": {
+              "ok": 7,
+              "provider_error": 1
+            },
+            "latency_median_seconds": 0.42340628351666965,
+            "latency_min_seconds": 0.25834652897901833,
+            "latency_max_seconds": 1.0267210400197655,
+            "by_category": {
+              "billing": {
+                "count": 2,
+                "correct": 1,
+                "errors": 0,
+                "exact_match": 0.5
+              },
+              "technical": {
+                "count": 2,
+                "correct": 0,
+                "errors": 1,
+                "exact_match": 0.0
+              },
+              "account": {
+                "count": 2,
+                "correct": 1,
+                "errors": 0,
+                "exact_match": 0.5
+              },
+              "other": {
+                "count": 2,
+                "correct": 0,
+                "errors": 0,
+                "exact_match": 0.0
+              }
+            },
+            "confusion_matrix": {
+              "billing": {
+                "billing": 1,
+                "account": 1
+              },
+              "technical": {
+                "error": 1,
+                "account": 1
+              },
+              "account": {
+                "account": 1,
+                "billing": 1
+              },
+              "other": {
+                "account": 1,
+                "billing": 1
+              }
+            },
+            "by_ambiguity": {
+              "marked_ambiguous": {
+                "count": 0,
+                "correct": 0,
+                "exact_match": null
+              },
+              "not_marked_ambiguous": {
+                "count": 8,
+                "correct": 2,
+                "exact_match": 0.25
+              }
+            }
+          }
+        },
+        "suite_kind": "supplementary_diagnostic"
+      },
+      "results": [
+        {
+          "case_id": "robust-b01",
+          "expected_category": "billing",
+          "predicted_category": "technical",
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.18541713897138834,
+          "prompt_tokens": 230,
+          "completion_tokens": 46,
+          "total_tokens": 276
+        },
+        {
+          "case_id": "robust-b02",
+          "expected_category": "billing",
+          "predicted_category": "account",
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.2793667360092513,
+          "prompt_tokens": 237,
+          "completion_tokens": 72,
+          "total_tokens": 309
+        },
+        {
+          "case_id": "robust-t01",
+          "expected_category": "technical",
+          "predicted_category": "account",
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.3118598959990777,
+          "prompt_tokens": 240,
+          "completion_tokens": 80,
+          "total_tokens": 320
+        },
+        {
+          "case_id": "robust-t02",
+          "expected_category": "technical",
+          "predicted_category": "technical",
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.1842880529584363,
+          "prompt_tokens": 227,
+          "completion_tokens": 46,
+          "total_tokens": 273
+        },
+        {
+          "case_id": "robust-a01",
+          "expected_category": "account",
+          "predicted_category": "account",
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.21036516298772767,
+          "prompt_tokens": 232,
+          "completion_tokens": 52,
+          "total_tokens": 284
+        },
+        {
+          "case_id": "robust-a02",
+          "expected_category": "account",
+          "predicted_category": "account",
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.1744032849674113,
+          "prompt_tokens": 228,
+          "completion_tokens": 43,
+          "total_tokens": 271
+        },
+        {
+          "case_id": "robust-o01",
+          "expected_category": "other",
+          "predicted_category": "account",
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.602672568988055,
+          "prompt_tokens": 231,
+          "completion_tokens": 158,
+          "total_tokens": 389
+        },
+        {
+          "case_id": "robust-o02",
+          "expected_category": "other",
+          "predicted_category": "technical",
+          "prompt_version": "v1_zero_shot",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.2246305060107261,
+          "prompt_tokens": 227,
+          "completion_tokens": 50,
+          "total_tokens": 277
+        },
+        {
+          "case_id": "robust-b01",
+          "expected_category": "billing",
+          "predicted_category": "billing",
+          "prompt_version": "v2_few_shot",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.20379876595688984,
+          "prompt_tokens": 365,
+          "completion_tokens": 44,
+          "total_tokens": 409
+        },
+        {
+          "case_id": "robust-b02",
+          "expected_category": "billing",
+          "predicted_category": "billing",
+          "prompt_version": "v2_few_shot",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.2584520279779099,
+          "prompt_tokens": 372,
+          "completion_tokens": 65,
+          "total_tokens": 437
+        },
+        {
+          "case_id": "robust-t01",
+          "expected_category": "technical",
+          "predicted_category": "technical",
+          "prompt_version": "v2_few_shot",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.2164047170081176,
+          "prompt_tokens": 375,
+          "completion_tokens": 54,
+          "total_tokens": 429
+        },
+        {
+          "case_id": "robust-t02",
+          "expected_category": "technical",
+          "predicted_category": "billing",
+          "prompt_version": "v2_few_shot",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.21622800000477582,
+          "prompt_tokens": 362,
+          "completion_tokens": 54,
+          "total_tokens": 416
+        },
+        {
+          "case_id": "robust-a01",
+          "expected_category": "account",
+          "predicted_category": "account",
+          "prompt_version": "v2_few_shot",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.24854258901905268,
+          "prompt_tokens": 367,
+          "completion_tokens": 62,
+          "total_tokens": 429
+        },
+        {
+          "case_id": "robust-a02",
+          "expected_category": "account",
+          "predicted_category": "billing",
+          "prompt_version": "v2_few_shot",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.3067105480004102,
+          "prompt_tokens": 363,
+          "completion_tokens": 77,
+          "total_tokens": 440
+        },
+        {
+          "case_id": "robust-o01",
+          "expected_category": "other",
+          "predicted_category": "account",
+          "prompt_version": "v2_few_shot",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.28267231304198503,
+          "prompt_tokens": 366,
+          "completion_tokens": 69,
+          "total_tokens": 435
+        },
+        {
+          "case_id": "robust-o02",
+          "expected_category": "other",
+          "predicted_category": "technical",
+          "prompt_version": "v2_few_shot",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.2753817310440354,
+          "prompt_tokens": 362,
+          "completion_tokens": 70,
+          "total_tokens": 432
+        },
+        {
+          "case_id": "robust-b01",
+          "expected_category": "billing",
+          "predicted_category": "billing",
+          "prompt_version": "v3_structured",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.37827575602568686,
+          "prompt_tokens": 551,
+          "completion_tokens": 94,
+          "total_tokens": 645
+        },
+        {
+          "case_id": "robust-b02",
+          "expected_category": "billing",
+          "predicted_category": "billing",
+          "prompt_version": "v3_structured",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.2860885279951617,
+          "prompt_tokens": 558,
+          "completion_tokens": 71,
+          "total_tokens": 629
+        },
+        {
+          "case_id": "robust-t01",
+          "expected_category": "technical",
+          "predicted_category": "technical",
+          "prompt_version": "v3_structured",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.4233644130290486,
+          "prompt_tokens": 561,
+          "completion_tokens": 106,
+          "total_tokens": 667
+        },
+        {
+          "case_id": "robust-t02",
+          "expected_category": "technical",
+          "predicted_category": "account",
+          "prompt_version": "v3_structured",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.2376832909649238,
+          "prompt_tokens": 548,
+          "completion_tokens": 50,
+          "total_tokens": 598
+        },
+        {
+          "case_id": "robust-a01",
+          "expected_category": "account",
+          "predicted_category": "account",
+          "prompt_version": "v3_structured",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.25896304403431714,
+          "prompt_tokens": 553,
+          "completion_tokens": 62,
+          "total_tokens": 615
+        },
+        {
+          "case_id": "robust-a02",
+          "expected_category": "account",
+          "predicted_category": "billing",
+          "prompt_version": "v3_structured",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.25159840600099415,
+          "prompt_tokens": 549,
+          "completion_tokens": 60,
+          "total_tokens": 609
+        },
+        {
+          "case_id": "robust-o01",
+          "expected_category": "other",
+          "predicted_category": "other",
+          "prompt_version": "v3_structured",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.3381593049853109,
+          "prompt_tokens": 552,
+          "completion_tokens": 81,
+          "total_tokens": 633
+        },
+        {
+          "case_id": "robust-o02",
+          "expected_category": "other",
+          "predicted_category": "account",
+          "prompt_version": "v3_structured",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.47666013601701707,
+          "prompt_tokens": 548,
+          "completion_tokens": 116,
+          "total_tokens": 664
+        },
+        {
+          "case_id": "robust-b01",
+          "expected_category": "billing",
+          "predicted_category": "billing",
+          "prompt_version": "v4_reasoning",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.2995136530371383,
+          "prompt_tokens": 413,
+          "completion_tokens": 69,
+          "total_tokens": 482
+        },
+        {
+          "case_id": "robust-b02",
+          "expected_category": "billing",
+          "predicted_category": "account",
+          "prompt_version": "v4_reasoning",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.31178829696727917,
+          "prompt_tokens": 420,
+          "completion_tokens": 72,
+          "total_tokens": 492
+        },
+        {
+          "case_id": "robust-t01",
+          "expected_category": "technical",
+          "predicted_category": null,
+          "prompt_version": "v4_reasoning",
+          "ambiguous": false,
+          "correct": false,
+          "status": "provider_error",
+          "failure_code": "incomplete_response",
+          "application_contract_valid": null,
+          "application_output_guardrail_passed": null,
+          "attempts": 1,
+          "latency_seconds": 1.0267210400197655,
+          "prompt_tokens": 423,
+          "completion_tokens": 256,
+          "total_tokens": 679
+        },
+        {
+          "case_id": "robust-t02",
+          "expected_category": "technical",
+          "predicted_category": "account",
+          "prompt_version": "v4_reasoning",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.3564474200247787,
+          "prompt_tokens": 410,
+          "completion_tokens": 85,
+          "total_tokens": 495
+        },
+        {
+          "case_id": "robust-a01",
+          "expected_category": "account",
+          "predicted_category": "account",
+          "prompt_version": "v4_reasoning",
+          "ambiguous": false,
+          "correct": true,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.4903651470085606,
+          "prompt_tokens": 415,
+          "completion_tokens": 119,
+          "total_tokens": 534
+        },
+        {
+          "case_id": "robust-a02",
+          "expected_category": "account",
+          "predicted_category": "billing",
+          "prompt_version": "v4_reasoning",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.25834652897901833,
+          "prompt_tokens": 411,
+          "completion_tokens": 60,
+          "total_tokens": 471
+        },
+        {
+          "case_id": "robust-o01",
+          "expected_category": "other",
+          "predicted_category": "account",
+          "prompt_version": "v4_reasoning",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.6888650949695148,
+          "prompt_tokens": 414,
+          "completion_tokens": 166,
+          "total_tokens": 580
+        },
+        {
+          "case_id": "robust-o02",
+          "expected_category": "other",
+          "predicted_category": "billing",
+          "prompt_version": "v4_reasoning",
+          "ambiguous": false,
+          "correct": false,
+          "status": "ok",
+          "failure_code": null,
+          "application_contract_valid": true,
+          "application_output_guardrail_passed": true,
+          "attempts": 1,
+          "latency_seconds": 0.5614006309770048,
+          "prompt_tokens": 410,
+          "completion_tokens": 122,
+          "total_tokens": 532
+        }
+      ]
+    }
+  }
+}
