@@ -23,7 +23,7 @@ ejemplo en obligaciones de nombres exactos sin evidencia.
 | Dependencias | requirements.txt es copia exacta de 44 versiones recomendadas por el TA según Luis; decisión conservadora, no obligatoriedad académica verificada. pyproject.toml la lee como fuente única mediante dependencias dinámicas de setuptools. Python >=3.12; conjunto no instalado ni probado integrado. Solo PyYAML 6.0.3 y Ruff 0.17.3 se instalaron con autorización posterior; Ruff es extra dev fuera de la lista TA. |
 | Dataset | evals/dataset.jsonl aparece como ruta sugerida en la síntesis; Luis propuso data/eval_dataset.jsonl. Existe data/eval_dataset.jsonl con 32 tickets sintéticos etiquetados provisionalmente; el sample de cuatro queda separado. Metadatos case_id/label_reason/ambiguous son decisiones locales, no nomenclatura oficial. Véase data/DATASET.md. |
 | Runner | evals/run_evals.py sigue la estructura de Luis; evals/runner.py figura como ruta sugerida en la síntesis. No hay evidencia de exigir ambas entradas. |
-| Métricas | data/metrics.jsonl coincide y se ignora en Git. timestamp, prompt_tokens/completion_tokens/total_tokens, latency_seconds y cost_usd expresan las magnitudes pedidas; no hay evidencia local de nombres literales oficiales para sus claves. En mock tokens/costo son null. Los adaptadores normalizan tokens y el servicio suma todos los intentos sólo con datos completos; partial deja agregados null y conserva usage_by_attempt. cost_usd sigue null sin tarifas verificadas. |
+| Métricas | data/metrics.jsonl coincide y se ignora en Git. timestamp, prompt_tokens/completion_tokens/total_tokens, latency_seconds y cost_usd expresan las magnitudes pedidas; no hay evidencia local de nombres literales oficiales para sus claves. En mock tokens/costo son null. Los adaptadores normalizan tokens y el servicio suma todos los intentos sólo con datos completos; partial deja agregados null y conserva usage_by_attempt. cost_usd usa string decimal exacto sólo con tarifa admitida y datos suficientes; de lo contrario null. Catálogo vacío/desactivado por defecto, sin precios comerciales. |
 | Proveedores | src/llm/providers contiene contrato, mock, openai_provider.py (Responses) y gemini_provider.py (Interactions v1beta). OpenAI/Gemini son seleccionables, con suite offline y pruebas reales puntuales de contrato. No hay modelo comercial predeterminado ni evaluación general de calidad. El SDK declarado no está instalado. src/providers/ era agrupación sugerida; Anthropic no se agrega por un nombre de ejemplo. |
 | Bonus | Suite de 10 ataques es opcional en la captura; no existe una suite completa ni run_adversarial.py. No se generan placeholders. |
 
@@ -43,7 +43,7 @@ paquetes nuevos. Para usar fuera del directorio raíz hay que hacer disponible e
 
 ## Pendientes
 
-Evaluación comparativa de proveedores reales configurables, verificación remota futura de usage normalizado y cálculo de costo con tarifas, rate limits,
+Evaluación comparativa de proveedores reales configurables, verificación remota futura de usage/costo y tarifas comerciales revisadas, rate limits,
 políticas/guardrails validados, revisión humana de los 32 casos y separación semántica del corpus,
 comparación empírica de dos prompts y elección documentada, documentación final
 reproducible y contraste con rúbrica completa. Cuatro muestras y scores del mock
@@ -106,3 +106,14 @@ contiene sólo contadores por intento; usage_status distingue completo/parcial/a
 Errores de extracción pueden preservar uso normalizado mediante ProviderError.
 No se registra usage HTTP crudo ni se toma ausencia como cero. Costo sigue null.
 Adaptadores, mock y dobles/tests migrados; sin nuevas llamadas, claves o dependencias.
+
+## Precios de texto estándar — 04/11/2026
+
+cached_prompt_tokens, pricing_path y el catálogo pricing.example.json son decisiones
+técnicas locales, no claves oficiales de la consigna. Runtime/pricing conserva
+format_version/catalog_version y rate_version por proveedor/modelo/standard_text.
+Decimal calcula estimaciones; cost_usd/cost_by_attempt se serializan como string
+decimal o null para no perder precisión. No cambia SupportResponse ni los cuatro
+campos CLI. Falta de datos/tarifa no se vuelve cero. Catálogo por defecto vacío y
+pricing_path=None: ningún precio comercial activo. Los tests usan fixture-model
+y tarifas ficticias; véase docs/PRICING.md para límites y verificación manual.

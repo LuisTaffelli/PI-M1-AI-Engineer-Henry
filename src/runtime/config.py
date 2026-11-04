@@ -23,6 +23,7 @@ class Settings(BaseModel):
     max_query_chars: int = Field(default=4000, ge=1, le=20000)
     log_metrics: bool = False
     metrics_path: str = Field(default="data/metrics.jsonl", min_length=1)
+    pricing_path: str | None = Field(default=None, min_length=1)
 
     @model_validator(mode="after")
     def require_model_for_remote_provider(self):

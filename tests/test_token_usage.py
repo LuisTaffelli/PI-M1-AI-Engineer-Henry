@@ -111,7 +111,7 @@ class TokenUsageTests(unittest.TestCase):
         provider, _ = self.provider("openai", [{**envelope("openai"), "usage": raw}])
         result = provider.generate(MARKER, MARKER)
         self.assertIsInstance(result, GenerationResult)
-        self.assertEqual(result.usage, TokenUsage(100, 20, 120))
+        self.assertEqual(result.usage, TokenUsage(100, 20, 120, 40))
         self.assertNotIn(MARKER, repr(result))
         self.assertNotIn("raw_secret_field", repr(result))
 
@@ -131,7 +131,7 @@ class TokenUsageTests(unittest.TestCase):
         }
         provider, _ = self.provider("gemini", [{**envelope("gemini"), "usage": raw}])
         result = provider.generate(MARKER, MARKER)
-        self.assertEqual(result.usage, TokenUsage(7, 72, 79))
+        self.assertEqual(result.usage, TokenUsage(7, 72, 79, 5))
         self.assertNotIn(MARKER, repr(result))
 
     def test_zero_is_reported_usage_while_missing_usage_is_not_zero(self):

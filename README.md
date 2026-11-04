@@ -2,7 +2,7 @@
 
 Python es obligatorio, confirmado por Luis. El proveedor predeterminado sigue siendo
 mock. OpenAI y Gemini son seleccionables mediante adaptadores HTTP. La suite de
-101 tests es offline; pruebas reales puntuales autorizadas verificaron salida válida
+115 tests es offline; pruebas reales puntuales autorizadas verificaron salida válida
 en OpenAI y en Gemini con esquema. Eso no evalúa calidad general ni completa el PI.
 Hay 32 tickets sintéticos: dos etiquetas confirmadas por Luis y 30 aún propuestas.
 Las acciones siguen siendo sugerencias humanas. Los apartados de incrementos/checkpoints conservan el
@@ -10,8 +10,9 @@ estado de cada etapa; este resumen describe el estado actual del 04/11/2026.
 
 El servicio mantiene Pydantic, retry acotado con feedback y diagnósticos seguros.
 Gemini solicita JSON con el esquema de SupportResponse. Las evals permanecen sólo
-mock. El servicio normaliza tokens reportados y suma sus intentos; el costo queda
-en null sin tarifas verificadas. Los registros de pruebas remotas se conservan fuera
+mock. El servicio normaliza tokens reportados, conserva caché y suma intentos; una
+calculadora Decimal admite tarifas versionadas. No hay precios comerciales activos,
+y el costo queda en null sin tarifas verificadas y datos suficientes. Los registros de pruebas remotas se conservan fuera
 de Git. Nivel de facturación y cargos reales no verificados.
 No hay carga automática de .env ni una evaluación real comparativa de prompts.
 
@@ -214,7 +215,7 @@ Cada request del servicio con registro habilitado agrega un JSONL con timestamp,
 id, proveedor, versión, estado, intentos y latencia total (sin incluir escritura).
 El servicio suma prompt_tokens/completion_tokens/total_tokens de todos los intentos
 sólo cuando sus contadores son completos y consistentes. usage_by_attempt conserva
-los tres contadores numéricos o null de cada intento; no contiene texto, claves ni
+los contadores numéricos o null de cada intento, incluido cached_prompt_tokens; no contiene texto, claves ni
 el objeto usage HTTP original. JSON inválido, contrato inválido o rechazo del
 contenido no eliminan tokens ya reportados. Una respuesta incompleta también puede
 informar consumo; un error de red sin usage se registra como desconocido.
@@ -222,8 +223,10 @@ informar consumo; un error de red sin usage se registra como desconocido.
 usage_status distingue reported, partial, unavailable, unavailable_mock y
 not_requested. Con partial los tres totales agregados quedan null para no presentar
 un subtotal conocido como consumo completo; el detalle observado permanece por
-intento. El mock no tiene uso ni costo conocido, no se asigna cero. cost_usd sigue
-null en todos los casos: no hay tarifas verificadas ni lectura de facturación.
+intento. El mock no tiene uso ni costo conocido, no se asigna cero. cost_usd queda
+null sin tarifa verificada/caché/uso completo. Si es calculable se escribe como
+string decimal exacto, junto a cost_status y cost_by_attempt. Por defecto no hay
+catálogo configurado ni precios comerciales, y nunca se consulta facturación.
 `simulated` es true para mock o un proveedor inyectado de prueba; false para una
 rama remota normal no prueba que se haya completado una petición (ver status).
 Configuraciones inválidas que no llegan al servicio no generan una línea. Si falla
@@ -257,7 +260,8 @@ pueden bloquear textos legítimos y dejar pasar ataques. No son moderación comp
 ni garantizan seguridad. Faltan políticas de contenido/negocio acordadas y evaluación
 adversarial; no se genera una suite bonus ni `run_adversarial.py` vacío.
 
-También quedan pendientes tarifas/costo, verificar normalización con respuestas remotas futuras,
+También quedan pendientes verificar/activar tarifas comerciales, comprobar consumo y costo
+con respuestas remotas futuras,
 rate limits/backoff y manejo de errores
 de APIs, dataset revisado de 30+ casos independiente de few-shot, comparación real,
 selección documentada y revisión de rúbrica/extras. La estructura se agrega cuando
@@ -778,7 +782,7 @@ no se incluyen en el repositorio. No hay autorización permanente para nuevas
 llamadas de evaluación por publicar código.
 
 Pendiente: revisar etiquetas y fronteras del corpus, acordar y ejecutar una
-comparación real de prompts/proveedores, verificar normalización de uso e integrar costo, rate limits
+comparación real de prompts/proveedores, verificar uso/tarifas/costo, rate limits
 y políticas/guardrails, además de contrastar entrega contra la rúbrica completa.
 
 ## Revisión de etiquetas — 04/11/2026
@@ -797,6 +801,9 @@ tickets sin objetivo principal o con múltiples pedidos. No se hizo ninguna llam
 a modelos para esta revisión.
 
 ## Consumo por intento — incremento offline, 04/11/2026
+
+Este apartado conserva el primer checkpoint de tokens; el cálculo posterior de
+precios y el estado actual están en el apartado siguiente y docs/PRICING.md.
 
 `Provider.generate` devuelve ahora `GenerationResult(text, usage)`. Es un cambio
 del contrato interno: dobles/adaptadores propios que devolvían str deben envolverlo
@@ -875,3 +882,28 @@ PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m unittest discover -s tests -q
 Los scripts auxiliares de pruebas remotas anteriores esperaban str y deben
 adaptarse al nuevo resultado antes de un eventual uso autorizado. No se ejecutaron
 ni se modificaron automáticamente. Las evals siguen bloqueando proveedores remotos.
+
+## Costo de texto estándar — incremento offline, 04/11/2026
+
+Se añadió [docs/PRICING.md](docs/PRICING.md): fórmula, catálogo, verificación manual,
+estados y límites frente al cargo real. src/runtime/pricing.py calcula con Decimal
+por intento y suma sin redondeo intermedio. src/llm/usage.py conserva
+cached_prompt_tokens sin duplicar entrada; su ausencia no se transforma en cero.
+Settings.pricing_path permite un JSON versionado por proveedor/modelo/modalidad;
+por defecto es None y pricing.example.json está vacío. No hay precios comerciales
+activados o verificados por esta tanda. Los ejemplos numéricos son sólo fixtures.
+
+Con tarifa o datos insuficientes: cost_usd=null. Con todos los intentos calculables:
+cost_usd/cost_by_attempt son strings decimales exactos, no floats; se registran
+cost_status, versiones y hash del catálogo, sin texto/respuestas/URLs/secretos.
+Un retry inválido no borra consumo ni costo conocido; parcial conserva detalle y
+deja el total null. Tarifa fixture sólo habilitada con inyección simulada explícita;
+una tarifa unverified no se usa. La marca verified_public documenta una revisión
+humana de una fuente oficial, no una comprobación online realizada por el código.
+No se calcula saldo, nivel gratuito ni cargo real de cuenta. CLI conserva cuatro
+campos y las evals siguen mock. No se leyó .env ni se llamó un proveedor para esto.
+
+Verificación:115tests offline (14nuevos), lint/formato correctos. Pruebas de
+Decimal, caché, sumas de intentos, datos incompletos, bloqueo de tarifas ficticias,
+fuentes/versiones, privacidad y catálogo inválido sin tapar errores del servicio.
+No se añadieron dependencias ni cambiaron pins, prompts, etiquetas o credenciales.

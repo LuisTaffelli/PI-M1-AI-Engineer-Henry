@@ -14,6 +14,7 @@ from ..llm.providers.openai_provider import OpenAIProvider
 from ..llm.usage import TokenUsage, summarize_usage
 from ..runtime.config import ROOT, Settings
 from ..runtime.metrics import append_metric
+from ..runtime.pricing import cost_metrics
 from .guardrails import check_input, check_output
 from .schemas import SupportResponse, validation_failure_code
 
@@ -147,6 +148,14 @@ def simulate_response(
                     "attempts": attempts,
                     "latency_seconds": perf_counter() - started,
                     **usage_metrics,
-                    "cost_usd": None,
+                    **cost_metrics(
+                        usage_by_attempt,
+                        provider=settings.provider,
+                        model=settings.model,
+                        pricing_path=ROOT / settings.pricing_path
+                        if settings.pricing_path
+                        else None,
+                        allow_fixture=injected,
+                    ),
                 },
             )
