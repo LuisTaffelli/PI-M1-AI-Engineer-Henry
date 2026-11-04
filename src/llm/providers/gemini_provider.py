@@ -7,6 +7,7 @@ from http.client import HTTPException
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
+from ...runtime.credentials import load_api_key
 from ..usage import gemini_usage
 from .base import GenerationResult, ProviderError
 
@@ -31,9 +32,13 @@ class GeminiProvider:
     ):
         if not isinstance(model, str) or not model.strip():
             raise ProviderError("Elegí un modelo antes de usar Gemini.")
-        key = api_key if api_key is not None else os.environ.get("GEMINI_API_KEY", "")
+        key = (
+            api_key
+            if api_key is not None
+            else load_api_key("GEMINI_API_KEY", os.environ)
+        )
         if not isinstance(key, str) or not key.strip():
-            raise ProviderError("Falta GEMINI_API_KEY en el entorno del proceso.")
+            raise ProviderError("Falta GEMINI_API_KEY en el entorno o .env local.")
         self._key = key.strip()
         self.model = model.strip()
         self.max_output_tokens = max_output_tokens
