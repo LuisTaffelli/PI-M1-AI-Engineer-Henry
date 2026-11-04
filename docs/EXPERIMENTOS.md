@@ -38,7 +38,7 @@ no un requisito adicional confirmado. Mantener procedencia y objetivo de cada su
 | Casos habituales | Corpus base revisado técnicamente y ejecutado; cuatro categorías y vocabulario diverso. | Exact match global/por categoría y errores de formato/transporte incluidos como fallos. |
 | Fronteras | Ocho casos `ambiguous=true`, incluidos en la corrida base y reportados por separado. No se cambian sus referencias según salidas. | Matriz de confusión y motivo de la etiqueta; desacuerdo no implica automáticamente fallo del software. |
 | Robustez de redacción | Ocho paráfrasis sintéticas ejecutadas en suite separada, sin copiar few-shot. Errores de escritura y múltiples motivos siguen como extensión propuesta; los sin referencia única no se puntúan. | Consistencia con una etiqueta humana previa; conservar juntos los grupos de paráfrasis para evitar contaminación entre conjuntos. |
-| Seguridad | Suite adversaria separada y controles legítimos similares. No se creó ni ejecutó en esta etapa. | Bloqueo esperado, bypass y falsos positivos; no mezclar su tasa de bloqueo con accuracy de clasificación. |
+| Seguridad | Diagnóstico offline posterior: diez ataques, cuatro controles normales, dos citas con decisión pendiente y tres fixtures de salida; ver SEGURIDAD_DIAGNOSTICO.md. No mide ataques contra modelos reales. | Bloqueo esperado, bypass y falsos positivos; no mezclar su tasa de bloqueo con accuracy de clasificación. |
 | Fallos técnicos | Transportes falsos ya probados: timeout, JSON inválido, agotamiento y salida rechazada. | Código/etapa correctos, intentos acotados y privacidad; no contar como medición de calidad de un modelo. |
 
 No hace falta multiplicar prompts indefinidamente. Primero contrastar v1 zero-shot
@@ -54,7 +54,7 @@ salida nueva. Permite de uno a cuatro IDs con presupuesto por defecto ocho, o
 `--all-cases` con `--max-generations` explícito, hasta 64 por corrida. Valida el
 corpus completo antes de seleccionar. `--diagnostic-suite` habilita una suite
 suplementaria pequeña con las cuatro categorías, sin hacerla pasar por 30+ casos.
-Siempre compara v1 y v2,
+Por defecto compara v1 y v2; --prompt repetible permite elegir variantes v1-v4,
 un intento por caso, salida de hasta 256 tokens, contexto de hasta 2048 y timeout
 HTTP de hasta 30 s. Mantiene los límites menores que el TOML ya hubiera elegido.
 No permite proveedores remotos ni usa `.env`, claves o tarifas comerciales.
@@ -139,3 +139,18 @@ no sobrescritura y CLI sin permiso. Suite completa actual: 135 tests, lint y for
 37 archivos correctos. Se añadió check_dataset(minimum_cases) para distinguir la suite suplementaria; por defecto sigue exigiendo 30. No cambian proveedores, prompts, etiquetas o pins existentes.
 Estos resultados de desarrollo no equivalen a evaluación de rúbrica. La instalación
 limpia se verificó posteriormente según REPRODUCIBILIDAD.md. Los cambios se organizaron posteriormente en commits locales por tema; no se hizo push.
+
+
+Actualización posterior: v3/v4 agregadas con 160 generaciones locales comparables y
+sin modificar resultados anteriores; ver PROMPTS_V3_V4.md. El diagnóstico de
+seguridad se integró después, sin cambiar regex para mejorar sus cifras. Suite
+actual de desarrollo: 158 tests. Son nuevas verificaciones, no una reescritura de
+las evidencias de instalación anteriores. Nuevos cambios sin publicar.
+
+
+La prueba pareada posterior añade doce consultas limpias/atacadas y controles
+benignos. Se registran por separado prebloqueos, errores de base y redirecciones
+observadas, sin sumar sus casos a accuracy ni elegir un prompt seguro. Una
+corrección de normalización Unicode se verificó antes/después sin cambiar el texto
+original que recibe el modelo. Ver SEGURIDAD_PAREADA.md para resultados y políticas
+pendientes. Ninguno de estos pasos activa un modo de reasoning o modifica pesos.

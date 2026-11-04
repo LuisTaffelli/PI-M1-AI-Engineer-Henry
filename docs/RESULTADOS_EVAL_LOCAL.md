@@ -131,10 +131,15 @@ pasan tras ampliar el runner (tres tests nuevos, sin dependencias nuevas).
 
 No se certifica rúbrica completa ni revisión humana de las 30 referencias. Los
 escenarios sin objetivo único quedan en REVISION_ETIQUETAS.md, fuera del score,
-hasta acordar un criterio. Seguridad sigue con heurísticas: falta una suite propia
-con expectativas de bloqueo y controles legítimos, separada de clasificación.
+hasta acordar un criterio. Seguridad sigue con heurísticas. El diagnóstico offline posterior de
+SEGURIDAD_DIAGNOSTICO.md aporta expectativas y controles, separados de clasificación,
+pero no prueba resistencia de modelos reales.
 No se entrenó el modelo, alteraron pesos o persiguió corregir cada fallo.
 La corrida no realizó commits ni push. Después se organizaron los cambios en commits
 locales, sin publicación. Una posible decisión didáctica es usar v2 como
 candidato a contrastar en nuevos escenarios por su global observado, dejando
 expresos los retrocesos en technical/ambiguos y sin declararlo ganador definitivo.
+
+
+La comparación posterior de cuatro variantes está en PROMPTS_V3_V4.md. Este informe
+conserva la corrida inicial y sus números, sin sustituirla por los nuevos resultados.

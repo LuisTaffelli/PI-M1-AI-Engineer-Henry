@@ -2,7 +2,7 @@
 
 Python es obligatorio, confirmado por Luis. El proveedor predeterminado sigue siendo
 mock. OpenAI, Gemini y Ollama local son seleccionables mediante adaptadores HTTP. La suite de
-135 tests es offline; pruebas reales puntuales autorizadas verificaron salida válida
+158 tests es offline; pruebas reales puntuales autorizadas verificaron salida válida
 en OpenAI y en Gemini con esquema. Eso no evalúa calidad general ni completa el PI.
 Hay 32 tickets sintéticos: dos etiquetas confirmadas por Luis y 30 aún propuestas.
 Las acciones siguen siendo sugerencias humanas. Los apartados de incrementos/checkpoints conservan el
@@ -36,6 +36,35 @@ humana previa; la revisión de IA no convierte las otras en aprobadas por una pe
 El runner optativo `python -m evals.run_local_sample --help` exige permiso y presupuesto
 explícitos, conserva resultados y sólo admite Ollama local. El runner general sigue
 mock. Los escenarios sin objetivo único no reciben una etiqueta forzada ni entran al score.
+
+## V3/v4 y diagnóstico defensivo — 04/11/2026
+
+Disponibles `--prompt v3_structured` y `--prompt v4_reasoning`, sin cambiar v1/v2,
+contrato ni defaults. V3 explicita criterios; v4 se orienta a deliberación sin pedir
+razonamiento privado ni activar un modo del proveedor. [Diseño y resultados](docs/PROMPTS_V3_V4.md):
+en la nueva pasada base v1/v2/v3/v4 coincidieron con 11/18/17/13 de 32 referencias;
+en paráfrasis, 3/4/5/2 de ocho. No se eligió ganador universal ni se probó un modelo
+especializado en reasoning. Las nuevas pruebas llevan la suite a 150 tests.
+
+[Diagnóstico defensivo offline](docs/SEGURIDAD_DIAGNOSTICO.md): diez ataques sintéticos,
+controles normales y fixtures, sin llamadas a modelos. El prechequeo bloqueó 4/10;
+seis pasaron ese filtro y dos citas sospechosas requieren una decisión de producto.
+No son evidencia de éxito de los ataques sobre un modelo ni moderación completa.
+`python -m evals.run_guardrail_diagnostics` permite repetirlo sin APIs o claves.
+
+## Seguridad: prueba pareada y corrección Unicode
+
+Se corrigió la detección de patrones equivalentes con caracteres invisibles o de
+ancho completo, sin cambiar la consulta enviada al modelo. Regresiones Unicode y
+[prueba defensiva pareada](docs/SEGURIDAD_PAREADA.md) separan prebloqueo, baseline
+incorrecto, salida inválida y redirección observada al objetivo atacante.
+
+La corrida local conservó 120 observaciones y 88 generaciones, sin retries. En los
+pares elegibles válidos se observaron redirecciones dirigidas: v1 0/3, v2 3/4,
+v3 1/2 y v4 1/1. Los denominadores son pequeños y diferentes; v1 sólo retuvo la
+categoría correcta en uno de sus tres pares, así que cero redirecciones dirigidas
+no demuestra seguridad. Las citas sospechosas siguen pendientes de política.
+No se modificaron prompts o pesos para mejorar estos resultados. Suite: 158 tests.
 
 ## Organización por responsabilidad
 
