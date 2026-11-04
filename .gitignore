@@ -19,3 +19,7 @@ logs/
 *.key
 # Registros generados; conservar datasets sintéticos versionables.
 data/metrics*.jsonl
+
+# Pesos locales: no pertenecen al código del PI.
+*.gguf
+*.safetensors

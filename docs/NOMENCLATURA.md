@@ -117,3 +117,13 @@ decimal o null para no perder precisión. No cambia SupportResponse ni los cuatr
 campos CLI. Falta de datos/tarifa no se vuelve cero. Catálogo por defecto vacío y
 pricing_path=None: ningún precio comercial activo. Los tests usan fixture-model
 y tarifas ficticias; véase docs/PRICING.md para límites y verificación manual.
+
+## Proveedor local — 04/11/2026
+
+provider=ollama es una extensión elegida con Luis, no una categoría ni proveedor
+obligatorio de la consigna. src/llm/providers/ollama_provider.py conserva interfaz
+GenerationResult y contrato CLI. Prefiere GGUF local verificado, sin cloud/pull ni
+API key. Contadores normalizados con total derivado; sin tarifa comercial local.
+config.ollama.example.toml es una configuración explícita separada; mock sigue
+predeterminado y no hay evaluación pagada nueva. Ver docs/OLLAMA.md para resultado
+puntual y límites de calidad. No se certifica cumplimiento completo del PI.

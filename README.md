@@ -1,8 +1,8 @@
 # Nubbix Support — base educativa y adaptadores HTTP en checkpoint
 
 Python es obligatorio, confirmado por Luis. El proveedor predeterminado sigue siendo
-mock. OpenAI y Gemini son seleccionables mediante adaptadores HTTP. La suite de
-115 tests es offline; pruebas reales puntuales autorizadas verificaron salida válida
+mock. OpenAI, Gemini y Ollama local son seleccionables mediante adaptadores HTTP. La suite de
+126 tests es offline; pruebas reales puntuales autorizadas verificaron salida válida
 en OpenAI y en Gemini con esquema. Eso no evalúa calidad general ni completa el PI.
 Hay 32 tickets sintéticos: dos etiquetas confirmadas por Luis y 30 aún propuestas.
 Las acciones siguen siendo sugerencias humanas. Los apartados de incrementos/checkpoints conservan el
@@ -15,6 +15,10 @@ calculadora Decimal admite tarifas versionadas. No hay precios comerciales activ
 y el costo queda en null sin tarifas verificadas y datos suficientes. Los registros de pruebas remotas se conservan fuera
 de Git. Nivel de facturación y cargos reales no verificados.
 No hay carga automática de .env ni una evaluación real comparativa de prompts.
+
+Ollama local tiene configuración y límites explícitos en [docs/OLLAMA.md](docs/OLLAMA.md).
+El 0.5B pasó contrato pero erró una categoría en una muestra: forma y calidad son
+verificaciones distintas. No hubo nuevas llamadas remotas para este incremento.
 
 ## Organización por responsabilidad
 
@@ -31,7 +35,8 @@ src/
 │       ├── base.py         # contrato del proveedor
 │       ├── mock_provider.py
 │       ├── openai_provider.py # HTTP Responses, sin SDK instalado
-│       └── gemini_provider.py # HTTP Interactions v1beta, sin SDK instalado
+│       ├── gemini_provider.py # HTTP Interactions v1beta, sin SDK instalado
+│       └── ollama_provider.py # sólo loopback, sin claves ni descarga
 └── runtime/
     ├── config.py           # configuración y raíz de recursos
     └── metrics.py          # persistencia JSONL
@@ -141,7 +146,7 @@ vacía, no un archivo cargado automáticamente.
    límites y presupuesto antes de seleccionar un proveedor remoto.
 
 Orden: valores por defecto del schema → TOML → flags. Los flags son `--provider`
-(mock/openai/gemini), `--model`, `--prompt`, `--mock-scenario` y `--no-metrics`. El TOML también define
+(mock/openai/gemini/ollama), `--model`, `--prompt`, `--mock-scenario` y `--no-metrics`. El TOML también define
 `max_attempts` (1..3 intentos totales, no cantidad adicional de reintentos),
 `max_query_chars` y `metrics_path`, además de `openai_max_output_tokens` y `gemini_max_output_tokens`
 (512 por defecto, rango técnico 16..4096 para cada adaptador). `--model` sobreescribe `model` del TOML y es
@@ -907,3 +912,27 @@ Verificación:115tests offline (14nuevos), lint/formato correctos. Pruebas de
 Decimal, caché, sumas de intentos, datos incompletos, bloqueo de tarifas ficticias,
 fuentes/versiones, privacidad y catálogo inválido sin tapar errores del servicio.
 No se añadieron dependencias ni cambiaron pins, prompts, etiquetas o credenciales.
+
+## Ollama local — 04/11/2026
+
+Se agregó un proveedor local con la misma validación/métricas y schema JSON.
+[docs/OLLAMA.md](docs/OLLAMA.md) explica disponibilidad comprobada, loopback,
+preflight GGUF, opciones y límites. config.ollama.example.toml usa el tag 0.5B ya
+importado en este equipo; no lo descarga ni lo convierte. El ejemplo hace una
+inferencia local y usa max_attempts=1. Mock sigue por defecto, las evals aún lo
+exigen y los otros adaptadores permanecen intactos.
+
+```bash
+.venv/bin/python -m src.main 'Consulta sintética' --config config.ollama.example.toml
+```
+
+Muestra real local: JSON/guardrail válidos, pero categoría account frente a billing
+esperada para cobro duplicado; confidence autodeclarada 0.9. Latencia 1,250 s,
+234 entrada / 42 salida / 276 total derivado, sin retries. No se presenta como evaluación
+completa ni comparación de calidad justa con los proveedores remotos históricos.
+126 tests offline/lint/formato; sin nuevas dependencias, claves o llamadas pagas.
+
+Al retomar la integración se verificaron nuevamente 126 tests, lint, formato y el
+corpus de 32 casos. Una generación local nueva volvió a dar `account` para un cobro
+duplicado esperado como `billing` (1,393 s; 232/39/271 tokens). La conectividad y el
+contrato funcionan; queda pendiente evaluar calidad con etiquetas revisadas.
