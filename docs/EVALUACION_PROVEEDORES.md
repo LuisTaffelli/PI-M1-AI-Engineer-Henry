@@ -62,10 +62,12 @@ python -m evals.run_provider_evals --provider openai \
   --execute --allow-remote-inference
 ```
 
-El proceso necesita `OPENAI_API_KEY` o `GEMINI_API_KEY` según proveedor, ya definida
-en su entorno. No cargar claves en TOML, argumentos, datasets ni commits. La app no
-abre `.env`. Sin los permisos de ejecución no consulta esas variables. No copiar
-claves a ejemplos ni imprimirlas para diagnosticar acceso.
+El proceso necesita `OPENAI_API_KEY` o `GEMINI_API_KEY` según proveedor. Usa primero
+el entorno; si la variable no existe, carga automáticamente su valor del `.env`
+de la raíz del checkout. No hace falta exportar ni ejecutar ese archivo.
+La previsualización y una ejecución remota sin ambos permisos no leen credenciales.
+No cargar claves en TOML, argumentos, datasets ni commits, ni imprimirlas para
+diagnosticar acceso. Ver [precedencia, sintaxis y errores](CLAVES_LOCALES.md).
 
 ## Cota de llamadas y gasto
 

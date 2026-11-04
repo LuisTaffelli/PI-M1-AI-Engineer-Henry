@@ -42,7 +42,7 @@ idéntico byte por byte con herramientas de build totalmente bloqueadas.
 | PyPI oficial y conectividad | Instalación inicial | Índice pypi.org, ruedas de files.pythonhosted.org; sin otros registros. |
 | GNU Make | Atajos de desarrollo | Opcional: se pueden ejecutar Ruff y unittest directamente. |
 | Ollama + modelo GGUF local | Inferencia local opcional | Servidor HTTP loopback activo, tag existente y configuración explícita. No lo instala pip ni se descargan pesos desde la aplicación. |
-| OPENAI_API_KEY / GEMINI_API_KEY | Proveedor remoto correspondiente | Opcionales; variables de proceso, nunca valores versionados. No se carga .env automáticamente. Usar sólo con autorización y presupuesto. |
+| OPENAI_API_KEY / GEMINI_API_KEY | Proveedor remoto correspondiente | Opcionales; entorno primero, luego .env de la raíz del checkout al crear el proveedor remoto. Nunca versionar valores. Ver CLAVES_LOCALES.md. Usar sólo con autorización y revisar costos. |
 
 Mock y los tests offline no necesitan claves, Ollama ni red después de instalar.
 No hace falta disponer de los tres proveedores para ejecutar el proyecto en mock.

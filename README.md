@@ -2,19 +2,20 @@
 
 Python es obligatorio, confirmado por Luis. El proveedor predeterminado sigue siendo
 mock. OpenAI, Gemini y Ollama local son seleccionables mediante adaptadores HTTP. La suite de
-158 tests es offline; pruebas reales puntuales autorizadas verificaron salida válida
+178 tests es offline; pruebas reales puntuales autorizadas verificaron salida válida
 en OpenAI y en Gemini con esquema. Eso no evalúa calidad general ni completa el PI.
 Hay 32 tickets sintéticos: dos etiquetas confirmadas por Luis y 30 aún propuestas.
 Las acciones siguen siendo sugerencias humanas. Los apartados de incrementos/checkpoints conservan el
 estado de cada etapa; este resumen describe el estado actual del 04/11/2026.
 
 El servicio mantiene Pydantic, retry acotado con feedback y diagnósticos seguros.
-Gemini solicita JSON con el esquema de SupportResponse. Las evals permanecen sólo
-mock. El servicio normaliza tokens reportados, conserva caché y suma intentos; una
+Gemini solicita JSON con el esquema de SupportResponse. El evaluador de corpus
+permite mock, Ollama, OpenAI y Gemini; la nueva integración se verificó con transportes falsos. El servicio normaliza tokens reportados, conserva caché y suma intentos; una
 calculadora Decimal admite tarifas versionadas. No hay precios comerciales activos,
 y el costo queda en null sin tarifas verificadas y datos suficientes. Los registros de pruebas remotas se conservan fuera
 de Git. Nivel de facturación y cargos reales no verificados.
-No hay carga automática de .env. La comparación de los 32 tickets se realizó sólo
+Las claves pueden cargarse automáticamente desde el `.env` de esta raíz, sólo al
+crear el proveedor remoto; el entorno exportado tiene prioridad. La comparación de los 32 tickets se realizó sólo
 con Ollama; no hay benchmark pareado de proveedores comerciales.
 
 Ollama local tiene configuración y límites explícitos en [docs/OLLAMA.md](docs/OLLAMA.md).
@@ -144,8 +145,8 @@ GGUF ya instalado; verificar `ollama list` antes de usar su configuración de ej
 El tag del ejemplo fue observado en este equipo: en otra máquina elegir un tag local
 existente y ajustar el TOML; no asumir que ese nombre existe en un registro público.
 Este proyecto no descarga modelos. OpenAI/Gemini son opcionales, usan claves del
-entorno del proceso y requieren autorización/presupuesto para cada experimento;
-no se cargan secretos desde `.env` automáticamente. Ningún test hace llamadas reales.
+entorno del proceso o `.env` local y requieren autorización/presupuesto para cada experimento;
+la previsualización del evaluador no lee credenciales. Ningún test hace llamadas reales.
 
 Ejecutar desde el checkout es el recorrido comprobado. El wheel construido no
 incluye config/prompts/datasets: la CLI del paquete aislado, fuera del checkout,
@@ -214,10 +215,10 @@ Para consultar versiones ya instaladas: `.venv/bin/python -m pip show PyYAML ruf
 ## Configuración y prompts
 
 `config.toml` es la fuente de configuración, validada con Pydantic y sin campos
-extra. `--config ruta.toml` elige otro archivo. No se abre `.env`. La configuración
-TOML no contiene secretos; sólo al crear el adaptador seleccionado se consulta
-`OPENAI_API_KEY` o `GEMINI_API_KEY` en el entorno del proceso. `.env.example` sigue siendo una plantilla
-vacía, no un archivo cargado automáticamente.
+extra. `--config ruta.toml` elige otro archivo. El TOML no contiene secretos.
+Sólo al crear el adaptador remoto se consulta `OPENAI_API_KEY` o `GEMINI_API_KEY`: primero
+el entorno, luego el `.env` de esta raíz si la variable no existe. `.env.example`
+es una plantilla vacía y nunca se carga. Ver [claves locales](docs/CLAVES_LOCALES.md).
 
 ### Preparar claves localmente (sin conectarse todavía)
 
@@ -235,10 +236,10 @@ vacía, no un archivo cargado automáticamente.
 3. No pegues los valores en el chat ni los incluyas en capturas, logs o commits.
    Para verificar exclusión, usá `git check-ignore .env`, que muestra la ruta,
    sin imprimir su contenido. `.env.example` queda versionable.
-4. **El programa no carga `.env` automáticamente.** Cada adaptador requiere su variable
-   `OPENAI_API_KEY` o `GEMINI_API_KEY` disponible en el proceso y un modelo elegido.
-   Preparar el archivo no carga esas variables ni conecta proveedores. Revisá modelo,
-   límites y presupuesto antes de seleccionar un proveedor remoto.
+4. **La clave seleccionada se carga automáticamente desde `.env` si falta en el entorno.**
+   No hace falta exportarla ni ejecutar `source .env`. La carga no modifica el entorno
+   global y ocurre al construir el proveedor remoto, después del guardrail de entrada.
+   Preparar el archivo no conecta proveedores. Revisá modelo, límites y costos antes de ejecutar.
 
 Orden: valores por defecto del schema → TOML → flags. Los flags son `--provider`
 (mock/openai/gemini/ollama), `--model`, `--prompt`, `--mock-scenario` y `--no-metrics`. El TOML también define
@@ -612,8 +613,8 @@ pero ahora respeta el proveedor seleccionado: con OpenAI **no implica modo offli
 
 1. `--provider openai` o provider en TOML selecciona el adaptador; `--model` o model
    en TOML debe indicar un identificador elegido por Luis. No se fija un modelo real.
-2. Sólo entonces se busca OPENAI_API_KEY en el proceso. Si falta clave/modelo,
-   se falla antes de la petición. .env no se abre, copia ni lee.
+2. Sólo entonces se busca OPENAI_API_KEY en el proceso o, si no existe allí, en
+   `.env` de esta raíz. Si falta clave/modelo, se falla antes de la petición.
 3. El adaptador prepara POST a `/v1/responses` con instrucciones separadas de la
    consulta, timeout de 30 segundos y límite de salida configurable. Envía store=false
    para deshabilitar almacenamiento de la respuesta; eso no es una promesa de retención
@@ -669,8 +670,8 @@ Recorrido para estudiar: selección `--provider gemini` y `--model` →
 `src/llm/providers/gemini_provider.py` → texto → Pydantic/retry/guardrail en servicio.
 Los flags existen, pero **no se ejecutó esa selección contra una API real**.
 
-- Se consulta GEMINI_API_KEY en el proceso sólo al construir el adaptador; no se
-  abre .env ni se usa GOOGLE_API_KEY como fallback. No se eligió un modelo comercial.
+- Se consulta GEMINI_API_KEY sólo al construir el adaptador: primero entorno, luego
+  `.env` de esta raíz. No se usa GOOGLE_API_KEY como fallback ni se elige un modelo comercial.
 - La cabecera x-goog-api-key transporta la clave; no va en URL ni cuerpo. Las
   instrucciones van en system_instruction y la consulta en input. generation_config
   limita salida; store=false solicita no almacenar la interacción, sin garantizar
