@@ -1,0 +1,4 @@
+# Ejecutar desde la raíz del checkout.
+# Instala el proyecto: sus 44 dependencias de requirements.txt y el extra dev
+# (Ruff) declarados en pyproject.toml, sin duplicar versiones aquí.
+.[dev]
