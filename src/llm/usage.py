@@ -10,6 +10,13 @@ class TokenUsage:
     total_tokens: int | None = None
     cached_prompt_tokens: int | None = None
 
+    # Desgloses: ya incluidos en entrada/salida; nunca sumarlos al total otra vez.
+    reasoning_tokens: int | None = None
+    tool_use_prompt_tokens: int | None = None
+    cache_write_tokens: int | None = None
+    cache_write_30m_tokens: int | None = None
+    cache_write_12h_tokens: int | None = None
+
     def __post_init__(self):
         for value in asdict(self).values():
             if value is not None and (type(value) is not int or value < 0):
@@ -56,12 +63,21 @@ def openai_usage(raw: object) -> TokenUsage:
     inputs = _count(raw.get("input_tokens"))
     details = raw.get("input_tokens_details")
     cached = details.get("cached_tokens") if isinstance(details, dict) else None
-    # Cached sigue incluido en entrada, pero se preserva su desglose para precio.
+    details = details if isinstance(details, dict) else {}
+    writes = details.get("cache_write_tokens_details")
+    writes = writes if isinstance(writes, dict) else {}
+    output_details = raw.get("output_tokens_details")
+    output_details = output_details if isinstance(output_details, dict) else {}
+    # Cached y writes son partes de entrada; reasoning es parte de salida.
     return TokenUsage(
         inputs,
         _count(raw.get("output_tokens")),
         _count(raw.get("total_tokens")),
         _cached(cached, inputs),
+        reasoning_tokens=_count(output_details.get("reasoning_tokens")),
+        cache_write_tokens=_count(details.get("cache_write_tokens")),
+        cache_write_30m_tokens=_count(writes.get("ttl_30m_tokens")),
+        cache_write_12h_tokens=_count(writes.get("ttl_12h_tokens")),
     )
 
 
@@ -87,7 +103,12 @@ def gemini_usage(raw: object) -> TokenUsage:
         elif thoughts is not None and total == inputs + outputs + thoughts:
             completion = outputs + thoughts
     return TokenUsage(
-        inputs, completion, total, _cached(raw.get("total_cached_tokens"), inputs)
+        inputs,
+        completion,
+        total,
+        _cached(raw.get("total_cached_tokens"), inputs),
+        reasoning_tokens=thoughts,
+        tool_use_prompt_tokens=tools,
     )
 
 
@@ -122,6 +143,18 @@ def summarize_usage(attempts: list[TokenUsage]) -> dict:
         if complete
         and all(usage.cached_prompt_tokens is not None for usage in attempts)
         else None,
+        **{
+            name: sum(row[name] for row in observed)
+            if attempts and all(row[name] is not None for row in observed)
+            else None
+            for name in (
+                "reasoning_tokens",
+                "tool_use_prompt_tokens",
+                "cache_write_tokens",
+                "cache_write_30m_tokens",
+                "cache_write_12h_tokens",
+            )
+        },
         "usage_status": status,
         "usage_by_attempt": observed,
     }

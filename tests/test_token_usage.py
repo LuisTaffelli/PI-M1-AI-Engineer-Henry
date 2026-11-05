@@ -118,7 +118,7 @@ class TokenUsageTests(unittest.TestCase):
         provider, _ = self.provider("openai", [{**envelope("openai"), "usage": raw}])
         result = provider.generate(MARKER, MARKER)
         self.assertIsInstance(result, GenerationResult)
-        self.assertEqual(result.usage, TokenUsage(100, 20, 120, 40))
+        self.assertEqual(result.usage, TokenUsage(100, 20, 120, 40, reasoning_tokens=8))
         self.assertNotIn(MARKER, repr(result))
         self.assertNotIn("raw_secret_field", repr(result))
 
@@ -138,7 +138,10 @@ class TokenUsageTests(unittest.TestCase):
         }
         provider, _ = self.provider("gemini", [{**envelope("gemini"), "usage": raw}])
         result = provider.generate(MARKER, MARKER)
-        self.assertEqual(result.usage, TokenUsage(7, 72, 79, 5))
+        self.assertEqual(
+            result.usage,
+            TokenUsage(7, 72, 79, 5, reasoning_tokens=49, tool_use_prompt_tokens=0),
+        )
         self.assertNotIn(MARKER, repr(result))
 
     def test_zero_is_reported_usage_while_missing_usage_is_not_zero(self):
@@ -216,7 +219,22 @@ class TokenUsageTests(unittest.TestCase):
             self.assertEqual(record["usage_status"], "reported")
             self.assertEqual(
                 record["usage_by_attempt"],
-                [asdict(TokenUsage(10, 2, 12)), asdict(TokenUsage(20, 4, 24))],
+                [
+                    asdict(
+                        TokenUsage(
+                            10, 2, 12, reasoning_tokens=0, tool_use_prompt_tokens=0
+                        )
+                    )
+                    if name == "gemini"
+                    else asdict(TokenUsage(10, 2, 12)),
+                    asdict(
+                        TokenUsage(
+                            20, 4, 24, reasoning_tokens=0, tool_use_prompt_tokens=0
+                        )
+                    )
+                    if name == "gemini"
+                    else asdict(TokenUsage(20, 4, 24)),
+                ],
             )
 
     def test_exhaustion_keeps_usage_from_every_invalid_json_or_contract_response(self):
@@ -243,7 +261,12 @@ class TokenUsageTests(unittest.TestCase):
             for field in ("prompt_tokens", "completion_tokens", "total_tokens"):
                 self.assertIsNone(record[field])
             self.assertEqual(
-                record["usage_by_attempt"][1], asdict(TokenUsage(20, 4, 24))
+                record["usage_by_attempt"][1],
+                asdict(
+                    TokenUsage(20, 4, 24, reasoning_tokens=0, tool_use_prompt_tokens=0)
+                )
+                if name == "gemini"
+                else asdict(TokenUsage(20, 4, 24)),
             )
 
     def test_incomplete_provider_response_preserves_usage_on_error_without_retry(self):
