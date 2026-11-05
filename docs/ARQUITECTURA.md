@@ -75,11 +75,5 @@ commits de costos se preservaron. Los hashes de fuentes de nuevas corridas cambi
 por el refactor e incluyen los nuevos módulos; no se retocan hashes de corridas antiguas.
 El diagnóstico offline amplía su cobertura de hashes con sus nuevos propietarios.
 
-## Verificación
-
-`make check`: 188 tests, Ruff lint y formato. Se mantienen pruebas de transporte
-falso, cotas, gates sin credenciales, `.env` ficticio, retries, seguridad y costos.
-Se agregaron regresiones de imports legacy, `--help` de todos los comandos desde
-otro directorio sin entorno de credenciales y replay exacto del reporte pareado.
-El replay previo de clasificación también sigue pasando. Se verifica empaquetado
-de módulos Python y navegación de enlaces; no se vuelve a instalar ni a inferir.
+Las pruebas del refactor y sus resultados están en la
+[bitácora de verificaciones](bitacora/VERIFICACIONES.md#arquitectura-05112026).

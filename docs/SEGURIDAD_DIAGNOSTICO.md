@@ -106,12 +106,6 @@ no evidencias de un modelo en producción. Suite total: 150 tests, lint y format
 No se hicieron solicitudes pagas, leyeron secretos o cambiaron pesos. Los cambios
 nuevos permanecen locales y no se publican sin autorización específica.
 
-
-## Trabajo posterior: Unicode y modelo local
-
-Se preservan arriba el protocolo y las cifras iniciales. Posteriormente se corrigió
-un bypass de representación Unicode sin cambiar las frases del regex ni permitir
-citas automáticamente. Se añadieron evidencias antes/después y una prueba pareada
-con consultas limpias/atacadas para observar redirecciones de categoría. Ver
-[SEGURIDAD_PAREADA.md](SEGURIDAD_PAREADA.md), que distingue los denominadores y los
-límites. La suite actual pasa 158 tests; no se reescriben estas observaciones previas.
+La corrección Unicode y la evaluación con modelo local se documentan en
+[Seguridad pareada](SEGURIDAD_PAREADA.md). El registro de esa continuación está en
+la [bitácora](bitacora/VERIFICACIONES.md#diagnóstico-de-seguridad-04112026).

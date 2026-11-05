@@ -130,10 +130,5 @@ Registros antiguos que no conservaron escrituras de Luna seguirán con costo nul
 ese dato no puede recuperarse del total ni inventarse. Los tokens conocidos sí se
 resumen. No copiar tickets, respuestas o campos desconocidos al reporte de recálculo.
 
-## Verificación de este incremento
-
-185 tests, lint y formato; fixtures de ambos proveedores, múltiples intentos,
-mezcla de lifetimes, rangos, ausencia de contadores, precisión Decimal, subtotales,
-snapshot inmutable, preview sin claves y recálculo sin sobrescritura. Sin llamadas
-pagas ni lectura del `.env` real. No hay precios externos descargados en runtime.
-La modularización general queda para un incremento posterior.
+Las verificaciones de costos y recálculo están en la
+[bitácora](bitacora/VERIFICACIONES.md#precios-05112026).

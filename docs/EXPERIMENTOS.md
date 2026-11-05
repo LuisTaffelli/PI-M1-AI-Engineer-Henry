@@ -131,33 +131,9 @@ fue la más lenta. El orden, carga del modelo y cachés pueden influir en latenc
 no se concluye que v2 sea más rápido. Los errores quedan conservados como evidencia,
 no se repitió la corrida para mejorar el resultado.
 
-## Verificación de esta mejora
+## Para continuar la lectura
 
-Nueve tests de este runner con transportes falsos (seis iniciales y tres para corpus/presupuesto/suite): consentimiento/proveedor/IDs/límites,
-plan previo y preservación de resultados, distinción contrato/guardrail, timeout,
-no sobrescritura y CLI sin permiso. Suite completa actual: 135 tests, lint y formato de
-37 archivos correctos. Se añadió check_dataset(minimum_cases) para distinguir la suite suplementaria; por defecto sigue exigiendo 30. No cambian proveedores, prompts, etiquetas o pins existentes.
-Estos resultados de desarrollo no equivalen a evaluación de rúbrica. La instalación
-limpia se verificó posteriormente según REPRODUCIBILIDAD.md. Los cambios se organizaron posteriormente en commits locales por tema; no se hizo push.
-
-
-Actualización posterior: v3/v4 agregadas con 160 generaciones locales comparables y
-sin modificar resultados anteriores; ver PROMPTS_V3_V4.md. El diagnóstico de
-seguridad se integró después, sin cambiar regex para mejorar sus cifras. Suite
-actual de desarrollo: 158 tests. Son nuevas verificaciones, no una reescritura de
-las evidencias de instalación anteriores. Nuevos cambios sin publicar.
-
-
-La prueba pareada posterior añade doce consultas limpias/atacadas y controles
-benignos. Se registran por separado prebloqueos, errores de base y redirecciones
-observadas, sin sumar sus casos a accuracy ni elegir un prompt seguro. Una
-corrección de normalización Unicode se verificó antes/después sin cambiar el texto
-original que recibe el modelo. Ver SEGURIDAD_PAREADA.md para resultados y políticas
-pendientes. Ninguno de estos pasos activa un modo de reasoning o modifica pesos.
-
-### Evaluación de corpus multiproveedor
-
-El nuevo comando `python -m evals.run_provider_evals` permite seleccionar OpenAI,
-Gemini, Ollama o mock y comparar los mismos prompts y referencias. Por defecto
-sólo previsualiza; la ejecución remota exige dos opciones explícitas y una cota
-de llamadas que incluye reintentos. Ver [guía de evaluación multiproveedor](EVALUACION_PROVEEDORES.md) para comandos, privacidad, métricas y límites de gasto.
+- [Comparación de cuatro variantes](PROMPTS_V3_V4.md).
+- [Seguridad pareada y controles](SEGURIDAD_PAREADA.md).
+- [Runner multiproveedor](EVALUACION_PROVEEDORES.md).
+- [Verificaciones y actualizaciones de esta etapa](bitacora/VERIFICACIONES.md#experimentos-04112026).

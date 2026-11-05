@@ -112,47 +112,13 @@ hashes, comprobaciones y límites. Los logs completos e informe pip quedaron en
 `repro-install-report.json`, `repro-check.log`, `repro-functional-checks.json` y
 `repro-dev-entrypoint.log`. No contienen credenciales usadas por la instalación.
 
-## Qué aclaró la fase offline anterior
+## Alcance
 
-El entorno original sólo tenía 6/44 pins y una distribución antigua de Nubbix que
-declaraba únicamente `pydantic<3,>=2.12`. Por eso su `pip check` correcto no validaba
-el checkout actual. Se comprobó desde /tmp con Python -I; fuera del checkout ese
-entorno encuentra un src antiguo en site-packages. No se eliminó ni reinstaló.
+La ejecución desde el checkout está verificada para la plataforma indicada. El
+wheel no incluye config, prompts ni datasets, por lo que no se promete una CLI
+global fuera del checkout. No se agregan web, contenedores ni SDK para aparentar
+uso de paquetes declarados.
 
-Un venv vacío sin pip falló por ausencia de Pydantic. Un dry-run sin índice ni caché
-falló al no hallar candidatos locales para anthropic. Esos resultados no demostraban
-que los pins fueran incompatibles o inexistentes en PyPI. La instalación online
-posterior autorizada resolvió correctamente los 44 y cierra ese pendiente para el
-entorno concreto probado.
-
-## Límites y próximos pasos proporcionados
-
-La ejecución desde checkout está verificada. No se promete todavía una CLI global
-instalada: el wheel no incluye los recursos del proyecto. Empaquetarlos sólo sería
-necesario si se decide ofrecer ese modo; no es un requisito independiente confirmado.
-No se agregan web, contenedores ni SDK para aparentar uso de paquetes declarados.
-
-La comparación local posterior ya cubre los 32 tickets y ocho paráfrasis; ver
-RESULTADOS_EVAL_LOCAL.md. Queda discutir las referencias propuestas y otros escenarios
-que se acuerden, y registrar los límites de seguridad.
-La matriz está en EXPERIMENTOS.md. El alcance de extras/rúbrica sigue parcialmente
-pendiente en las fuentes disponibles. Durante la verificación no hubo commits ni push; posteriormente se organizaron
-los cambios en commits locales por tema, sin publicación.
-
-
-## Verificación posterior del runner ampliado
-
-Después de aquella instalación limpia se amplió la evaluación local para 32 casos
-y suites suplementarias, sin agregar dependencias ni cambiar los 44 pins. Con el
-mismo entorno nuevo se verificaron 135 tests, lint y formato (37 archivos), incluidos
-tres tests adicionales de presupuesto, corpus completo y distinción de suites.
-La evidencia de instalación anterior conserva sus hashes y 132 tests de aquel
-snapshot; no se reescribe como si hubiera instalado el código posterior. La
-comparación local posterior y sus hashes están en EVAL_LOCAL_2026-11-04.json.
-
-### Evaluación de corpus multiproveedor
-
-El nuevo comando `python -m evals.run_provider_evals` permite seleccionar OpenAI,
-Gemini, Ollama o mock y comparar los mismos prompts y referencias. Por defecto
-sólo previsualiza; la ejecución remota exige dos opciones explícitas y una cota
-de llamadas que incluye reintentos. Ver [guía de evaluación multiproveedor](EVALUACION_PROVEEDORES.md) para comandos, privacidad, métricas y límites de gasto.
+El diagnóstico anterior y las verificaciones posteriores de los runners están en
+la [bitácora](bitacora/VERIFICACIONES.md#reproducibilidad-04112026). Para ejecutar
+evaluaciones, ver la [guía multiproveedor](EVALUACION_PROVEEDORES.md).

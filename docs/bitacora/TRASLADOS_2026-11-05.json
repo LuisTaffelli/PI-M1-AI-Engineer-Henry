@@ -1,0 +1,99 @@
+{
+  "recorded_on": "2026-11-05",
+  "scope": "documentation_only",
+  "moved_content": [
+    {
+      "source": "README.md",
+      "destination": "docs/bitacora/README_ANTES_DE_REORGANIZAR.md",
+      "kind": "complete_document",
+      "original_sha256": "d7b4d033833ab2b05bdfa68572aed6eee513043fa2205015274fa38f02bb5559",
+      "original_lines": 110
+    },
+    {
+      "source": "docs/HISTORIAL_README.md",
+      "destination": "docs/bitacora/HISTORIAL_README.md",
+      "kind": "complete_document",
+      "original_sha256": "f9025bb4b1b6e4bcd3956decfacd593ee5d46e98751acfea7f161e25c3f6d622",
+      "original_lines": 1063
+    },
+    {
+      "source": "docs/NOMENCLATURA.md",
+      "destination": "docs/bitacora/NOMENCLATURA.md",
+      "kind": "complete_document",
+      "original_sha256": "d05bbdb81ad0f67d26d121587e7788d08a496fefb53961e4865e8b3a3c6b87d3",
+      "original_lines": 129
+    },
+    {
+      "source": "prompts/CHANGELOG.md",
+      "destination": "docs/bitacora/PROMPTS.md",
+      "kind": "complete_document",
+      "original_sha256": "c6d8f6c5f528c0e6103103c9cd05984187f6446bfbf654d0c2ceacb85e8f204a",
+      "original_lines": 40
+    },
+    {
+      "source": "docs/ARQUITECTURA.md",
+      "destination": "docs/bitacora/VERIFICACIONES.md",
+      "kind": "section_from_marker",
+      "marker": "## Verificación\n",
+      "original_sha256": "055f969e21b66a5ee40e70fcbe9527b6501eca51a773c2f64a116033a1867157",
+      "original_lines": 8
+    },
+    {
+      "source": "docs/PRICING.md",
+      "destination": "docs/bitacora/VERIFICACIONES.md",
+      "kind": "section_from_marker",
+      "marker": "## Verificación de este incremento\n",
+      "original_sha256": "5cb79daed02ccc4090a555de0bcf3d33cdcb05a03e898b329f3835b6fd6d7f51",
+      "original_lines": 7
+    },
+    {
+      "source": "docs/EVALUACION_PROVEEDORES.md",
+      "destination": "docs/bitacora/VERIFICACIONES.md",
+      "kind": "section_from_marker",
+      "marker": "## Validación de esta implementación\n",
+      "original_sha256": "29629a6635b5b9c0d5535580599a4186f8525b095800e55cc7b8f3196c7e44c3",
+      "original_lines": 7
+    },
+    {
+      "source": "docs/EXPERIMENTOS.md",
+      "destination": "docs/bitacora/VERIFICACIONES.md",
+      "kind": "section_from_marker",
+      "marker": "## Verificación de esta mejora\n",
+      "original_sha256": "8e7476906b83ac04374b7c1b71232cccc677430591ec24eb711cb784f0a68128",
+      "original_lines": 30
+    },
+    {
+      "source": "docs/OLLAMA.md",
+      "destination": "docs/bitacora/VERIFICACIONES.md",
+      "kind": "section_from_marker",
+      "marker": "## Verificación al retomar la integración",
+      "original_sha256": "a44b1bc9f848f452e1768c6b28462647be4cb53340b02039d8eae811b5762a58",
+      "original_lines": 35
+    },
+    {
+      "source": "docs/REPRODUCIBILIDAD.md",
+      "destination": "docs/bitacora/VERIFICACIONES.md",
+      "kind": "section_from_marker",
+      "marker": "## Qué aclaró la fase offline anterior\n",
+      "original_sha256": "8e2b033afa959d7288026746a111f1192075ace6cf515ba1ef5a545105cea1aa",
+      "original_lines": 44
+    },
+    {
+      "source": "docs/SEGURIDAD_DIAGNOSTICO.md",
+      "destination": "docs/bitacora/VERIFICACIONES.md",
+      "kind": "section_from_marker",
+      "marker": "## Trabajo posterior: Unicode y modelo local\n",
+      "original_sha256": "b0537ab6edc80700abb829feaa5683bd5be1eaac5d3bc533548ccd3590f6d60e",
+      "original_lines": 8
+    },
+    {
+      "source": "docs/RESULTADOS_EVAL_LOCAL.md",
+      "destination": "docs/bitacora/VERIFICACIONES.md",
+      "kind": "section_from_marker",
+      "marker": "## Qué se completa y qué queda\n",
+      "original_sha256": "8363380ab8c064653be8773ac998ce0f56ee49db4eb116a8f7ff3d6df8a07ed6",
+      "original_lines": 22
+    }
+  ],
+  "note": "All original paragraphs are preserved in the named archives; only relative Markdown destinations were rebased. Working guides retain links to the records. No YAML, datasets or evaluation JSON were changed."
+}

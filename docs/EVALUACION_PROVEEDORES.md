@@ -147,10 +147,5 @@ Las salidas bajo `data/local_runs/` están ignoradas por git; revisar antes de
 publicar cualquier evidencia. Los guardrails son heurísticos, no garantizan
 protección completa, privacidad o moderación general.
 
-## Validación de esta implementación
-
-Pruebas offline con transportes falsos de los adaptadores reales OpenAI/Gemini,
-claves ficticias explícitas y red bloqueada: permisos, preview, reintentos,
-fallos/parcialidad, privacidad de artefactos, corpus mock y compatibilidad legacy.
-No se ejecutaron llamadas reales a OpenAI, Gemini ni Ollama para validar este
-incremento. Por ello no se afirma disponibilidad de modelos ni calidad remota.
+Las pruebas offline de permisos, fallos y privacidad se registran en la
+[bitácora](bitacora/VERIFICACIONES.md#evaluador-multiproveedor-04112026).

@@ -102,38 +102,12 @@ No se repitió el ejemplo para obtener un acierto ni se cambió su etiqueta para
 favorecer al modelo. Una futura comparación requiere corpus revisado, condiciones
 registradas y autorización de los requests remotos; esta etapa no los hace.
 
-## Verificación al retomar la integración — 04/11/2026 21:27 UTC
-
-Se conservaron los cambios pendientes y se verificaron en una copia de trabajo sin
-`.env`. El inventario de Ollama volvió a confirmar el tag elegido. Se ejecutó una
-sola generación local nueva con v1, un intento, 256 tokens máximos y contexto 2048.
-El ticket sintético fue: «Me cobraron dos veces la suscripción de Nubbix este mes.
-¿Pueden revisar el cobro duplicado?», con etiqueta `billing` fijada antes.
-
-Resultado: `account`, confidence autodeclarada `0.9`, contrato y guardrail válidos;
-1,393 s, 232 tokens de entrada, 39 de salida y 271 de total derivado. Métricas:
-`provider=ollama`, `simulated=false`, `status=ok`, `attempts=1`,
-`usage_status=reported`, `cached_prompt_tokens=null`, `cost_usd=null`.
-El texto difiere de la muestra anterior: esta comprobación valida conectividad e
-integración, no es una repetición idéntica ni una evaluación comparativa.
-El modelo pequeño volvió a errar la categoría; no se lo recomienda por calidad
-basándose en estas muestras. No se modificaron pesos, prompts ni etiquetas.
-
-Se volvieron a comprobar los 126 tests offline, lint, formato y la integridad del
-corpus de 32 casos. El corpus sigue pendiente de revisión humana completa y el
-runner permanece limitado a mock. No hubo inferencias remotas, lectura de secretos,
-nuevas dependencias ni descargas de modelos.
-
-## Pruebas offline
+## Comprobar sin inferencia
 
 ```bash
 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m unittest discover -s tests -p test_ollama_provider.py -v
 make check
 ```
 
-Once tests nuevos, 126 en total: requests/schema y opciones, loopback/proxy/redirect,
-cloud/modelo inexistente, recursos, errores sanitizados, salidas incompletas,
-validación/retry/agotamiento, métricas privadas/CLI y contadores inválidos. Ningún
-unit test usa el modelo real. No hay nuevos paquetes; pesos gguf/safetensors y
-métricas locales quedan ignorados. El runner de eval sigue rechazando proveedores
-no mock en este checkpoint para evitar inferencia accidental por cambiar un TOML.
+Las pruebas usan transportes falsos. Las comprobaciones locales y los resultados
+de integración se conservan en la [bitácora](bitacora/VERIFICACIONES.md#ollama-04112026).
