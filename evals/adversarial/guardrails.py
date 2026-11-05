@@ -3,12 +3,23 @@
 from collections import Counter
 
 from evals.adversarial.cases import DiagnosticCase
-from src.support.guardrails import GuardrailError, check_input, check_output
+from src.support.guardrails import (
+    MAX_QUERY_CHARS,
+    GuardrailError,
+    check_input,
+    check_output,
+)
 from src.support.schemas import SupportResponse
 
 
-def evaluate(cases: list[DiagnosticCase], *, max_query_chars: int = 4000) -> dict:
-    if not cases or type(max_query_chars) is not int or max_query_chars < 1:
+def evaluate(
+    cases: list[DiagnosticCase], *, max_query_chars: int = MAX_QUERY_CHARS
+) -> dict:
+    if (
+        not cases
+        or type(max_query_chars) is not int
+        or not 1 <= max_query_chars <= MAX_QUERY_CHARS
+    ):
         raise ValueError("Suite o límite inválido.")
     rows = []
     for case in cases:

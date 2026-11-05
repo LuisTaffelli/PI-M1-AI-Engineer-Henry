@@ -1,9 +1,10 @@
 # Predeterminado offline: mock. La CLI puede seleccionar otro proveedor.
-# OpenAI/Gemini requieren modelo explícito y clave de proceso; no se carga .env.
+# OpenAI/Gemini requieren modelo explícito; clave de entorno o .env, sólo al inferir.
 provider = "mock"
 prompt = "v1_zero_shot"
 mock_scenario = "fixed"
 max_attempts = 2
-max_query_chars = 4000
+# Máximo permitido: 500 caracteres Unicode del texto original; se puede reducir.
+max_query_chars = 500
 log_metrics = true
 metrics_path = "data/metrics.jsonl"

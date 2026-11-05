@@ -8,6 +8,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator, model_valida
 
 from ..llm.prompt_catalog import PromptName
 from ..llm.providers.ollama_provider import normalize_base_url
+from ..support.guardrails import MAX_QUERY_CHARS
 from .paths import ROOT as ROOT
 
 
@@ -26,7 +27,7 @@ class Settings(BaseModel):
         "fixed"
     )
     max_attempts: int = Field(default=2, ge=1, le=3)
-    max_query_chars: int = Field(default=4000, ge=1, le=20000)
+    max_query_chars: int = Field(default=MAX_QUERY_CHARS, ge=1, le=MAX_QUERY_CHARS)
     log_metrics: bool = False
     metrics_path: str = Field(default="data/metrics.jsonl", min_length=1)
     pricing_path: str | None = Field(default=None, min_length=1)

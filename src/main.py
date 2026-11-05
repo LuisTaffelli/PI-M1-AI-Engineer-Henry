@@ -9,6 +9,7 @@ from pydantic import ValidationError
 from .llm.prompt_catalog import PROMPT_NAMES
 from .llm.providers.base import ProviderError
 from .runtime.config import ROOT, load_settings
+from .support.guardrails import MAX_QUERY_CHARS, InputTooLongError
 from .support.schemas import SupportResponse, validation_failure_code
 from .support.service import simulate_response
 
@@ -17,7 +18,10 @@ def main() -> int:
     parser = argparse.ArgumentParser(
         description="Nubbix: soporte con proveedor configurable."
     )
-    parser.add_argument("query", help="Consulta de soporte, entre comillas.")
+    parser.add_argument(
+        "query",
+        help=f"Consulta de soporte, entre comillas (máximo {MAX_QUERY_CHARS} caracteres).",
+    )
     parser.add_argument("--config", type=Path, default=ROOT / "config.toml")
     parser.add_argument("--provider", choices=["mock", "openai", "gemini", "ollama"])
     parser.add_argument(
@@ -45,6 +49,9 @@ def main() -> int:
             log_metrics=False if args.no_metrics else None,
         )
         response = simulate_response(args.query, settings=settings)
+    except InputTooLongError as error:
+        print(f"Error: {error}", file=sys.stderr)
+        return 2
     except ProviderError as error:
         print(
             f"Error: proveedor [{error.code}]. No se produjo una respuesta válida.",

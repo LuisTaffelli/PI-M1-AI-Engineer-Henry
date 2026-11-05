@@ -111,7 +111,7 @@ class OfflineFlowTests(unittest.TestCase):
                     query,
                     provider,
                     settings=Settings(
-                        max_query_chars=10 if query.startswith("x") else 4000
+                        max_query_chars=10 if query.startswith("x") else 500
                     ),
                 )
             provider.generate.assert_not_called()
