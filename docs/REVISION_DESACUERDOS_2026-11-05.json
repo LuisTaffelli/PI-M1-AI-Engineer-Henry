@@ -1,0 +1,1216 @@
+{
+  "reviewed_on": "2026-11-05",
+  "review_kind": "offline_replay_and_technical_annotation_review",
+  "new_inference_calls": 0,
+  "new_human_label_approvals": 0,
+  "label_changes": [],
+  "source_evidence": "docs/EVAL_PROMPTS_V34_2026-11-04.json",
+  "source_evidence_sha256": "f8c3a06537a3019077a2d9bca774a21343abdecad18e430bee921a85e57f6f28",
+  "dataset_sha256": {
+    "data/eval_dataset.jsonl": "d575ef2c26a0f071b9f31cab4ee1554a47c8b3a9e074017a225b90823a4a4bcf",
+    "data/eval_robustness.jsonl": "e04ef0fb821c67f6471b2cb0d5f29d2689fa99ad2ed799573863f6ef13a4f8d6"
+  },
+  "prompt_sha256": {
+    "v1_zero_shot": "67f5b70d9400eef6e76d2393009c14b3f831d0af597450f2bd83c63cd3750a2c",
+    "v2_few_shot": "ad75c9833cb90caff3e87061e4c6d35d4d35c3ad48571d59941dc18237b34418",
+    "v3_structured": "bb60c89539d530d184d9c2ca827368b5446f6b07ce9c6c0f91684c1456e986ac",
+    "v4_reasoning": "c8e04b0e625765eb507bf3034e07c60667677aea3f6e4c6722127b4af3c8ba3f"
+  },
+  "shared_local_settings": {
+    "provider": "ollama",
+    "model": "qwen2.5-coder:0.5b-test",
+    "ollama_base_url": "http://127.0.0.1:11434",
+    "ollama_max_output_tokens": 256,
+    "ollama_num_ctx": 2048,
+    "ollama_timeout_seconds": 30,
+    "max_attempts": 1
+  },
+  "local_model_digest": "08efee4699b2c84f8b793e888efd0de207bd8b00692a62337b40017048e3c075",
+  "saved_local_source_hashes_match": true,
+  "classification_totals": {
+    "v1_zero_shot": {
+      "total": 32,
+      "correct": 11,
+      "valid_wrong": 20,
+      "invalid_or_incomplete": 1,
+      "validated_outputs": 31
+    },
+    "v2_few_shot": {
+      "total": 32,
+      "correct": 18,
+      "valid_wrong": 12,
+      "invalid_or_incomplete": 2,
+      "validated_outputs": 30
+    },
+    "v3_structured": {
+      "total": 32,
+      "correct": 17,
+      "valid_wrong": 15,
+      "invalid_or_incomplete": 0,
+      "validated_outputs": 32
+    },
+    "v4_reasoning": {
+      "total": 32,
+      "correct": 13,
+      "valid_wrong": 17,
+      "invalid_or_incomplete": 2,
+      "validated_outputs": 30
+    }
+  },
+  "v2_v3_paired_correctness": {
+    "both_correct": 12,
+    "only_v2_correct": 6,
+    "only_v3_correct": 5,
+    "neither_correct": 9
+  },
+  "no_prompt_matches_reference": [
+    "nubbix-b04",
+    "nubbix-a02",
+    "nubbix-o02",
+    "nubbix-o04",
+    "nubbix-o05",
+    "nubbix-o07"
+  ],
+  "paired_paraphrase_totals": {
+    "v1_zero_shot": {
+      "pairs": 8,
+      "source_correct": 4,
+      "paraphrase_correct": 3,
+      "both_valid": 7,
+      "same_category_both_valid": 5,
+      "correct_to_wrong": 1,
+      "wrong_to_correct": 0
+    },
+    "v2_few_shot": {
+      "pairs": 8,
+      "source_correct": 4,
+      "paraphrase_correct": 4,
+      "both_valid": 7,
+      "same_category_both_valid": 3,
+      "correct_to_wrong": 2,
+      "wrong_to_correct": 2
+    },
+    "v3_structured": {
+      "pairs": 8,
+      "source_correct": 4,
+      "paraphrase_correct": 5,
+      "both_valid": 8,
+      "same_category_both_valid": 4,
+      "correct_to_wrong": 1,
+      "wrong_to_correct": 2
+    },
+    "v4_reasoning": {
+      "pairs": 8,
+      "source_correct": 4,
+      "paraphrase_correct": 2,
+      "both_valid": 6,
+      "same_category_both_valid": 3,
+      "correct_to_wrong": 2,
+      "wrong_to_correct": 0
+    }
+  },
+  "case_outcomes": [
+    {
+      "case_id": "nubbix-b01",
+      "expected_category": "billing",
+      "marked_ambiguous": false,
+      "prior_human_confirmation": false,
+      "correct_prompt_count": 1,
+      "outcomes": {
+        "v1_zero_shot": {
+          "predicted_category": "account",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v2_few_shot": {
+          "predicted_category": "billing",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v3_structured": {
+          "predicted_category": "account",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v4_reasoning": {
+          "predicted_category": "account",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        }
+      }
+    },
+    {
+      "case_id": "nubbix-b02",
+      "expected_category": "billing",
+      "marked_ambiguous": false,
+      "prior_human_confirmation": false,
+      "correct_prompt_count": 3,
+      "outcomes": {
+        "v1_zero_shot": {
+          "predicted_category": "technical",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v2_few_shot": {
+          "predicted_category": "billing",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v3_structured": {
+          "predicted_category": "billing",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v4_reasoning": {
+          "predicted_category": "billing",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        }
+      }
+    },
+    {
+      "case_id": "nubbix-b03",
+      "expected_category": "billing",
+      "marked_ambiguous": false,
+      "prior_human_confirmation": false,
+      "correct_prompt_count": 2,
+      "outcomes": {
+        "v1_zero_shot": {
+          "predicted_category": "account",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v2_few_shot": {
+          "predicted_category": "billing",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v3_structured": {
+          "predicted_category": "billing",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v4_reasoning": {
+          "predicted_category": "account",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        }
+      }
+    },
+    {
+      "case_id": "nubbix-b04",
+      "expected_category": "billing",
+      "marked_ambiguous": false,
+      "prior_human_confirmation": false,
+      "correct_prompt_count": 0,
+      "outcomes": {
+        "v1_zero_shot": {
+          "predicted_category": null,
+          "correct": false,
+          "status": "provider_error",
+          "failure_code": "incomplete_response"
+        },
+        "v2_few_shot": {
+          "predicted_category": null,
+          "correct": false,
+          "status": "provider_error",
+          "failure_code": "incomplete_response"
+        },
+        "v3_structured": {
+          "predicted_category": "technical",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v4_reasoning": {
+          "predicted_category": "account",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        }
+      }
+    },
+    {
+      "case_id": "nubbix-b05",
+      "expected_category": "billing",
+      "marked_ambiguous": false,
+      "prior_human_confirmation": false,
+      "correct_prompt_count": 2,
+      "outcomes": {
+        "v1_zero_shot": {
+          "predicted_category": "technical",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v2_few_shot": {
+          "predicted_category": "billing",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v3_structured": {
+          "predicted_category": "billing",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v4_reasoning": {
+          "predicted_category": "account",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        }
+      }
+    },
+    {
+      "case_id": "nubbix-b06",
+      "expected_category": "billing",
+      "marked_ambiguous": false,
+      "prior_human_confirmation": false,
+      "correct_prompt_count": 2,
+      "outcomes": {
+        "v1_zero_shot": {
+          "predicted_category": "account",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v2_few_shot": {
+          "predicted_category": "billing",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v3_structured": {
+          "predicted_category": "technical",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v4_reasoning": {
+          "predicted_category": "billing",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        }
+      }
+    },
+    {
+      "case_id": "nubbix-b07",
+      "expected_category": "billing",
+      "marked_ambiguous": true,
+      "prior_human_confirmation": true,
+      "correct_prompt_count": 1,
+      "outcomes": {
+        "v1_zero_shot": {
+          "predicted_category": "technical",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v2_few_shot": {
+          "predicted_category": "technical",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v3_structured": {
+          "predicted_category": "billing",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v4_reasoning": {
+          "predicted_category": "technical",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        }
+      }
+    },
+    {
+      "case_id": "nubbix-b08",
+      "expected_category": "billing",
+      "marked_ambiguous": true,
+      "prior_human_confirmation": false,
+      "correct_prompt_count": 2,
+      "outcomes": {
+        "v1_zero_shot": {
+          "predicted_category": "account",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v2_few_shot": {
+          "predicted_category": "billing",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v3_structured": {
+          "predicted_category": "billing",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v4_reasoning": {
+          "predicted_category": "account",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        }
+      }
+    },
+    {
+      "case_id": "nubbix-t01",
+      "expected_category": "technical",
+      "marked_ambiguous": false,
+      "prior_human_confirmation": false,
+      "correct_prompt_count": 2,
+      "outcomes": {
+        "v1_zero_shot": {
+          "predicted_category": "technical",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v2_few_shot": {
+          "predicted_category": "technical",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v3_structured": {
+          "predicted_category": "billing",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v4_reasoning": {
+          "predicted_category": "other",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        }
+      }
+    },
+    {
+      "case_id": "nubbix-t02",
+      "expected_category": "technical",
+      "marked_ambiguous": false,
+      "prior_human_confirmation": false,
+      "correct_prompt_count": 4,
+      "outcomes": {
+        "v1_zero_shot": {
+          "predicted_category": "technical",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v2_few_shot": {
+          "predicted_category": "technical",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v3_structured": {
+          "predicted_category": "technical",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v4_reasoning": {
+          "predicted_category": "technical",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        }
+      }
+    },
+    {
+      "case_id": "nubbix-t03",
+      "expected_category": "technical",
+      "marked_ambiguous": false,
+      "prior_human_confirmation": false,
+      "correct_prompt_count": 4,
+      "outcomes": {
+        "v1_zero_shot": {
+          "predicted_category": "technical",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v2_few_shot": {
+          "predicted_category": "technical",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v3_structured": {
+          "predicted_category": "technical",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v4_reasoning": {
+          "predicted_category": "technical",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        }
+      }
+    },
+    {
+      "case_id": "nubbix-t04",
+      "expected_category": "technical",
+      "marked_ambiguous": false,
+      "prior_human_confirmation": false,
+      "correct_prompt_count": 2,
+      "outcomes": {
+        "v1_zero_shot": {
+          "predicted_category": "technical",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v2_few_shot": {
+          "predicted_category": "technical",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v3_structured": {
+          "predicted_category": "billing",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v4_reasoning": {
+          "predicted_category": "other",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        }
+      }
+    },
+    {
+      "case_id": "nubbix-t05",
+      "expected_category": "technical",
+      "marked_ambiguous": false,
+      "prior_human_confirmation": false,
+      "correct_prompt_count": 3,
+      "outcomes": {
+        "v1_zero_shot": {
+          "predicted_category": "technical",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v2_few_shot": {
+          "predicted_category": "technical",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v3_structured": {
+          "predicted_category": "technical",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v4_reasoning": {
+          "predicted_category": "other",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        }
+      }
+    },
+    {
+      "case_id": "nubbix-t06",
+      "expected_category": "technical",
+      "marked_ambiguous": false,
+      "prior_human_confirmation": false,
+      "correct_prompt_count": 1,
+      "outcomes": {
+        "v1_zero_shot": {
+          "predicted_category": "technical",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v2_few_shot": {
+          "predicted_category": "billing",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v3_structured": {
+          "predicted_category": "billing",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v4_reasoning": {
+          "predicted_category": "other",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        }
+      }
+    },
+    {
+      "case_id": "nubbix-t07",
+      "expected_category": "technical",
+      "marked_ambiguous": true,
+      "prior_human_confirmation": false,
+      "correct_prompt_count": 2,
+      "outcomes": {
+        "v1_zero_shot": {
+          "predicted_category": "account",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v2_few_shot": {
+          "predicted_category": "billing",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v3_structured": {
+          "predicted_category": "technical",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v4_reasoning": {
+          "predicted_category": "technical",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        }
+      }
+    },
+    {
+      "case_id": "nubbix-t08",
+      "expected_category": "technical",
+      "marked_ambiguous": true,
+      "prior_human_confirmation": false,
+      "correct_prompt_count": 3,
+      "outcomes": {
+        "v1_zero_shot": {
+          "predicted_category": "technical",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v2_few_shot": {
+          "predicted_category": null,
+          "correct": false,
+          "status": "provider_error",
+          "failure_code": "incomplete_response"
+        },
+        "v3_structured": {
+          "predicted_category": "technical",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v4_reasoning": {
+          "predicted_category": "technical",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        }
+      }
+    },
+    {
+      "case_id": "nubbix-a01",
+      "expected_category": "account",
+      "marked_ambiguous": false,
+      "prior_human_confirmation": false,
+      "correct_prompt_count": 3,
+      "outcomes": {
+        "v1_zero_shot": {
+          "predicted_category": "technical",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v2_few_shot": {
+          "predicted_category": "account",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v3_structured": {
+          "predicted_category": "account",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v4_reasoning": {
+          "predicted_category": "account",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        }
+      }
+    },
+    {
+      "case_id": "nubbix-a02",
+      "expected_category": "account",
+      "marked_ambiguous": false,
+      "prior_human_confirmation": false,
+      "correct_prompt_count": 0,
+      "outcomes": {
+        "v1_zero_shot": {
+          "predicted_category": "technical",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v2_few_shot": {
+          "predicted_category": "technical",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v3_structured": {
+          "predicted_category": "billing",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v4_reasoning": {
+          "predicted_category": "other",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        }
+      }
+    },
+    {
+      "case_id": "nubbix-a03",
+      "expected_category": "account",
+      "marked_ambiguous": false,
+      "prior_human_confirmation": false,
+      "correct_prompt_count": 3,
+      "outcomes": {
+        "v1_zero_shot": {
+          "predicted_category": "account",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v2_few_shot": {
+          "predicted_category": "account",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v3_structured": {
+          "predicted_category": "billing",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v4_reasoning": {
+          "predicted_category": "account",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        }
+      }
+    },
+    {
+      "case_id": "nubbix-a04",
+      "expected_category": "account",
+      "marked_ambiguous": false,
+      "prior_human_confirmation": false,
+      "correct_prompt_count": 3,
+      "outcomes": {
+        "v1_zero_shot": {
+          "predicted_category": "technical",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v2_few_shot": {
+          "predicted_category": "account",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v3_structured": {
+          "predicted_category": "account",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v4_reasoning": {
+          "predicted_category": "account",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        }
+      }
+    },
+    {
+      "case_id": "nubbix-a05",
+      "expected_category": "account",
+      "marked_ambiguous": false,
+      "prior_human_confirmation": false,
+      "correct_prompt_count": 2,
+      "outcomes": {
+        "v1_zero_shot": {
+          "predicted_category": "technical",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v2_few_shot": {
+          "predicted_category": "account",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v3_structured": {
+          "predicted_category": "account",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v4_reasoning": {
+          "predicted_category": "other",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        }
+      }
+    },
+    {
+      "case_id": "nubbix-a06",
+      "expected_category": "account",
+      "marked_ambiguous": false,
+      "prior_human_confirmation": false,
+      "correct_prompt_count": 3,
+      "outcomes": {
+        "v1_zero_shot": {
+          "predicted_category": "account",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v2_few_shot": {
+          "predicted_category": "other",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v3_structured": {
+          "predicted_category": "account",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v4_reasoning": {
+          "predicted_category": "account",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        }
+      }
+    },
+    {
+      "case_id": "nubbix-a07",
+      "expected_category": "account",
+      "marked_ambiguous": true,
+      "prior_human_confirmation": true,
+      "correct_prompt_count": 3,
+      "outcomes": {
+        "v1_zero_shot": {
+          "predicted_category": "technical",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v2_few_shot": {
+          "predicted_category": "account",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v3_structured": {
+          "predicted_category": "account",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v4_reasoning": {
+          "predicted_category": "account",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        }
+      }
+    },
+    {
+      "case_id": "nubbix-a08",
+      "expected_category": "account",
+      "marked_ambiguous": true,
+      "prior_human_confirmation": false,
+      "correct_prompt_count": 1,
+      "outcomes": {
+        "v1_zero_shot": {
+          "predicted_category": "account",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v2_few_shot": {
+          "predicted_category": "billing",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v3_structured": {
+          "predicted_category": "billing",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v4_reasoning": {
+          "predicted_category": "technical",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        }
+      }
+    },
+    {
+      "case_id": "nubbix-o01",
+      "expected_category": "other",
+      "marked_ambiguous": false,
+      "prior_human_confirmation": false,
+      "correct_prompt_count": 1,
+      "outcomes": {
+        "v1_zero_shot": {
+          "predicted_category": "technical",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v2_few_shot": {
+          "predicted_category": "billing",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v3_structured": {
+          "predicted_category": "billing",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v4_reasoning": {
+          "predicted_category": "other",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        }
+      }
+    },
+    {
+      "case_id": "nubbix-o02",
+      "expected_category": "other",
+      "marked_ambiguous": false,
+      "prior_human_confirmation": false,
+      "correct_prompt_count": 0,
+      "outcomes": {
+        "v1_zero_shot": {
+          "predicted_category": "technical",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v2_few_shot": {
+          "predicted_category": "technical",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v3_structured": {
+          "predicted_category": "technical",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v4_reasoning": {
+          "predicted_category": "billing",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        }
+      }
+    },
+    {
+      "case_id": "nubbix-o03",
+      "expected_category": "other",
+      "marked_ambiguous": false,
+      "prior_human_confirmation": false,
+      "correct_prompt_count": 1,
+      "outcomes": {
+        "v1_zero_shot": {
+          "predicted_category": "account",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v2_few_shot": {
+          "predicted_category": "other",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v3_structured": {
+          "predicted_category": "technical",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v4_reasoning": {
+          "predicted_category": "account",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        }
+      }
+    },
+    {
+      "case_id": "nubbix-o04",
+      "expected_category": "other",
+      "marked_ambiguous": false,
+      "prior_human_confirmation": false,
+      "correct_prompt_count": 0,
+      "outcomes": {
+        "v1_zero_shot": {
+          "predicted_category": "technical",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v2_few_shot": {
+          "predicted_category": "billing",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v3_structured": {
+          "predicted_category": "billing",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v4_reasoning": {
+          "predicted_category": null,
+          "correct": false,
+          "status": "provider_error",
+          "failure_code": "incomplete_response"
+        }
+      }
+    },
+    {
+      "case_id": "nubbix-o05",
+      "expected_category": "other",
+      "marked_ambiguous": false,
+      "prior_human_confirmation": false,
+      "correct_prompt_count": 0,
+      "outcomes": {
+        "v1_zero_shot": {
+          "predicted_category": "technical",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v2_few_shot": {
+          "predicted_category": "technical",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v3_structured": {
+          "predicted_category": "technical",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v4_reasoning": {
+          "predicted_category": null,
+          "correct": false,
+          "status": "provider_error",
+          "failure_code": "incomplete_response"
+        }
+      }
+    },
+    {
+      "case_id": "nubbix-o06",
+      "expected_category": "other",
+      "marked_ambiguous": false,
+      "prior_human_confirmation": false,
+      "correct_prompt_count": 3,
+      "outcomes": {
+        "v1_zero_shot": {
+          "predicted_category": "technical",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v2_few_shot": {
+          "predicted_category": "other",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v3_structured": {
+          "predicted_category": "other",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v4_reasoning": {
+          "predicted_category": "other",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        }
+      }
+    },
+    {
+      "case_id": "nubbix-o07",
+      "expected_category": "other",
+      "marked_ambiguous": true,
+      "prior_human_confirmation": false,
+      "correct_prompt_count": 0,
+      "outcomes": {
+        "v1_zero_shot": {
+          "predicted_category": "account",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v2_few_shot": {
+          "predicted_category": "account",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v3_structured": {
+          "predicted_category": "billing",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v4_reasoning": {
+          "predicted_category": "account",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        }
+      }
+    },
+    {
+      "case_id": "nubbix-o08",
+      "expected_category": "other",
+      "marked_ambiguous": true,
+      "prior_human_confirmation": false,
+      "correct_prompt_count": 2,
+      "outcomes": {
+        "v1_zero_shot": {
+          "predicted_category": "other",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v2_few_shot": {
+          "predicted_category": "billing",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v3_structured": {
+          "predicted_category": "other",
+          "correct": true,
+          "status": "ok",
+          "failure_code": null
+        },
+        "v4_reasoning": {
+          "predicted_category": "account",
+          "correct": false,
+          "status": "ok",
+          "failure_code": null
+        }
+      }
+    }
+  ],
+  "existing_remote_observation": {
+    "local_untracked_source": "data/local_runs/luna-robustness-v1-v4-01",
+    "plan_sha256": "58d8eddf4ae3e82ab945a26a33646586686f4ec3d08d03b49b929ec6e69832be",
+    "summary_sha256": "09eb4776cfee88bd20b5fa02be9c7fb76bd7b0d66ef69b60ec70a7a03eb55ec0",
+    "provider": "openai",
+    "model": "gpt-6-luna",
+    "suite_kind": "supplementary_diagnostic",
+    "max_output_tokens": 1024,
+    "max_attempts_per_case": 2,
+    "generation_attempts": 32,
+    "dataset_hash_matches_paraphrases": true,
+    "prompt_hashes_match": true,
+    "by_prompt": {
+      "v1_zero_shot": {
+        "total": 8,
+        "correct": 8,
+        "validated_outputs": 8
+      },
+      "v2_few_shot": {
+        "total": 8,
+        "correct": 8,
+        "validated_outputs": 8
+      },
+      "v3_structured": {
+        "total": 8,
+        "correct": 8,
+        "validated_outputs": 8
+      },
+      "v4_reasoning": {
+        "total": 8,
+        "correct": 8,
+        "validated_outputs": 8
+      }
+    },
+    "not_a_controlled_provider_comparison": true
+  },
+  "paraphrase_to_base": {
+    "robust-b01": "nubbix-b02",
+    "robust-b02": "nubbix-b04",
+    "robust-t01": "nubbix-t05",
+    "robust-t02": "nubbix-t06",
+    "robust-a01": "nubbix-a06",
+    "robust-a02": "nubbix-a03",
+    "robust-o01": "nubbix-o05",
+    "robust-o02": "nubbix-o06"
+  }
+}

@@ -1,9 +1,32 @@
-# Revisión técnica de referencias — 04/11/2026
+# Revisión de referencias
+
+## Decisión de Luis: 05/11/2026
+
+Luis confirmó **nubbix-o03 = other**: «Yo lo dejaria el contraste de los graficos
+como other, porque es mas UI/UX que tecnico en si xd». Para este ticket considera
+el mayor contraste una mejora de UI/UX. Es una decisión sobre ese texto, no una
+regla universal que excluya problemas de accesibilidad de la categoría technical.
+
+Estado actual del corpus base: **tres etiquetas confirmadas** (b07, a07 y o03) y
+**29 propuestas**. **A05 no fue aprobado** y permanece propuesto como account.
+La confirmación conserva el valor other ya existente y ambiguous=false; no se
+modificaron JSONL, flags, prompts ni resultados. Las métricas previas no cambian.
+
+## Objetivo comparativo aclarado por Luis: 05/11/2026
+
+Se busca observar cómo interpreta cada modelo los tickets frente a las referencias,
+independientemente del proveedor. No retocar prompts para que todas las respuestas
+coincidan ni maximizar el score. Las versiones y resultados se conservan; se explican
+los desacuerdos con condiciones y límites. Esta aclaración no aprueba a05 ni permite
+cambiar etiquetas para favorecer las respuestas observadas.
+
+## Revisión técnica original: 04/11/2026
 
 Revisión realizada por el asistente sobre los 32 tickets sintéticos y el criterio
 propuesto en data/DATASET.md. **No es validación humana nueva ni respuesta oficial
 de la consigna.** Sólo nubbix-b07 y nubbix-a07 tenían confirmación individual de
-Luis registrada antes de esta revisión; las otras 30 referencias siguen propuestas.
+Luis registrada antes de esta revisión; las otras 30 referencias seguían propuestas.
+La actualización humana del 05/11 está registrada arriba y en la fila o03.
 
 No se modifican textos, etiquetas ni flags del JSONL. La referencia sigue siendo
 el objetivo principal expresado, no una palabra aislada ni una causa hipotética.
@@ -18,8 +41,8 @@ no un holdout independiente que permita afirmar generalización.
 
 ## Revisión por caso
 
-Para todos salvo b07/a07, “conservar” significa consistencia técnica con el criterio
-actual, **no aprobación humana**. Las condiciones alternativas indican qué dato
+Para todos salvo b07/a07 y la confirmación posterior de o03, “conservar” significa
+consistencia técnica con el criterio actual, **no aprobación humana**. Las condiciones alternativas indican qué dato
 adicional podría cambiar la interpretación; no afirman que ese dato esté presente.
 
 | ID | Referencia conservada | Fundamento y cautela |
@@ -50,7 +73,7 @@ adicional podría cambiar la interpretación; no afirman que ese dato esté pres
 | a08 | account | Recuperar acceso bloqueado por intentos, sin fallo de servidor declarado. Frontera marcada con technical. |
 | o01 | other | Demostración antes de contratar. No asumir cuenta existente ni apertura de incidente. |
 | o02 | other | Consulta de capacidad de integración antes de elegir herramienta; no integración rota. |
-| o03 | other | Propuesta de mayor contraste. **Matiz de política**: accesibilidad podría tratarse como defecto según estándares acordados; el texto sólo propone mejora y esos estándares no están fijados. |
+| o03 | other | **Confirmada por Luis el 05/11/2026**: interpreta esta sugerencia de contraste como mejora de UI/UX. Se conserva other sin extender el criterio a toda falla de accesibilidad. |
 | o04 | other | Solicitud de modo oscuro futuro; sería distinto si una función existente hubiera dejado de funcionar. |
 | o05 | other | Alianza comercial de consultoría, fuera de las tres clases operativas. |
 | o06 | other | Material o capacitación general, no incidente concreto. |
@@ -60,7 +83,8 @@ adicional podría cambiar la interpretación; no afirman que ese dato esté pres
 “ambiguous=false” no prueba ausencia de interpretaciones alternativas. Se conservan
 los ocho flags definidos previamente para mantener trazabilidad; el reporte separa
 “marcados ambiguos” y “no marcados”, no certeza frente a incertidumbre absoluta.
-Las fronteras adicionales b01/b05/a02/a05/o03 quedan documentadas para discusión.
+Las fronteras adicionales b01/b05/a02/a05 quedan documentadas para discusión.
+La decisión particular de o03 se cerró como other; su flag permanece intacto.
 
 ## Escenarios sin una etiqueta única fijada
 
@@ -92,3 +116,11 @@ Comparar cada prompt sobre ambas suites ayuda a describir sensibilidad al texto.
 Reportar cada suite por separado, sin sumar 32+8 para aparentar más independencia.
 Los casos de seguridad requieren otra referencia (bloqueo/bypass/falso positivo),
 no mezclar su tasa de bloqueo con exact match de clasificación.
+
+
+## Revisión de desacuerdos del 05/11/2026
+
+[La revisión posterior](REVISION_DESACUERDOS.md) cruza las 32 referencias con
+las cuatro variantes conservadas y empareja las ocho paráfrasis con sus originales.
+Se preservan etiquetas y flags, se separan respuestas incompletas de clasificaciones
+distintas y se registran decisiones pendientes sin atribuir nuevas aprobaciones.
