@@ -35,6 +35,11 @@ class Rate(BaseModel):
     cached_input_usd_per_million: Price
     output_usd_per_million: Price
 
+    max_input_tokens: int | None = Field(default=None, ge=1)
+    requires_cache_write_usage: bool = False
+    cache_write_30m_usd_per_million: Price | None = None
+    cache_write_12h_usd_per_million: Price | None = None
+
     @model_validator(mode="after")
     def verification_evidence(self):
         if self.verification == "verified_public":
@@ -71,6 +76,13 @@ class PricingCatalog(BaseModel):
         return self
 
 
+def load_catalog(path: Path) -> tuple[PricingCatalog, bytes]:
+    if path.suffix != ".json" or path.is_symlink():
+        raise ValueError("El catálogo debe ser un archivo JSON regular.")
+    data = path.read_bytes()
+    return PricingCatalog.model_validate_json(data), data
+
+
 def _precision(usages: list[TokenUsage]) -> int:
     digits = max(
         (
@@ -83,23 +95,94 @@ def _precision(usages: list[TokenUsage]) -> int:
     return max(50, digits + len(str(len(usages))) + 32)
 
 
-def estimate_attempt(
+def estimate_components(
     usage: TokenUsage, rate: Rate, *, allow_fixture: bool = False
-) -> Decimal | None:
+) -> dict[str, str] | None:
     if rate.verification != "verified_public" and not (
         rate.verification == "fixture" and allow_fixture
     ):
         return None
     if not usage.complete or usage.cached_prompt_tokens is None:
         return None
+    if (
+        rate.max_input_tokens is not None
+        and usage.prompt_tokens > rate.max_input_tokens
+    ):
+        return None
+    if (
+        usage.reasoning_tokens is not None
+        and usage.reasoning_tokens > usage.completion_tokens
+    ):
+        return None
+    if usage.tool_use_prompt_tokens not in (None, 0):
+        return None
+    writes = usage.cache_write_tokens
+    if rate.requires_cache_write_usage and writes is None:
+        return None
+    writes = writes or 0
+    if usage.cached_prompt_tokens + writes > usage.prompt_tokens:
+        return None
+    short = long = 0
+    if writes:
+        short, long = usage.cache_write_30m_tokens, usage.cache_write_12h_tokens
+        if short is None or long is None or short + long != writes:
+            return None
+        if (
+            rate.cache_write_30m_usd_per_million is None
+            or rate.cache_write_12h_usd_per_million is None
+        ):
+            return None
+    elif any(
+        value not in (None, 0)
+        for value in (usage.cache_write_30m_tokens, usage.cache_write_12h_tokens)
+    ):
+        return None
     with localcontext() as context:
         context.prec = _precision([usage])
-        return (
-            (usage.prompt_tokens - usage.cached_prompt_tokens)
-            * Decimal(rate.input_usd_per_million)
-            + usage.cached_prompt_tokens * Decimal(rate.cached_input_usd_per_million)
-            + usage.completion_tokens * Decimal(rate.output_usd_per_million)
-        ) / Decimal(1_000_000)
+        amounts = {
+            "uncached_input_usd": (
+                usage.prompt_tokens - usage.cached_prompt_tokens - writes
+            )
+            * Decimal(rate.input_usd_per_million),
+            "cached_input_usd": usage.cached_prompt_tokens
+            * Decimal(rate.cached_input_usd_per_million),
+            "cache_write_30m_usd": short
+            * Decimal(rate.cache_write_30m_usd_per_million or "0"),
+            "cache_write_12h_usd": long
+            * Decimal(rate.cache_write_12h_usd_per_million or "0"),
+            "output_including_reasoning_usd": usage.completion_tokens
+            * Decimal(rate.output_usd_per_million),
+        }
+        return {
+            name: format(value / Decimal(1_000_000), "f")
+            for name, value in amounts.items()
+        }
+
+
+def estimate_attempt(
+    usage: TokenUsage, rate: Rate, *, allow_fixture: bool = False
+) -> Decimal | None:
+    components = estimate_components(usage, rate, allow_fixture=allow_fixture)
+    if components is None:
+        return None
+    with localcontext() as context:
+        context.prec = _precision([usage])
+        return sum(map(Decimal, components.values()), Decimal(0))
+
+
+def _unpriced_reason(usage: TokenUsage, rate: Rate) -> str:
+    if not usage.complete:
+        return "incomplete_or_inconsistent_usage"
+    if usage.cached_prompt_tokens is None:
+        return "cached_input_unavailable"
+    if (
+        rate.max_input_tokens is not None
+        and usage.prompt_tokens > rate.max_input_tokens
+    ):
+        return "rate_input_range_exceeded"
+    if rate.requires_cache_write_usage and usage.cache_write_tokens is None:
+        return "cache_write_usage_unavailable"
+    return "unsupported_or_inconsistent_breakdown"
 
 
 def cost_metrics(
@@ -114,21 +197,22 @@ def cost_metrics(
         "cost_usd": None,
         "cost_status": "not_requested",
         "cost_by_attempt": [None for _ in usages],
+        "cost_unavailable_reason_by_attempt": [None for _ in usages],
+        "cost_components_by_attempt": [None for _ in usages],
         "pricing_version": None,
         "rate_version": None,
         "pricing_sha256": None,
         "cost_basis": "standard_text_tokens_only",
+        "billing_verified": False,
+        "rate_source_url": None,
+        "rate_checked_on": None,
     }
     if not usages:
         return result
     if pricing_path is None:
         return {**result, "cost_status": "pricing_unconfigured"}
     try:
-        # Nunca interpretar .env ni ejecutar archivos: sólo catálogo JSON explícito.
-        if pricing_path.suffix != ".json" or pricing_path.is_symlink():
-            raise ValueError("El catálogo debe ser un archivo JSON.")
-        data = pricing_path.read_bytes()
-        catalog = PricingCatalog.model_validate_json(data)
+        catalog, data = load_catalog(pricing_path)
     except (OSError, UnicodeError, ValueError):
         return {**result, "cost_status": "pricing_unavailable"}
     result.update(
@@ -147,13 +231,29 @@ def cost_metrics(
     )
     if rate is None:
         return {**result, "cost_status": "rate_missing"}
-    result["rate_version"] = rate.rate_version
+    result.update(
+        rate_version=rate.rate_version,
+        rate_source_url=rate.source_url
+        if rate.verification == "verified_public"
+        else None,
+        rate_checked_on=rate.checked_on
+        if rate.verification == "verified_public"
+        else None,
+    )
     if rate.verification != "verified_public" and not (
         rate.verification == "fixture" and allow_fixture
     ):
         return {**result, "cost_status": "rate_unverified"}
     costs = [
         estimate_attempt(usage, rate, allow_fixture=allow_fixture) for usage in usages
+    ]
+    result["cost_unavailable_reason_by_attempt"] = [
+        _unpriced_reason(usage, rate) if cost is None else None
+        for usage, cost in zip(usages, costs)
+    ]
+    result["cost_components_by_attempt"] = [
+        estimate_components(usage, rate, allow_fixture=allow_fixture)
+        for usage in usages
     ]
     result["cost_by_attempt"] = [
         format(cost, "f") if cost is not None else None for cost in costs
