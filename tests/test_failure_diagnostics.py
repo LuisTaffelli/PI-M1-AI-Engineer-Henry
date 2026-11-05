@@ -190,7 +190,7 @@ class FailureDiagnosticsTests(unittest.TestCase):
             stdout, stderr = StringIO(), StringIO()
             with (
                 patch(
-                    "src.support.service.MockProvider.generate",
+                    "src.llm.factory.MockProvider.generate",
                     side_effect=side_effect,
                     return_value=GenerationResult(result or ""),
                 ),

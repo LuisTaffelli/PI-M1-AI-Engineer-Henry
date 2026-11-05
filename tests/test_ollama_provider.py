@@ -256,11 +256,11 @@ class OllamaProviderTests(unittest.TestCase):
                     side_effect=[INFO, reply()],
                 ),
                 patch(
-                    "src.support.service.OpenAIProvider",
+                    "src.llm.factory.OpenAIProvider",
                     side_effect=AssertionError("No OpenAI"),
                 ),
                 patch(
-                    "src.support.service.GeminiProvider",
+                    "src.llm.factory.GeminiProvider",
                     side_effect=AssertionError("No Gemini"),
                 ),
                 patch("sys.argv", ["nubbix", MARKER, "--config", str(config)]),

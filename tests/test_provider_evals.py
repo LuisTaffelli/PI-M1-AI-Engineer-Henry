@@ -86,7 +86,7 @@ class ProviderEvalTests(unittest.TestCase):
         def factory(**options):
             return adapter(**options, api_key="fake-test-key", transport=transport)
 
-        with patch(f"src.support.service.{adapter.__name__}", side_effect=factory):
+        with patch(f"src.llm.factory.{adapter.__name__}", side_effect=factory):
             report = execute_plan(
                 self.plan(provider, attempts, **kwargs),
                 execute=True,
@@ -139,7 +139,7 @@ class ProviderEvalTests(unittest.TestCase):
 
     def test_execution_gate_no_files_or_key_lookup(self):
         with patch(
-            "src.support.service.OpenAIProvider",
+            "src.llm.factory.OpenAIProvider",
             side_effect=AssertionError("No key lookup"),
         ):
             for options in ({}, {"execute": True}, {"allow_remote_inference": True}):
@@ -184,7 +184,7 @@ class ProviderEvalTests(unittest.TestCase):
         with (
             patch("sys.argv", argv),
             patch(
-                "src.support.service.GeminiProvider",
+                "src.llm.factory.GeminiProvider",
                 side_effect=AssertionError("No key lookup"),
             ),
             redirect_stdout(StringIO()) as stream,
@@ -198,7 +198,7 @@ class ProviderEvalTests(unittest.TestCase):
         self.assertFalse(self.output.exists())
 
     def test_provider_failure_not_retried(self):
-        with patch("src.support.service.OpenAIProvider") as factory:
+        with patch("src.llm.factory.OpenAIProvider") as factory:
             factory.return_value.generate.side_effect = ProviderError(
                 "private-error-body"
             )
@@ -213,7 +213,7 @@ class ProviderEvalTests(unittest.TestCase):
 
     def test_configuration_failure_stops_even_with_continue(self):
         with patch(
-            "src.support.service.GeminiProvider",
+            "src.llm.factory.GeminiProvider",
             side_effect=ProviderError("Missing fictitious key"),
         ):
             report = execute_plan(
@@ -244,7 +244,7 @@ class ProviderEvalTests(unittest.TestCase):
         def factory(**options):
             return OllamaProvider(**options, transport=transport)
 
-        with patch("src.support.service.OllamaProvider", side_effect=factory):
+        with patch("src.llm.factory.OllamaProvider", side_effect=factory):
             report = execute_plan(self.plan("ollama"), execute=True)
         self.assertEqual(len(requests), 2)
         self.assertEqual(report["generation_attempts"], 1)

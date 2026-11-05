@@ -72,7 +72,7 @@ class ProviderServiceTests(unittest.TestCase):
             with (
                 self.subTest(text=text),
                 patch(
-                    "src.support.service.MockProvider.generate",
+                    "src.llm.factory.MockProvider.generate",
                     return_value=GenerationResult(text or ""),
                 ),
                 patch(

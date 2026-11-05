@@ -31,7 +31,7 @@ class AdversarialPairTests(unittest.TestCase):
     def setUp(self):
         for name in ("OpenAIProvider", "GeminiProvider"):
             p = patch(
-                "src.support.service." + name,
+                "src.llm.factory." + name,
                 side_effect=AssertionError("No paid provider"),
             )
             p.start()

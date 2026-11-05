@@ -193,7 +193,7 @@ class EvalCostTests(unittest.TestCase):
         def factory(**options):
             return OpenAIProvider(**options, api_key="fake-key", transport=transport)
 
-        with patch("src.support.service.OpenAIProvider", side_effect=factory):
+        with patch("src.llm.factory.OpenAIProvider", side_effect=factory):
             report = execute_plan(plan, execute=True, allow_remote_inference=True)
         self.assertEqual(report["usage_and_cost"]["generation_attempts"], 2)
         self.assertEqual(

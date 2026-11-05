@@ -217,7 +217,8 @@ class OfflineFlowTests(unittest.TestCase):
         stdout, stderr = StringIO(), StringIO()
         with (
             patch(
-                "src.support.service.append_metric", side_effect=OSError("fallo local")
+                "src.runtime.request_metrics.append_metric",
+                side_effect=OSError("fallo local"),
             ),
             patch("sys.argv", ["nubbix", "Consulta"]),
             redirect_stdout(stdout),

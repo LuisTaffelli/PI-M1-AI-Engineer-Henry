@@ -19,7 +19,7 @@ class GuardrailDiagnosticsTests(unittest.TestCase):
     def setUp(self):
         for name in ("OpenAIProvider", "GeminiProvider", "OllamaProvider"):
             blocker = patch(
-                "src.support.service." + name,
+                "src.llm.factory." + name,
                 side_effect=AssertionError("No provider construction"),
             )
             blocker.start()
