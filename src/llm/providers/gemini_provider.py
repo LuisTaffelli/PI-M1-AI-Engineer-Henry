@@ -1,13 +1,12 @@
 """Gemini Interactions HTTP v1beta; transporte sustituible para pruebas offline."""
 
 import json
-import os
 from collections.abc import Callable
 from http.client import HTTPException
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
-from ...runtime.credentials import load_api_key
+from ...runtime import environment
 from ..usage import gemini_usage
 from .base import GenerationResult, ProviderError
 
@@ -35,7 +34,7 @@ class GeminiProvider:
         key = (
             api_key
             if api_key is not None
-            else load_api_key("GEMINI_API_KEY", os.environ)
+            else environment.load_api_key("GEMINI_API_KEY")
         )
         if not isinstance(key, str) or not key.strip():
             raise ProviderError("Falta GEMINI_API_KEY en el entorno o .env local.")

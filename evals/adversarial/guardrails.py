@@ -2,7 +2,7 @@
 
 from collections import Counter
 
-from evals.diagnostic_cases import DiagnosticCase
+from evals.adversarial.cases import DiagnosticCase
 from src.support.guardrails import GuardrailError, check_input, check_output
 from src.support.schemas import SupportResponse
 

@@ -141,7 +141,7 @@ class EvalDatasetTests(unittest.TestCase):
         stdout, stderr = StringIO(), StringIO()
         with (
             patch("sys.argv", ["eval", "--dataset", str(DATASET), "--check-dataset"]),
-            patch("evals.run_evals.simulate_response") as service,
+            patch("evals.classification.smoke.simulate_response") as service,
             redirect_stdout(stdout),
             redirect_stderr(stderr),
         ):
@@ -155,7 +155,7 @@ class EvalDatasetTests(unittest.TestCase):
             answer="Fixture", confidence=0.5, category="other", actions=[]
         )
         with patch(
-            "evals.run_evals.simulate_response", return_value=response
+            "evals.classification.smoke.simulate_response", return_value=response
         ) as service:
             report = evaluate(self.cases, Settings())
         self.assertEqual(report["total"], 32)
@@ -202,8 +202,8 @@ class EvalDatasetTests(unittest.TestCase):
         cases[-1] = Case(**{**cases[-1].model_dump(), "query": cases[0].query})
         with (
             patch("sys.argv", ["eval", "--dataset", str(DATASET)]),
-            patch("evals.run_evals.load_cases", return_value=cases),
-            patch("evals.run_evals.simulate_response") as service,
+            patch("evals.cli.smoke.load_cases", return_value=cases),
+            patch("evals.classification.smoke.simulate_response") as service,
             redirect_stdout(StringIO()),
             redirect_stderr(StringIO()),
         ):

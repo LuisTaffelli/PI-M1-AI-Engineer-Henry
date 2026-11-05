@@ -54,7 +54,7 @@ class OpenAIProviderTests(unittest.TestCase):
         directory = TemporaryDirectory()
         self.addCleanup(directory.cleanup)
         dotenv = patch(
-            "src.runtime.credentials.DOTENV_PATH", Path(directory.name) / ".env"
+            "src.runtime.environment.DOTENV_PATH", Path(directory.name) / ".env"
         )
         dotenv.start()
         self.addCleanup(dotenv.stop)
@@ -89,16 +89,14 @@ class OpenAIProviderTests(unittest.TestCase):
 
     def test_missing_key_fails_before_transport_without_reading_real_environment(self):
         transport = Mock()
-        with patch("src.llm.providers.openai_provider.os.environ", {}):
+        with patch("src.runtime.environment.os.environ", {}):
             with self.assertRaisesRegex(ProviderError, "Falta OPENAI_API_KEY"):
                 OpenAIProvider("fixture-model", transport=transport)
         transport.assert_not_called()
         self.urlopen.assert_not_called()
 
     def test_explicit_empty_key_does_not_fall_back_to_environment(self):
-        with patch(
-            "src.llm.providers.openai_provider.os.environ", {"OPENAI_API_KEY": FAKE_KEY}
-        ):
+        with patch("src.runtime.environment.os.environ", {"OPENAI_API_KEY": FAKE_KEY}):
             with self.assertRaises(ProviderError):
                 OpenAIProvider("fixture-model", api_key="")
 
@@ -205,7 +203,7 @@ class OpenAIProviderTests(unittest.TestCase):
             stdout, stderr = StringIO(), StringIO()
             with (
                 patch(
-                    "src.llm.providers.openai_provider.os.environ",
+                    "src.runtime.environment.os.environ",
                     {"OPENAI_API_KEY": key},
                 ),
                 patch(

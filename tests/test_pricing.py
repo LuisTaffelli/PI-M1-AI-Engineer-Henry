@@ -198,7 +198,7 @@ class PricingTests(unittest.TestCase):
             pricing.write_text(json.dumps(catalog_data()))
             with (
                 patch(
-                    "src.llm.providers.openai_provider.os.environ",
+                    "src.runtime.environment.os.environ",
                     {"OPENAI_API_KEY": KEY},
                 ),
                 patch(

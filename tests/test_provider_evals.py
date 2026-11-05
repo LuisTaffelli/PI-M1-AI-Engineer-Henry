@@ -8,8 +8,8 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
-from evals.evaluation_plan import prepare_plan
-from evals.provider_evaluation import execute_plan
+from evals.classification.plan import prepare_plan
+from evals.classification.runner import execute_plan
 from evals.run_provider_evals import main
 from src.llm.providers.base import ProviderError
 from src.llm.providers.gemini_provider import GeminiProvider

@@ -5,7 +5,7 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, model_validator
 
-from evals.diagnostic_cases import DiagnosticCase
+from evals.adversarial.cases import DiagnosticCase
 from src.support.schemas import NonEmptyText
 
 Category = Literal["billing", "technical", "account", "other"]

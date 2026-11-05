@@ -1,8 +1,8 @@
 """Resumen de una evaluación, incluida parcialidad y costos observados."""
 
-from evals.classification_report import summarize
-from evals.evaluation_plan import REMOTE_PROVIDERS
-from evals.usage_cost_report import summarize_financials
+from evals.classification.plan import REMOTE_PROVIDERS
+from evals.classification.scoring import summarize
+from evals.common.costs import summarize_financials
 
 
 def evaluation_report(rows, plan):

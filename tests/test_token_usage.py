@@ -61,7 +61,7 @@ class TokenUsageTests(unittest.TestCase):
         directory = TemporaryDirectory()
         self.addCleanup(directory.cleanup)
         dotenv = patch(
-            "src.runtime.credentials.DOTENV_PATH", Path(directory.name) / ".env"
+            "src.runtime.environment.DOTENV_PATH", Path(directory.name) / ".env"
         )
         dotenv.start()
         self.addCleanup(dotenv.stop)
@@ -338,7 +338,7 @@ class TokenUsageTests(unittest.TestCase):
         with TemporaryDirectory() as directory:
             path = Path(directory) / "metrics.jsonl"
             with (
-                patch("src.llm.providers.gemini_provider.os.environ", {}),
+                patch("src.runtime.environment.os.environ", {}),
                 self.assertRaises(ProviderError),
             ):
                 simulate_response(

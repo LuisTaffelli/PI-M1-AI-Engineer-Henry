@@ -4,12 +4,12 @@ import hashlib
 from dataclasses import dataclass
 from pathlib import Path
 
-from evals.artifacts import (
+from evals.classification.dataset import Case, check_dataset, load_cases
+from evals.common.artifacts import (
     prompt_hashes,
     sha256,
     source_hashes,
 )
-from evals.datasets import Case, check_dataset, load_cases
 from src.llm.prompt_catalog import PROMPT_NAMES
 from src.llm.prompts import load_prompt
 from src.runtime.config import ROOT, Settings

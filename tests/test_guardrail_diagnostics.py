@@ -108,7 +108,7 @@ class GuardrailDiagnosticsTests(unittest.TestCase):
             with (
                 patch("sys.argv", args),
                 patch(
-                    "evals.run_guardrail_diagnostics.load_settings",
+                    "evals.cli.guardrails.load_settings",
                     return_value=settings,
                 ),
                 redirect_stdout(StringIO()),
@@ -121,7 +121,15 @@ class GuardrailDiagnosticsTests(unittest.TestCase):
             report = json.loads(original)
             self.assertEqual(len(report["dataset_sha256"]["attacks"]), 64)
             self.assertEqual(report["model_requests"], 0)
-            self.assertIn("src/support/guardrails.py", report["source_sha256"])
+            for source in (
+                "src/support/guardrails.py",
+                "evals/cli/guardrails.py",
+                "evals/adversarial/cases.py",
+                "evals/adversarial/guardrails.py",
+                "src/runtime/paths.py",
+            ):
+                self.assertIn(source, report["source_sha256"])
+            self.assertNotIn("evals/diagnostic_cases.py", report["source_sha256"])
 
     def test_invalid_file_does_not_leak_its_contents_or_create_output(self):
         with TemporaryDirectory() as directory:

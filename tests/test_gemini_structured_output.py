@@ -41,7 +41,7 @@ class GeminiStructuredOutputTests(unittest.TestCase):
         directory = TemporaryDirectory()
         self.addCleanup(directory.cleanup)
         dotenv = patch(
-            "src.runtime.credentials.DOTENV_PATH", Path(directory.name) / ".env"
+            "src.runtime.environment.DOTENV_PATH", Path(directory.name) / ".env"
         )
         dotenv.start()
         self.addCleanup(dotenv.stop)
@@ -56,9 +56,7 @@ class GeminiStructuredOutputTests(unittest.TestCase):
         self,
     ):
         with (
-            patch(
-                "src.llm.providers.gemini_provider.os.environ", {"GEMINI_API_KEY": KEY}
-            ),
+            patch("src.runtime.environment.os.environ", {"GEMINI_API_KEY": KEY}),
             patch(
                 "src.llm.providers.gemini_provider._post_json",
                 return_value=envelope(json.dumps(VALID)),
@@ -120,7 +118,7 @@ class GeminiStructuredOutputTests(unittest.TestCase):
             with (
                 self.subTest(invalid=invalid),
                 patch(
-                    "src.llm.providers.gemini_provider.os.environ",
+                    "src.runtime.environment.os.environ",
                     {"GEMINI_API_KEY": KEY},
                 ),
                 patch(
@@ -142,9 +140,7 @@ class GeminiStructuredOutputTests(unittest.TestCase):
 
     def test_retry_preserves_schema_and_sends_safe_feedback(self):
         with (
-            patch(
-                "src.llm.providers.gemini_provider.os.environ", {"GEMINI_API_KEY": KEY}
-            ),
+            patch("src.runtime.environment.os.environ", {"GEMINI_API_KEY": KEY}),
             patch(
                 "src.llm.providers.gemini_provider._post_json",
                 side_effect=[
@@ -168,7 +164,7 @@ class GeminiStructuredOutputTests(unittest.TestCase):
             path = Path(directory) / "metrics.jsonl"
             with (
                 patch(
-                    "src.llm.providers.gemini_provider.os.environ",
+                    "src.runtime.environment.os.environ",
                     {"GEMINI_API_KEY": KEY},
                 ),
                 patch(
@@ -200,9 +196,7 @@ class GeminiStructuredOutputTests(unittest.TestCase):
         reply = envelope(MARKER)
         reply["status"] = "incomplete"
         with (
-            patch(
-                "src.llm.providers.gemini_provider.os.environ", {"GEMINI_API_KEY": KEY}
-            ),
+            patch("src.runtime.environment.os.environ", {"GEMINI_API_KEY": KEY}),
             patch(
                 "src.llm.providers.gemini_provider._post_json", return_value=reply
             ) as transport,
@@ -221,9 +215,7 @@ class GeminiStructuredOutputTests(unittest.TestCase):
             "https://fixture.invalid", 400, MARKER, {}, BytesIO(MARKER.encode())
         )
         with (
-            patch(
-                "src.llm.providers.gemini_provider.os.environ", {"GEMINI_API_KEY": KEY}
-            ),
+            patch("src.runtime.environment.os.environ", {"GEMINI_API_KEY": KEY}),
             patch(
                 "src.llm.providers.gemini_provider._post_json", side_effect=error
             ) as transport,

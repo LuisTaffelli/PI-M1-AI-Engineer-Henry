@@ -5,7 +5,7 @@ from typing import Literal
 import yaml
 from pydantic import BaseModel, ConfigDict, model_validator
 
-from ..runtime.config import ROOT
+from ..runtime.paths import ROOT
 from ..support.schemas import NonEmptyText, SupportResponse
 from .prompt_catalog import PROMPT_TECHNIQUES
 

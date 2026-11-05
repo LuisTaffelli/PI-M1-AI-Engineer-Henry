@@ -174,7 +174,7 @@ class PromptVersionTests(unittest.TestCase):
             return original(name)
 
         with (
-            patch("evals.datasets.load_prompt", lookup),
+            patch("evals.classification.dataset.load_prompt", lookup),
             self.assertRaisesRegex(ValueError, "ejemplos de prompt"),
         ):
             check_dataset(cases)

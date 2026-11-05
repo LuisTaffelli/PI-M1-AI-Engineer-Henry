@@ -1,9 +1,9 @@
 """Ejecución explícita del plan con el servicio y métricas de producción."""
 
-from evals.artifacts import next_metric, write_json
-from evals.classification_report import classification_result
-from evals.evaluation_plan import REMOTE_PROVIDERS, EvaluationPlan
-from evals.evaluation_report import evaluation_report
+from evals.classification.plan import REMOTE_PROVIDERS, EvaluationPlan
+from evals.classification.report import evaluation_report
+from evals.classification.scoring import classification_result
+from evals.common.artifacts import next_metric, write_json
 from src.runtime.metrics import append_metric
 from src.support.service import simulate_response
 

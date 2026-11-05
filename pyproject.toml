@@ -13,7 +13,10 @@ dynamic = ["dependencies"]
 dev = ["ruff==0.17.3"]
 
 [tool.setuptools]
-packages = ["src", "src.support", "src.llm", "src.llm.providers", "src.runtime", "evals"]
+packages = [
+    "src", "src.support", "src.llm", "src.llm.providers", "src.runtime",
+    "evals", "evals.common", "evals.classification", "evals.adversarial", "evals.cli",
+]
 
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements.txt"]}

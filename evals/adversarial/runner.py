@@ -4,15 +4,15 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-from evals.artifacts import (
+from evals.adversarial.pairs import build_jobs, load_protocol
+from evals.adversarial.report import analyze
+from evals.common.artifacts import (
     next_metric,
     prompt_hashes,
     sha256,
     source_hashes,
     write_json,
 )
-from evals.paired_cases import build_jobs, load_protocol
-from evals.paired_report import analyze
 from src.llm.prompt_catalog import PROMPT_NAMES
 from src.runtime.config import ROOT, Settings
 from src.runtime.metrics import append_metric

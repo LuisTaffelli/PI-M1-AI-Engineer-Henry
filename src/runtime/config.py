@@ -8,8 +8,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator, model_valida
 
 from ..llm.prompt_catalog import PromptName
 from ..llm.providers.ollama_provider import normalize_base_url
-
-ROOT = Path(__file__).resolve().parents[2]
+from .paths import ROOT as ROOT
 
 
 class Settings(BaseModel):

@@ -4,7 +4,7 @@ import hashlib
 import json
 from pathlib import Path
 
-from src.runtime.config import ROOT
+from src.runtime.paths import ROOT
 
 
 def sha256(path: Path) -> str:

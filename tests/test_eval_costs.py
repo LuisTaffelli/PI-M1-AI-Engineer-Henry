@@ -9,11 +9,11 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
-from evals.evaluation_plan import prepare_plan
-from evals.provider_evaluation import execute_plan
+from evals.classification.plan import prepare_plan
+from evals.classification.runner import execute_plan
+from evals.common.costs import summarize_financials
 from evals.reprice_run import reprice
 from evals.run_provider_evals import main
-from evals.usage_cost_report import summarize_financials
 from src.llm.providers.openai_provider import OpenAIProvider
 from src.llm.usage import TokenUsage, gemini_usage, openai_usage
 from src.runtime.config import ROOT, Settings
@@ -234,7 +234,7 @@ class EvalCostTests(unittest.TestCase):
             with (
                 patch("sys.argv", argv + options),
                 patch(
-                    "src.llm.providers.openai_provider.load_api_key",
+                    "src.runtime.environment.load_api_key",
                     side_effect=AssertionError("No keys"),
                 ),
                 redirect_stdout(StringIO()) as stream,

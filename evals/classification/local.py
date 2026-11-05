@@ -3,15 +3,15 @@
 import sys
 from pathlib import Path
 
-from evals.artifacts import (
+from evals.classification.dataset import check_dataset, load_cases
+from evals.classification.scoring import classification_result, summarize
+from evals.common.artifacts import (
     next_metric,
     prompt_hashes,
     sha256,
     source_hashes,
     write_json,
 )
-from evals.classification_report import classification_result, summarize
-from evals.datasets import check_dataset, load_cases
 from src.llm.prompt_catalog import DEFAULT_COMPARISON, PROMPT_NAMES
 from src.llm.prompts import load_prompt
 from src.runtime.config import Settings

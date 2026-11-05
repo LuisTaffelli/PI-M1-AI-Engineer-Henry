@@ -11,7 +11,7 @@ from unittest.mock import patch
 from evals.run_provider_evals import main as eval_main
 from src.llm.providers.ollama_provider import OllamaProvider
 from src.main import main as cli_main
-from src.runtime.credentials import load_api_key
+from src.runtime.environment import load_api_key
 
 
 class CredentialTests(unittest.TestCase):
@@ -19,7 +19,7 @@ class CredentialTests(unittest.TestCase):
         self.tmp = TemporaryDirectory()
         self.addCleanup(self.tmp.cleanup)
         self.dotenv = Path(self.tmp.name) / ".env"
-        patcher = patch("src.runtime.credentials.DOTENV_PATH", self.dotenv)
+        patcher = patch("src.runtime.environment.DOTENV_PATH", self.dotenv)
         patcher.start()
         self.addCleanup(patcher.stop)
         for module in ("openai", "gemini"):
@@ -38,6 +38,32 @@ class CredentialTests(unittest.TestCase):
         self.assertEqual(load_api_key("OPENAI_API_KEY", environ), "fake-first")
         self.assertEqual(load_api_key("GEMINI_API_KEY", environ), "fake-second")
         self.assertEqual(environ, {})
+
+    def test_default_environment_is_resolved_lazily_without_mutation(self):
+        self.dotenv.write_text("OPENAI_API_KEY=fake-file\n")
+        environ = {"OPENAI_API_KEY": "fake-environment"}
+        with patch("src.runtime.environment.os.environ", environ):
+            self.assertEqual(load_api_key("OPENAI_API_KEY"), "fake-environment")
+            self.assertEqual(environ, {"OPENAI_API_KEY": "fake-environment"})
+            # An explicitly injected empty mapping must not fall back to the process.
+            self.assertEqual(load_api_key("OPENAI_API_KEY", {}), "fake-file")
+            environ["OPENAI_API_KEY"] = ""
+            self.assertEqual(load_api_key("OPENAI_API_KEY"), "")
+            environ.clear()
+            self.assertEqual(load_api_key("OPENAI_API_KEY"), "fake-file")
+            self.assertEqual(environ, {})
+
+    def test_explicit_adapter_keys_bypass_environment(self):
+        from src.llm.providers.gemini_provider import GeminiProvider
+        from src.llm.providers.openai_provider import OpenAIProvider
+
+        with patch(
+            "src.runtime.environment.load_api_key",
+            side_effect=AssertionError("No credential read"),
+        ):
+            for adapter in (OpenAIProvider, GeminiProvider):
+                with self.subTest(adapter=adapter.__name__):
+                    adapter("fixture", api_key="fake-explicit")
 
     def test_precedence_even_empty_skips_file(self):
         self.dotenv.mkdir()  # Leerla fallaría; entorno tiene precedencia.
@@ -115,7 +141,7 @@ class CredentialTests(unittest.TestCase):
         ]
         with (
             patch(
-                "src.llm.providers.openai_provider.load_api_key",
+                "src.runtime.environment.load_api_key",
                 side_effect=AssertionError("No credential read"),
             ),
             redirect_stdout(StringIO()),
@@ -163,7 +189,7 @@ class CredentialTests(unittest.TestCase):
                 }
 
             with (
-                patch(f"src.llm.providers.{provider}_provider.os.environ", {}),
+                patch("src.runtime.environment.os.environ", {}),
                 patch(
                     f"src.llm.providers.{provider}_provider._post_json",
                     side_effect=transport,
@@ -216,11 +242,7 @@ class CredentialTests(unittest.TestCase):
     def test_mock_and_ollama_never_load_credentials(self):
         with (
             patch(
-                "src.llm.providers.openai_provider.load_api_key",
-                side_effect=AssertionError("No credentials"),
-            ),
-            patch(
-                "src.llm.providers.gemini_provider.load_api_key",
+                "src.runtime.environment.load_api_key",
                 side_effect=AssertionError("No credentials"),
             ),
             redirect_stdout(StringIO()),

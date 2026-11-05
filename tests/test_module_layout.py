@@ -1,5 +1,6 @@
 """Regresiones de recursos/imports después de mover los módulos internos."""
 
+import ast
 import json
 import subprocess
 import sys
@@ -60,7 +61,7 @@ class ModuleLayoutTests(unittest.TestCase):
     def test_legacy_imports_resolve_to_the_same_implementations(self):
         aliases = {
             "evals.run_evals": {
-                "evals.datasets": (
+                "evals.classification.dataset": (
                     "Case",
                     "load_cases",
                     "normalized_query",
@@ -68,18 +69,26 @@ class ModuleLayoutTests(unittest.TestCase):
                 )
             },
             "evals.run_local_sample": {
-                "evals.local_evaluation": ("run_sample",),
-                "evals.classification_report": ("summarize",),
+                "evals.classification.local": ("run_sample",),
+                "evals.classification.scoring": ("summarize",),
             },
             "evals.run_guardrail_diagnostics": {
-                "evals.diagnostic_cases": ("DiagnosticCase", "load_suite"),
-                "evals.guardrail_report": ("evaluate",),
+                "evals.adversarial.cases": ("DiagnosticCase", "load_suite"),
+                "evals.adversarial.guardrails": ("evaluate",),
             },
             "evals.run_adversarial_pairs": {
-                "evals.paired_cases": ("AttackPair", "load_protocol"),
-                "evals.paired_report": ("analyze",),
-                "evals.paired_evaluation": ("run_pairs",),
+                "evals.adversarial.pairs": ("AttackPair", "load_protocol"),
+                "evals.adversarial.report": ("analyze",),
+                "evals.adversarial.runner": ("run_pairs",),
             },
+            "evals.reprice_run": {
+                "evals.classification.reprice": ("reprice",),
+                "evals.cli.reprice": ("main",),
+            },
+            "src.runtime.credentials": {
+                "src.runtime.environment": ("load_api_key",),
+            },
+            "src.runtime.config": {"src.runtime.paths": ("ROOT",)},
             "src.runtime.pricing": {
                 "src.runtime.pricing_catalog": (
                     "Rate",
@@ -111,14 +120,108 @@ class ModuleLayoutTests(unittest.TestCase):
             "evals.run_adversarial_pairs",
             "evals.run_provider_evals",
             "evals.reprice_run",
+            "evals.cli.smoke",
+            "evals.cli.local",
+            "evals.cli.providers",
+            "evals.cli.guardrails",
+            "evals.cli.adversarial",
+            "evals.cli.reprice",
         ):
             with self.subTest(module=module):
                 result = self.invoke_from_other_directory(module, "--help")
                 self.assertEqual(result.returncode, 0, result.stderr)
                 self.assertIn("usage:", result.stdout)
 
+    def test_legacy_entrypoints_are_only_compatibility_facades(self):
+        for path in (ROOT / "evals").glob("*.py"):
+            tree = ast.parse(path.read_text())
+            with self.subTest(path=path.name):
+                self.assertFalse(
+                    any(
+                        isinstance(node, (ast.FunctionDef, ast.ClassDef))
+                        for node in tree.body
+                    )
+                )
+        for legacy, owner in (
+            ("run_evals", "smoke"),
+            ("run_local_sample", "local"),
+            ("run_provider_evals", "providers"),
+            ("run_guardrail_diagnostics", "guardrails"),
+            ("run_adversarial_pairs", "adversarial"),
+        ):
+            self.assertIs(
+                import_module(f"evals.{legacy}").main,
+                import_module(f"evals.cli.{owner}").main,
+            )
+
+    def test_evaluation_families_do_not_import_other_families_or_clis(self):
+        forbidden = {
+            "classification": ("evals.adversarial", "evals.cli", "evals.run_"),
+            "adversarial": ("evals.classification", "evals.cli", "evals.run_"),
+            "common": (
+                "evals.classification",
+                "evals.adversarial",
+                "evals.cli",
+                "evals.run_",
+            ),
+        }
+        for family, prefixes in forbidden.items():
+            for path in (ROOT / "evals" / family).glob("*.py"):
+                for node in ast.walk(ast.parse(path.read_text())):
+                    imports = (
+                        [node.module or ""]
+                        if isinstance(node, ast.ImportFrom)
+                        else [alias.name for alias in node.names]
+                        if isinstance(node, ast.Import)
+                        else []
+                    )
+                    for name in imports:
+                        with self.subTest(path=path.name, imported=name):
+                            self.assertFalse(name.startswith(prefixes))
+
+    def test_imports_do_not_read_environment_files(self):
+        script = """
+from pathlib import Path
+from unittest.mock import patch
+original = Path.read_text
+def read_without_credentials(path, *args, **kwargs):
+    if path.name == '.env':
+        raise AssertionError('No credential read on import')
+    return original(path, *args, **kwargs)
+with patch.object(Path, 'read_text', read_without_credentials):
+    import src.runtime.environment
+    import src.runtime.credentials
+    import src.llm.factory
+    import evals.cli.providers
+    import evals.cli.guardrails
+"""
+        with TemporaryDirectory() as directory:
+            result = subprocess.run(
+                [sys.executable, "-c", script],
+                cwd=directory,
+                env={"PYTHONPATH": str(ROOT), "PYTHONDONTWRITEBYTECODE": "1"},
+                capture_output=True,
+                text=True,
+            )
+        self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_environment_access_has_one_owner(self):
+        owners = []
+        for path in (ROOT / "src").rglob("*.py"):
+            for node in ast.walk(ast.parse(path.read_text())):
+                if isinstance(node, ast.Import) and any(
+                    alias.name == "os" for alias in node.names
+                ):
+                    owners.append(str(path.relative_to(ROOT)))
+                elif isinstance(node, ast.ImportFrom) and node.module in {
+                    "os",
+                    "dotenv",
+                }:
+                    owners.append(str(path.relative_to(ROOT)))
+        self.assertEqual(owners, ["src/runtime/environment.py"])
+
     def test_saved_adversarial_observations_keep_the_same_analysis(self):
-        from evals.paired_report import analyze
+        from evals.adversarial.report import analyze
 
         artifact = json.loads(
             (ROOT / "docs/ADVERSARIAL_PAIRS_2026-11-04.json").read_text()
