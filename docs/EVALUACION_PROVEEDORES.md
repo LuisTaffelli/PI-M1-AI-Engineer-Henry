@@ -97,8 +97,10 @@ adaptadores remotos tienen timeout de 30 segundos por intento.
 
 **No hay tope monetario implementado.** La cota de llamadas, tokens de salida y
 los timeouts no son presupuestos de dinero. Puede haber consumo en respuestas
-inválidas, incompletas o con timeout. No se asumen tarifas; este runner desactiva
-el catálogo de precios y conserva `cost_usd: null`, nunca cero ficticio. Revisar
+inválidas, incompletas o con timeout. El runner usa un catálogo público Standard fechado y conserva `cost_usd: null`
+cuando faltan datos. Permite `--pricing ruta.json` o `--no-pricing`; registra costos
+y tokens globales/por prompt sin confundir estimación y factura. Ver
+[tarifas, fórmulas y recálculo offline](PRICING.md). Revisar
 precios, controles del proveedor y consumo de la cuenta antes de habilitarlo.
 La [documentación oficial de precios de OpenAI](https://developers.openai.com/api/docs/pricing)
 distingue cobros por modelo y tipos de tokens; contar solicitudes no determina

@@ -1,142 +1,139 @@
-# Estimación offline de costo de tokens — 04/11/2026
+# Tokens y costos estimados — verificación del 05/11/2026
 
-El cálculo usa Decimal y tarifas explícitas, versionadas, en USD por millón de
-tokens. No se incorporó ningún precio comercial ni se verificó una tarifa en esta
-tanda. pricing.example.json tiene rates=[] y Settings.pricing_path es None por
-defecto: los requests siguen con cost_usd=null hasta configurar datos suficientes.
-No se llama a APIs de modelos ni se consulta facturación para calcular una estimación.
+El evaluador multiproveedor registra consumo y costo por intento, caso, prompt y
+corrida, sin consultar facturación ni ejecutar solicitudes adicionales para medir.
+Usa Decimal sin redondear por intento; los importes JSON son strings USD o null.
+**Es una estimación bajo tarifas públicas de texto Standard pagas, no una factura,
+un saldo ni un tope monetario.** `billing_verified` siempre es false.
 
-## Qué se calcula
+## Catálogo fechado y alcance
+
+`pricing/standard-text-2026-11-05.json` es el catálogo predeterminado del evaluador
+para OpenAI/Gemini. Importes en **USD por 1.000.000 tokens**, consultados el
+**2026-11-05**; esa fecha es de verificación, no una fecha efectiva inferida:
+
+| Proveedor/modelo exacto | Entrada ordinaria | Entrada cacheada | Salida, incluido reasoning | Escritura 30m | Escritura 12h |
+|---|---:|---:|---:|---:|---:|
+| OpenAI `gpt-6-luna` | 0.10 | 0.01 | 0.50 | 0.125 | 0.25 |
+| Gemini `gemini-3.5-flash-lite` | 0.30 | 0.03 | 2.50 | No aplicada | No aplicada |
+
+Fuentes oficiales: [Luna](https://developers.openai.com/api/docs/models/gpt-6-luna),
+[precios OpenAI](https://developers.openai.com/api/docs/pricing),
+[Gemini Standard/Paid](https://aistudio.google.com/docs/pricing#gemini-3.5-flash-lite).
+Son los IDs registrados en pruebas previas del proyecto; no se presume tarifa de
+aliases, modelos similares o nombres informales como “luna 6.1”.
+
+Luna se limita aquí a **hasta 272.000 tokens de entrada por intento**: la fuente
+publica otro tramo superior, pero el catálogo no lo aplica silenciosamente.
+Gemini incluye pensamiento en el precio de salida; no se presume nivel gratuito.
+Se excluyen Batch/Flex/Fast/Priority, descuentos de cuenta, créditos, impuestos,
+recargos regionales, herramientas, multimodalidad y almacenamiento persistente de
+caché. La tarifa de almacenamiento Gemini publicada es una unidad temporal distinta;
+no se agrega a una llamada de texto sin datos de uso/tiempo de ese recurso.
+Los adaptadores actuales no solicitan caché explícita persistente de Gemini.
+No se verifica el tier efectivo de la cuenta: esta hipótesis Standard queda registrada.
+
+## Configuración y evidencia
+
+El runner `evals.run_provider_evals` elige, en este orden: `--no-pricing` desactiva;
+`--pricing ruta.json` selecciona catálogo; luego `pricing_path` del TOML; finalmente
+el catálogo incorporado. Mock/Ollama no activan tarifas remotas. Las rutas relativas
+`--pricing`/TOML se resuelven contra la raíz del checkout. Rutas absolutas se admiten.
+El servicio/CLI principal conserva el comportamiento optativo de `Settings.pricing_path`:
+para sus métricas se puede añadir al TOML `pricing_path = "pricing/standard-text-2026-11-05.json"`.
+La salida de soporte sigue teniendo exactamente cuatro campos.
+
+La preparación valida el JSON y registra versión/hash sin leer claves ni hacer red.
+Un catálogo explícito inválido detiene esa preparación antes de generar; usar
+`--no-pricing` deliberadamente si se necesita evaluar sin estimación. Si el modelo
+no tiene tarifa exacta, la clasificación puede correr y el costo queda `rate_missing`.
+La ejecución guarda `pricing.json` con los bytes preparados: un cambio posterior
+del catálogo fuente no modifica la tarifa de una corrida. Plan, métricas y resultados
+conservan versión del catálogo, versión de tarifa, hash, fuente oficial y fecha.
+`rate_source_url` sólo se copia para tarifas públicas verificadas (URL oficial sin query).
+
+Cada actualización debe crear otro catálogo/versiones y volver a verificar sus
+condiciones. El código valida metadatos; no certifica importes ni actualiza precios
+por red. El schema sigue admitiendo catálogos v1 previos; los nuevos campos de rango
+y escrituras son opcionales para compatibilidad. Para modelos con escrituras pagas,
+configurar `requires_cache_write_usage` y ambas tarifas; no omitirlas para forzar un número.
+`pricing.example.json` conserva el catálogo vacío. Las tarifas `fixture` sólo se
+habilitan en pruebas inyectadas explícitas, nunca como precio remoto real.
+
+## Contadores y fórmula
+
+Se conserva `usage_by_attempt`, incluso si el JSON, contrato o guardrail falla.
+OpenAI: entrada/salida totales, caché leída, escrituras totales y componentes 30m/12h,
+y reasoning cuando está informado. Gemini: entrada, texto generado, pensamiento,
+caché y uso de herramientas. Se aceptan sólo enteros no negativos; no se convierten
+strings, floats o booleanos. Los totales deben reconciliarse.
 
 ```text
-costo = ((entrada_total - entrada_cacheada) × precio_entrada
-         + entrada_cacheada × precio_entrada_cacheada
-         + salida_normalizada × precio_salida) / 1_000_000
+entrada_ordinaria = entrada_total - entrada_cacheada - escrituras_totales
+USD = (entrada_ordinaria × tarifa_entrada
+       + entrada_cacheada × tarifa_cacheada
+       + escrituras_30m × tarifa_30m + escrituras_12h × tarifa_12h
+       + salida_normalizada × tarifa_salida) / 1_000_000
 ```
 
-La caché es parte de la entrada, no tokens adicionales. OpenAI se lee de
-usage.input_tokens_details.cached_tokens; Gemini, de usage.total_cached_tokens.
-Un contador ausente/incorrecto queda null, no se supone cero. Fuentes de campos:
-[OpenAI usage](https://openai.github.io/openai-agents-python/ref/usage/) e
-[Interactions Usage](https://aistudio.google.com/api-reference/interactions-api).
-La salida de Gemini ya incluye pensamiento normalizado cuando reconcilia con su
-total; OpenAI ya lo incluye en output_tokens. No se suma otra vez para precio.
+Los dos componentes de escritura deben sumar el total. No se vuelve a agregar ese
+total ni el reasoning: OpenAI ya lo incluye en salida; Gemini lo suma una vez al
+texto sólo cuando sus contadores permiten reconciliar el total. `initial_input_tokens`
+no se agrega nuevamente. Fuentes de campos: [caché OpenAI](https://developers.openai.com/api/docs/guides/prompt-caching)
+y [Usage Interactions](https://aistudio.google.com/api-reference/interactions-api/create-interaction).
+Uso de herramientas positivo, desglose contradictorio, tramo no soportado o datos
+faltantes dejan costo desconocido. No se infiere caché cero por el tamaño del prompt.
 
-Se calcula cada intento y después se suman con Decimal **sin redondeo por intento**.
-El JSON de métricas guarda cost_usd y cost_by_attempt como strings decimales exactos
-o null; no float binario. Por ejemplo, quien procese el JSON puede usar
-Decimal(record["cost_usd"]). Esta elección es interna de métricas: la CLI conserva
-los cuatro campos answer/confidence/category/actions.
+`cost_components_by_attempt` separa entrada ordinaria, caché, cada escritura y
+salida con reasoning. `cost_by_attempt` suma esos componentes y `cost_usd` suma
+todos los intentos sólo si todos son calculables. `cost_unavailable_reason_by_attempt`
+explica faltantes/rango; el estado `usage_unavailable` también puede indicar un
+desglose insuficiente para la tarifa aunque los totales de tokens sean conocidos.
+Otros estados: `not_requested`, `pricing_unconfigured`, `pricing_unavailable`,
+`rate_missing`, `rate_unverified`, `partial`, `fixture_estimate`, `estimated`.
 
-Ejemplo ficticio usado en tests, no tarifa comercial ni cargo observado: entrada
-USD2.00/MTok, entrada cacheada0.50, salida4.00. Un intento con100 entrada (40cacheados)
-y20 salida da USD0.000220; otro con200 entrada (50cacheados) y30 salida da
-USD0.000445; total USD0.000665. El primero puede fallar JSON y aun así consume los
-tokens que informó su fixture. No se ejecutó ninguna solicitud real para el ejemplo.
+En `summary.json`, `usage_and_cost` global y por prompt distingue `total` de
+`reported_subtotal` para cada contador y muestra cuántos intentos lo informaron.
+`known_estimated_subtotal_usd` nunca reemplaza un `cost_usd` desconocido. No mezcla
+costos de fixtures/simulaciones con estimaciones reales. El alcance es sólo los
+casos procesados; `completed/not_run` del reporte indica corpus incompleto.
+No se estima consumo con caracteres, confidence o conteo local del prompt.
 
-## Catálogo y configuración
+## Comandos y corridas anteriores
 
-La configuración efectiva es TOML; pricing_path es opcional y relativo a la raíz
-del proyecto, como metrics_path. También se admiten rutas absolutas explícitas.
-
-```toml
-# Añadir sólo cuando exista un catálogo revisado; no carga claves ni llama una API.
-pricing_path = "pricing.json"
-```
-
-pricing.example.json documenta el formato vacío sin activar precios. Una entrada
-de **prueba**, deliberadamente ficticia y sin modelos comerciales, tiene esta forma:
-
-```json
-{
-  "format_version": 1,
-  "catalog_version": "fixture-catalog-v1",
-  "rates": [
-    {
-      "provider": "openai",
-      "model": "fixture-model",
-      "mode": "standard_text",
-      "currency": "USD",
-      "rate_version": "fixture-only-v1",
-      "verification": "fixture",
-      "source_url": "https://example.invalid/fixture-only",
-      "checked_on": null,
-      "input_usd_per_million": "2.00",
-      "cached_input_usd_per_million": "0.50",
-      "output_usd_per_million": "4.00"
-    }
-  ]
-}
-```
-
-No sirve para cotizar modelos reales. Fixture sólo habilita cálculo si la llamada
-es explícitamente una inyección de prueba (simulated=true); la ruta normal del
-servicio rechaza esa tarifa y conserva null. verification=unverified no se usa ni
-siquiera con esa inyección. Los tests también comprueban este bloqueo.
-
-Para una tarifa comercial futura, una persona debe verificar importes/condiciones
-contra una fuente oficial y recién entonces registrar verification=verified_public,
-source_url HTTPS oficial y checked_on con fecha ISO. El programa valida esos
-metadatos, **no lee la página ni prueba que el importe sea verdadero o vigente**.
-No se hacen actualizaciones automáticas ni se certifica vigencia por tener fecha.
-Al actualizar una tarifa se cambia su rate_version y la catalog_version, sin
-sobrescribir la evidencia histórica de corridas anteriores. Los logs incluyen
-ambas versiones y SHA256 del archivo para identificar exactamente la tabla usada.
-No copian el catálogo, sus URLs, rutas de archivo o errores de parsing al JSONL.
-
-La selección exige coincidencia exacta provider/model/mode; no adivina precios de
-aliases o modelos parecidos. No admite duplicados, moneda distinta de USD ni modos
-batch/flex/priority. Los importes deben ser strings decimales no negativos de hasta
-9 dígitos enteros y12 decimales; rechaza floats/números JSON, NaN/infinito/exponentes.
-El archivo es JSON de datos; no se ejecuta código ni se interpreta .env como catálogo.
-No se agrega un SDK o dependencia nueva.
-
-## Estados y datos incompletos
-
-| cost_status | Resultado |
-|---|---|
-| not_requested | No hubo intentos de generación; sin costo calculado. |
-| pricing_unconfigured | pricing_path sin configurar. |
-| pricing_unavailable | Archivo ausente, ilegible o catálogo inválido; sin mensaje/cuerpo crudo. |
-| rate_missing | No hay entrada exacta para proveedor/modelo/modalidad. |
-| rate_unverified | Tarifa no verificada o fixture fuera del flujo simulado explícito. |
-| usage_unavailable | Ningún intento tiene contadores suficientes para precio. |
-| partial | Algunos intentos calculables y otros no; total null, detalle conocido conservado. |
-| fixture_estimate | Todos calculables con precios ficticios: sólo prueba simulada. |
-| estimated | Todos calculables con una tarifa declarada verificada; es estimación, no factura. |
-
-Los totales de tokens pueden estar completos (usage_status=reported) mientras falta
-caché: en ese caso el costo permanece desconocido. No se elimina el intento que
-falla validación o extracción; el uso que informa también entra al cálculo. Si
-falta uso de un intento, no se presenta el subtotal conocido como total de request.
-Un catálogo inválido no convierte una respuesta válida en error ni reemplaza el
-error original del proveedor/validador. El writer JSONL mantiene su comportamiento
-append-only y puede informar un fallo propio de almacenamiento.
-
-## Estimación frente a cargo real
-
-cost_basis=standard_text_tokens_only limita el alcance a las tres tarifas de
-**tokens de texto estándar y precio fijo**. No comprende impuestos, créditos,
-promociones, nivel gratuito de cuenta, almacenamiento/escritura de caché,
-herramientas, multimodalidad, cargos fijos ni precios por tramos de contexto.
-No se deben marcar compatibles/verificadas tarifas que necesiten esas reglas sin
-implementarlas primero. Tampoco comprueba el service tier real ni lee saldo:
-se declara una hipótesis de precio estándar, no el importe debitado por el proveedor.
-No se presume que Gemini sea gratis. Un resultado null es desconocimiento; cero
-sólo puede salir de datos completos y una tarifa admitida, nunca de la ausencia.
-
-## Comprobación offline
+Previsualización sin claves ni generación:
 
 ```bash
-PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m unittest discover -s tests -p test_pricing.py -v
-PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m unittest discover -s tests -q
-.venv/bin/ruff check --no-cache src evals tests
-.venv/bin/ruff format --check --no-cache src evals tests
+python -m evals.run_provider_evals --provider openai --model gpt-6-luna \
+  --prompt v3_structured --case-id nubbix-b01 --max-attempts 2 --max-calls 2 \
+  --output data/local_runs/luna-costos-01
 ```
 
-La tanda agrega14tests y conserva los101 anteriores:115 en total. Prueba precisión
-Decimal bajo contexto reducido, cache0/parcial/total/inválida, versiones/hash,
-tarifa no verificada, falta de archivo/usage, catálogo inválido sin ocultar errores,
-retry/agotamiento/incomplete, privacidad y bloqueo de precios ficticios en la ruta
-normal. Sólo hay transportes/entornos falsos; no verifica precios ni comportamiento
-real de proveedores. No se publican métricas locales ni claves.
+Para una ejecución real, agregar `--execute --allow-remote-inference`; puede generar
+cargos. El `.env` se carga sólo al construir el proveedor; conservar las demás
+protecciones de la [guía del evaluador](EVALUACION_PROVEEDORES.md).
+
+Para recalcular **offline**, con un catálogo actual, una corrida ya registrada:
+
+```bash
+python -m evals.reprice_run \
+  --run-dir data/local_runs/luna-robustness-v1-v4-01 \
+  --pricing pricing/standard-text-2026-11-05.json \
+  --output data/local_runs/luna-robustness-costos-01
+```
+
+No llama proveedores, lee claves ni modifica originales. Requiere plan con
+proveedor/modelo exactos y métricas compatibles no simuladas; conserva hashes de
+origen, catálogo y fecha del recálculo. El resultado retrospectivo no afirma que
+esos precios regían el día original. Nunca sobrescribe salidas existentes.
+Registros antiguos que no conservaron escrituras de Luna seguirán con costo null:
+ese dato no puede recuperarse del total ni inventarse. Los tokens conocidos sí se
+resumen. No copiar tickets, respuestas o campos desconocidos al reporte de recálculo.
+
+## Verificación de este incremento
+
+185 tests, lint y formato; fixtures de ambos proveedores, múltiples intentos,
+mezcla de lifetimes, rangos, ausencia de contadores, precisión Decimal, subtotales,
+snapshot inmutable, preview sin claves y recálculo sin sobrescritura. Sin llamadas
+pagas ni lectura del `.env` real. No hay precios externos descargados en runtime.
+La modularización general queda para un incremento posterior.

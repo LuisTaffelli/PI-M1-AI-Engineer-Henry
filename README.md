@@ -2,7 +2,7 @@
 
 Python es obligatorio, confirmado por Luis. El proveedor predeterminado sigue siendo
 mock. OpenAI, Gemini y Ollama local son seleccionables mediante adaptadores HTTP. La suite de
-178 tests es offline; pruebas reales puntuales autorizadas verificaron salida válida
+185 tests es offline; pruebas reales puntuales autorizadas verificaron salida válida
 en OpenAI y en Gemini con esquema. Eso no evalúa calidad general ni completa el PI.
 Hay 32 tickets sintéticos: dos etiquetas confirmadas por Luis y 30 aún propuestas.
 Las acciones siguen siendo sugerencias humanas. Los apartados de incrementos/checkpoints conservan el
@@ -11,8 +11,8 @@ estado de cada etapa; este resumen describe el estado actual del 04/11/2026.
 El servicio mantiene Pydantic, retry acotado con feedback y diagnósticos seguros.
 Gemini solicita JSON con el esquema de SupportResponse. El evaluador de corpus
 permite mock, Ollama, OpenAI y Gemini; la nueva integración se verificó con transportes falsos. El servicio normaliza tokens reportados, conserva caché y suma intentos; una
-calculadora Decimal admite tarifas versionadas. No hay precios comerciales activos,
-y el costo queda en null sin tarifas verificadas y datos suficientes. Los registros de pruebas remotas se conservan fuera
+calculadora Decimal usa un catálogo Standard fechado para Luna y Gemini 3.5 Flash-Lite
+en el evaluador; sin datos suficientes el costo queda null. Ver [tokens y costos](docs/PRICING.md). Los registros de pruebas remotas se conservan fuera
 de Git. Nivel de facturación y cargos reales no verificados.
 Las claves pueden cargarse automáticamente desde el `.env` de esta raíz, sólo al
 crear el proveedor remoto; el entorno exportado tiene prioridad. La comparación de los 32 tickets se realizó sólo
@@ -1039,3 +1039,15 @@ El nuevo comando `python -m evals.run_provider_evals` permite seleccionar OpenAI
 Gemini, Ollama o mock y comparar los mismos prompts y referencias. Por defecto
 sólo previsualiza; la ejecución remota exige dos opciones explícitas y una cota
 de llamadas que incluye reintentos. Ver [guía de evaluación multiproveedor](docs/EVALUACION_PROVEEDORES.md) para comandos, privacidad, métricas y límites de gasto.
+
+## Tokens y costos de evaluaciones — 05/11/2026
+
+El evaluador usa por defecto el catálogo público versionado
+`pricing/standard-text-2026-11-05.json` para OpenAI/Gemini; `--pricing` permite otro
+y `--no-pricing` desactiva la estimación. Los resúmenes agregan tokens y costos
+por prompt y corrida, incluidos reintentos y escrituras de caché reportadas.
+`python -m evals.reprice_run` permite recálculo offline sin alterar corridas previas.
+Son estimaciones Standard, sin facturación verificada ni garantía de gasto. Ver
+[alcance, fuentes, fechas, comandos y datos faltantes](docs/PRICING.md).
+Los apartados anteriores conservan checkpoints; no se hicieron llamadas reales
+para este incremento. Pasaron 185 tests, lint y formato. Modularización pendiente.
