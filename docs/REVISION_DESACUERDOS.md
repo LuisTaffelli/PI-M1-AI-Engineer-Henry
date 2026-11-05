@@ -3,9 +3,9 @@
 Revisión técnica offline de los 32 tickets y de resultados ya conservados.
 **No se cambió ninguna etiqueta, texto, bandera, prompt o resultado histórico.**
 La pasada offline no hizo inferencias ni aprobó etiquetas. **Después de la revisión,
-Luis confirmó o03 como other**, por considerarlo una sugerencia de UI/UX. Ahora
-hay tres confirmaciones (b07, a07 y o03) y 29 propuestas. **A05 sigue pendiente.**
-La decisión exacta está en [REVISION_ETIQUETAS.md](REVISION_ETIQUETAS.md).
+Luis confirmó las 32 referencias del corpus base**, incluida a05=account. O03
+conserva other con el criterio de mejora de UI/UX. La cronología está en
+[REVISION_ETIQUETAS.md](REVISION_ETIQUETAS.md).
 
 ## Objetivo comparativo aclarado por Luis
 
@@ -29,11 +29,11 @@ La revisión se hizo después de conocer resultados. Sirve para revisar decision
 no constituye anotación ciega ni transforma el corpus de desarrollo en holdout.
 La [revisión por caso previa](REVISION_ETIQUETAS.md) conserva sus fundamentos.
 
-## Dónde se equivoca el modelo y dónde falta una decisión humana
+## Desacuerdos y matices de las referencias confirmadas
 
 Seis tickets no coinciden con la referencia en ninguno de los cuatro prompts:
 
-| ID | Referencia que propongo conservar | Lectura del texto y desacuerdo observado |
+| ID | Referencia conservada | Lectura del texto y desacuerdo observado |
 |---|---|---|
 | b04 | billing | Pide explicar un ajuste en una factura. V1/v2 no completaron respuesta; v3 predijo technical y v4 account. No son cuatro desacuerdos de clasificación válidos. |
 | a02 | account | La invitación venció y pide otra. V1/v2 technical, v3 billing, v4 other. No hay evidencia de un fallo general de invitaciones. |
@@ -42,20 +42,21 @@ Seis tickets no coinciden con la referencia en ninguno de los cuatro prompts:
 | o05 | other | Consulta programa de alianzas. V1/v2/v3 technical; v4 incompleta. Una consultora no implica un incidente técnico. |
 | o07 | other | Pregunta si puede exportar antes de comprar y aclara que no tiene cuenta. V1/v2/v4 account, v3 billing. No cambiar la referencia para seguir esa mayoría. |
 
-Estas son **propuestas de conservación**, no confirmaciones atribuidas a Luis.
-Los siguientes puntos requieren separar anotación y política del producto:
+Estas fueron propuestas de conservación en la revisión técnica; la confirmación
+humana del corpus llegó después. Los siguientes matices siguen separando la
+etiqueta elegida de las políticas o causas que el texto no permite afirmar:
 
 | Caso | Referencia actual | Decisión o matiz |
 |---|---|---|
-| b01 / b05 | billing | Comprobante faltante y periodicidad de cobro. Confirmar que estos pedidos se enrutan a facturación, sin diagnosticar un error ni prometer un cambio permitido. |
-| a05 | account | El objetivo es recuperar acceso; el correo no recibido puede ser síntoma técnico. Confirmar el criterio de prioridad, sin asumir una falla general de envío. |
+| b01 / b05 | billing | Comprobante faltante y periodicidad de cobro. Confirmadas como billing. No diagnosticar un error ni prometer un cambio permitido. |
+| a05 | account | El objetivo es recuperar acceso; el correo no recibido puede ser síntoma técnico. Confirmada como account; no asumir una falla general de envío. |
 | o03 | other | Confirmada por Luis el 05/11: mejora de UI/UX para este texto. La decisión no establece una política general para todos los problemas de accesibilidad. |
-| b08 / t07 / t08 / a08 | billing / technical / technical / account | El texto distingue cargo incorrecto, sincronización, HTTP 500 compartido y bloqueo de autenticación. Propuesta razonada, aún sin confirmación individual. |
-| o07 / o08 | other | Capacidad/precios antes de contratar, sin incidente ni cargo existente. La propuesta no depende de qué responda el modelo. |
+| b08 / t07 / t08 / a08 | billing / technical / technical / account | El texto distingue cargo incorrecto, sincronización, HTTP 500 compartido y bloqueo de autenticación. Referencias confirmadas en la revisión completa del corpus. |
+| o07 / o08 | other | Capacidad/precios antes de contratar, sin incidente ni cargo existente. Referencias confirmadas, sin depender de qué responda el modelo. |
 
 `ambiguous=true` marca ocho fronteras históricas, no ocho errores ni ocho etiquetas
-sin aprobar. `false` no garantiza una única interpretación: a05 conserva un matiz
-por revisar; la aprobación de o03 no modifica su flag histórico. **No se cambiaron flags a posteriori.** Si se
+sin aprobar. `false` no garantiza una única interpretación: el matiz de a05 sigue
+registrado aunque su etiqueta esté confirmada. **No se cambiaron flags a posteriori.** Si se
 quiere que abarque toda duda posible, definir primero ese criterio y versionar
 la revisión; conservar los ocho originales al recalcular informes anteriores.
 
@@ -107,9 +108,9 @@ No se volvió a ejecutar ni se usa para deshacer referencias o desempatar prompt
 
 ## Qué propongo hacer ahora
 
-1. Confirmar o corregir las referencias con Luis por su texto y criterio, empezando
-   por los seis casos fallados por todos y el matiz de a05. O03 ya está confirmado. Revisar luego el
-   resto: esta priorización no certifica automáticamente las otras etiquetas.
+1. Conservar la confirmación de las 32 referencias y sus matices. La revisión
+   humana ya se completó; los seis casos fallados por todos siguen siendo
+   observaciones para explicar, no motivos para adaptar etiquetas al modelo.
 2. Si una etiqueta cambia, registrar versión, motivo y autor de esa decisión antes
    de nuevas inferencias. Recalcular offline como una **reanotación** explícita,
    con denominadores separados; nunca sobrescribir evidencia ni llamarla nueva corrida.
@@ -125,5 +126,5 @@ predicciones/estados, conteos pareados y origen de cifras. Fuente local versiona
 [EVAL_PROMPTS_V34_2026-11-04.json](EVAL_PROMPTS_V34_2026-11-04.json).
 No contiene tickets completos, respuestas, acciones ni credenciales. Sus campos
 de confirmación humana conservan el estado **anterior** a la respuesta de Luis sobre
-o03; esa aprobación posterior se registra en los documentos, sin reescribir el
-snapshot de la revisión offline ni sus conteos.
+o03 y a su aprobación completa del corpus. Las aprobaciones posteriores se
+registran en los documentos, sin reescribir el snapshot offline ni sus conteos.

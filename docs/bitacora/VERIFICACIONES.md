@@ -4,6 +4,46 @@ Registros trasladados desde las guías. Cada uno conserva su fecha y alcance:
 los conteos de tests y estados de publicación describen aquella etapa.
 [Volver a la bitácora](../BITACORA.md) · [README actual](../../README.md)
 
+## Carpetas y entorno (05/11/2026)
+
+Checkpoint de la reorganización por responsabilidades, anterior al cambio posterior
+del límite de entrada a 500 caracteres:
+
+- `make check`: 194 tests, Ruff lint y formato correctos (82 archivos Python).
+  El punto de partida tenía 188 tests; se agregaron seis regresiones de arquitectura,
+  carga diferida de entorno y claves programáticas explícitas.
+- Se comprobaron los seis comandos históricos y los seis nuevos módulos CLI con
+  `--help`, además de `src.main`, desde otro directorio y sin claves.
+- Los resultados JSON de smoke mock, control de corpus y diagnóstico de guardrails
+  coincidieron antes/después, excluyendo sólo timestamp y hashes de fuentes del
+  diagnóstico. Trece módulos trasladados conservaron su AST salvo imports.
+- SHA-256 idéntico para 85 archivos YAML/JSON/JSONL existentes de prompts, datos,
+  tarifas, suites y evidencia; no se alteraron resultados ni criterios.
+- Pruebas con `.env` ficticio y transportes falsos: entorno exportado incluso vacío
+  tiene prioridad, mapping inyectado vacío respeta el archivo ficticio, los imports
+  y previews no leen claves y `api_key=` explícita evita consultar el entorno.
+- Revisión independiente de sólo lectura sin fallos funcionales. No hubo llamadas
+  API o a Ollama, lectura del `.env` real, instalación, commit ni push.
+
+El [mapa actual](../ARQUITECTURA.md) distingue clasificación, adversariales,
+utilidades compartidas y CLI. Los imports internos migraron a sus nuevas familias;
+los comandos y exports documentados siguen disponibles. Este checkpoint no
+certifica la instalación desde cero ni los cambios posteriores de funcionalidad.
+
+## Límite de entrada e integración (05/11/2026)
+
+Después del checkpoint de carpetas se agregó el techo de 500 puntos de código
+Unicode sobre el texto original. El trabajo integrado pasó `make check`: **208
+tests**, lint y formato de 83 archivos Python, incluidos 14 nuevos tests del límite.
+Se verificaron fronteras 500/501, texto Unicode sin truncar, límites menores,
+rechazo antes del prompt/proveedor, prevención de bypass programático, diagnóstico,
+CLI y métricas sin consulta y con cero intentos. Se usaron transportes falsos y
+se bloqueó la red; no hubo inferencia real ni lectura del `.env` del checkout.
+
+Los criterios de score no se modificaron. La política de longitud sí cambió por
+pedido explícito posterior; no se presenta como equivalencia funcional del
+refactor original. Los experimentos guardados conservan sus parámetros históricos.
+
 ## Arquitectura (05/11/2026)
 
 Origen: `docs/ARQUITECTURA.md`.
@@ -205,3 +245,59 @@ expresos los retrocesos en technical/ambiguos y sin declararlo ganador definitiv
 La comparación posterior de cuatro variantes está en PROMPTS_V3_V4.md. Este informe
 conserva la corrida inicial y sus números, sin sustituirla por los nuevos resultados.
 
+
+
+## Adversariales multiproveedor (05/11/2026)
+
+Se amplió `evals.run_adversarial_pairs` para Gemini/OpenAI y mock, con el mismo
+protocolo limpio/atacado y controles. Se preservó la invocación Ollama anterior,
+y se agregó planificación offline, permisos separados y reporte de corridas parciales.
+No se modificaron adaptadores, prompts, datasets, guardrails ni resultados históricos.
+
+Verificación en el checkout de desarrollo con `make check`: **226 tests**, lint y
+formato correctos (85 archivos Python). Las 18 nuevas pruebas cubren:
+
+- Los tres adaptadores HTTP con transportes falsos: mismo texto/orden de prompts y
+  consultas, 120 llamadas de servicio, 88 generaciones simuladas y 32 prebloqueos
+  por proveedor para los cuatro prompts. No son mediciones de modelos reales.
+- Preview y permisos sin leer claves ni acceder a red; mock marcado como simulado.
+- Cotas de llamadas, un intento, límites de salida, no sobrescritura y privacidad.
+- Fallos de configuración/transporte sin retry, artefactos parciales y pares sin
+  ataque excluidos de elegibilidad; errores de formato no contados como defensa.
+- CLI remota con ambos permisos, compatibilidad local, `--preview` explícito,
+  catálogo copiado cuando se solicita y rechazo de mezclar corridas/proveedores.
+
+El replay del JSON histórico sigue idéntico. `summary.json` añade `execution` con
+cobertura y consumo aparte de `analyze(rows)`. El comentario desactualizado de
+configuración sobre `.env` se corrigió; las claves siguen cargándose de forma diferida.
+No hubo inferencias reales, lectura de credenciales, nuevas dependencias, commits
+ni push. [Uso y límites](../SEGURIDAD_PAREADA.md#repetición-acotada-con-distintos-proveedores--05112026).
+
+La revisión final detectó que los prebloqueos con cero intentos impedían informar
+un total estimado aun teniendo consumo/precio completos de las generaciones.
+Se corrigió el agregador compartido: esas filas siguen contando como procesadas,
+pero no vuelven desconocido el costo de las llamadas efectivamente realizadas.
+Dos regresiones, incluida una corrida pareada con transporte falso y catálogo,
+comprueban el total; uso desconocido y mock siguen sin costo inventado.
+También se comprobaron 228 enlaces locales, `git diff --check` y los 21 archivos
+versionados JSON/JSONL/YAML de datos, prompts y resultados: idénticos a HEAD.
+
+
+## Diagnóstico HTTP seguro de Gemini (05/11/2026)
+
+Tras la prueba real inicial de cuatro tickets por proveedor, se observó un fallo
+Gemini registrado como `http_error` sin número HTTP. El adaptador descartaba
+`HTTPError.code` junto al resto de detalles; no hay evidencia conservada para
+atribuir causa al error original. Los artefactos de esa prueba no se modifican.
+
+Se añadió `ProviderError.http_status` con validación estricta de entero 400..599
+sólo para `http_error`, su registro como `failure_http_status` y presentación
+segura en la CLI. El cuerpo no se lee; URL, reason, headers y claves no se copian.
+No hay retries nuevos, inferencias adicionales, lectura de credenciales reales,
+instalaciones, commits ni push en esta mejora.
+
+Comprobación posterior: `PYTHONDONTWRITEBYTECODE=1 make check`, **232 tests**
+aprobados, lint correcto y 86 archivos con formato correcto. Seis tests nuevos
+con transportes falsos cubren status válidos/inválidos, privacidad y cierre sin
+leer cuerpo, propagación en CLI/métricas y ambos evaluadores, detención sin retry,
+consumo desconocido y ausencia de status residual después de una respuesta válida.

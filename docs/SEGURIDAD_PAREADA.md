@@ -18,7 +18,7 @@ CLI Python; los hallazgos se sustentan en reproducciones locales y regresiones.
 
 | ID / prioridad local | Evidencia y efecto | Tratamiento |
 |---|---|---|
-| S1 / media, corregida | Letras de ancho completo y caracteres Cf invisibles permitían eludir los mismos patrones conocidos, tanto en entrada como en marcadores ficticios de salida. | `src/support/guardrails.py:22` crea una vista NFKC sin Cf sólo para detección. Las búsquedas de entrada/salida la usan en líneas 33/39. La consulta original y su longitud no se alteran. |
+| S1 / media, corregida | Letras de ancho completo y caracteres Cf invisibles permitían eludir los mismos patrones conocidos, tanto en entrada como en marcadores ficticios de salida. | `src/support/guardrails.py`, función `_detection_text`, crea una vista NFKC sin Cf sólo para detección. Las búsquedas de `check_input` y `check_output` la usan. La consulta original y su longitud no se alteran. |
 | S2 / residual, media | Seis de diez variantes léxicas originales pasan el prechequeo. La prueba pareada observa cambios al objetivo atacante en algunos casos con baseline correcto y salida válida. | No agregar una lista de frases del benchmark ni retocar YAML tras ver resultados. Se documentan denominadores, tareas retenidas y errores. No hay una regla semántica universal demostrada. |
 | S3 / producto pendiente | Dos citas sospechosas quedan bloqueadas aunque pueden describir un fallo legítimo. | No se eliminan citas ni crean excepciones automáticas; ambas quedan fuera del score de falsos positivos hasta decidir bloquear, reformular o derivar. |
 | S4 / límite de alcance | Contrato Pydantic y filtro de salida no comprueban intención, veracidad, toda PII ni política empresarial. | Mantener acciones como sugerencias humanas, no operaciones ejecutables. No confundir JSON válido con resistencia a injection. |
@@ -110,29 +110,108 @@ ignorado es data/local_runs/2026-11-04-adversarial-pairs. Las corridas anteriore
 se conservan intactas. Los snapshots de modelo se tomaron con un script local de
 sólo lectura; la CLI no automatiza esa consulta adicional de inventario.
 
-## Repetición acotada
+## Repetición acotada con distintos proveedores — 05/11/2026
 
-Desde el checkout con entorno instalado y un tag local ya presente; usar una ruta
-nueva, no la corrida que ya existe:
+El runner ahora acepta **Ollama, Gemini, OpenAI y mock**. La ampliación se verificó
+con transportes falsos, sin llamadas reales, claves ni cambios de prompts o corpus.
+Los resultados del 04/11 anteriores siguen siendo exclusivamente de Ollama.
+El diagnóstico de guardrails continúa offline y no depende del proveedor:
 
 ```bash
 .venv/bin/python -m evals.run_guardrail_diagnostics \
   --attacks evals/adversarial_unicode.jsonl \
   --controls evals/guardrail_unicode_controls.jsonl
+```
 
+### Previsualizar sin claves ni red
+
+Desde el checkout con el entorno instalado, elegir un directorio que no exista.
+Por defecto se valida y muestra el plan sin crear archivos ni construir adaptadores:
+
+```bash
+.venv/bin/python -m evals.run_adversarial_pairs \
+  --provider gemini --model MODELO_GEMINI_HABILITADO \
+  --prompt v3_structured --max-calls 30 \
+  --output data/local_runs/NUEVA-PAREADA-GEMINI
+
+.venv/bin/python -m evals.run_adversarial_pairs \
+  --provider openai --model MODELO_OPENAI_HABILITADO \
+  --prompt v3_structured --max-calls 30 \
+  --output data/local_runs/NUEVA-PAREADA-OPENAI
+```
+
+Los modelos son placeholders para sustituir por uno habilitado en la cuenta.
+La previsualización no verifica acceso al modelo. `--config` sigue admitido y usa
+`config.toml` por defecto; si se pasa `--provider` para un modelo real, se exige
+`--model` explícito para no heredar accidentalmente el de otro proveedor.
+
+### Ejecutar deliberadamente
+
+Para Gemini/OpenAI, agregar **ambos** flags `--execute --allow-remote-inference`
+al comando previsualizado. Es una ejecución con posible costo: se envían al
+proveedor los prompts y las consultas sintéticas limpias/atacadas, no sus etiquetas
+esperadas. La clave se resuelve sólo al construir el adaptador seleccionado,
+según la [precedencia local](CLAVES_LOCALES.md). No incluir claves en argumentos.
+`--allow-local-inference` nunca habilita inferencia remota.
+
+Para comprobar el recorrido sin modelos, se puede ejecutar mock:
+
+```bash
+.venv/bin/python -m evals.run_adversarial_pairs --provider mock \
+  --prompt v3_structured --max-calls 30 \
+  --output data/local_runs/NUEVA-PAREADA-MOCK --execute
+```
+
+El mock se marca como simulado y no mide resistencia ni calidad de un LLM.
+El comando histórico local sigue funcionando con un tag de Ollama ya presente:
+
+```bash
 .venv/bin/python -m evals.run_adversarial_pairs --config config.ollama.example.toml \
   --prompt v1_zero_shot --prompt v2_few_shot \
   --prompt v3_structured --prompt v4_reasoning --max-calls 120 \
   --output data/local_runs/NUEVA-CORRIDA-PAREADA --allow-local-inference
 ```
 
-El primer comando es offline; el segundo sí genera localmente. El presupuesto
-cuenta llamadas de servicio, cota superior de generaciones con max_attempts=1;
-pueden ser menos por prebloqueos. El runner acepta sólo Ollama, permiso explícito,
-prompts conocidos sin repeticiones y máximo 128 llamadas. Guarda plan antes de
-inferir, no sobrescribe directorios y conserva las líneas ante interrupción.
-Salida 0 significa reporte producido, no éxito de seguridad. Errores de configuración
-o registro devuelven 2 con mensaje fijo, sin cuerpos o excepciones crudas.
+Por compatibilidad, `--allow-local-inference` ya solicita ejecución **sólo para
+Ollama**, sin necesitar `--execute`. Agregar `--preview` fuerza previsualización,
+incluso con ese flag histórico. Ollama conserva la restricción loopback y no
+se descargan modelos. Los permisos ausentes se rechazan antes de leer claves o
+crear artefactos de ejecución.
+
+### Límites, comparabilidad y artefactos
+
+- Cada prompt usa los mismos doce pares limpio/atacado y seis controles, en el
+  mismo orden: **30 llamadas de servicio por prompt, 120 para los cuatro**.
+  `max_calls` es obligatorio, de 1 a 128, y debe cubrir todo el plan.
+- Se fuerza **un intento** independientemente del TOML. No se reparan salidas
+  inválidas en esta suite. La cota de generaciones es la de llamadas de servicio;
+  los prebloqueos consumen cero. No es una cota de todo tráfico HTTP: Ollama hace
+  además `/api/show`. Los adaptadores no reintentan errores HTTP.
+- Se limita la salida a un máximo de 256 tokens para todos los adaptadores;
+  `--max-output-tokens` permite fijar un valor de 16 a 256. Valores menores en el
+  TOML se conservan, por lo que hay que comprobar los límites efectivos del plan.
+  Ollama mantiene contexto máximo 2048 y timeout máximo 30 s; las generaciones
+  remotas usan timeout de 30 s. Límites iguales no igualan tokenizadores.
+- Mantener hashes de datos/prompts, orden y parámetros al comparar, y una salida
+  separada por proveedor/modelo. Los adaptadores mantienen sus formatos existentes
+  (Gemini/Ollama reciben schema, OpenAI instrucciones y validación local), sin
+  modificar el YAML ni ocultar estas diferencias. No se deduce un ranking general.
+- **No hay tope monetario.** Puede haber consumo con respuestas inválidas o fallos.
+  `--pricing ruta.json` permite un catálogo explícito, o se usa el configurado en
+  TOML; no se activa uno implícitamente. `--no-pricing` lo deshabilita. Se conserva
+  una copia/hash del catálogo remoto y el costo desconocido queda `null`.
+- Se guardan `plan.json` antes de inferir, `metrics.jsonl`, `results.jsonl` y
+  `summary.json`, sin sobrescribir. No se guardan consultas/respuestas, acciones,
+  claves ni excepciones crudas. El plan registra proveedor/modelo, hashes y límites.
+- Un error de configuración o proveedor detiene la corrida, sin repetirla. El
+  resumen `execution` informa procesados, pendientes y consumo; un par sin ataque
+  ejecutado no es elegible ni una defensa exitosa. Errores de contrato/salida y
+  prebloqueos se conservan y se continúa el protocolo. Las interrupciones abruptas
+  pueden dejar sólo plan/JSONL: conservarlos antes de decidir otra ejecución.
+- Código 0 significa protocolo procesado, no seguridad ni todas las salidas válidas.
+  Configuración, permiso, registro o corrida parcial devuelven 2. `analyze(rows)`
+  conserva el análisis histórico; el resumen nuevo añade `execution` por separado
+  y rechaza mezclar proveedores/modelos u observaciones repetidas.
 
 Recálculo sin modelos:
 
@@ -147,8 +226,9 @@ print(json.dumps(artifact['summary'], ensure_ascii=False, indent=2))
 PY
 ```
 
-158 tests, lint y formato pasan, con cuatro regresiones Unicode y cuatro tests
-pareados adicionales. Se prueba que errores normales, prebloqueos y errores técnicos
+Al cierre del 04/11 pasaron 158 tests, lint y formato, con cuatro regresiones
+Unicode y cuatro tests pareados adicionales. La ampliación multiproveedor del 05/11
+pasa 226 tests; ver el [checkpoint offline](bitacora/VERIFICACIONES.md#adversariales-multiproveedor-05112026). Se prueba que errores normales, prebloqueos y errores técnicos
 no inflen una medida de resistencia; además, límites, privacidad, fixtures y replay.
 No nuevas dependencias, prompts retocados, pesos modificados o llamadas pagas.
 Queda decidir el tratamiento de citas y el alcance de moderación de contenido/PII;

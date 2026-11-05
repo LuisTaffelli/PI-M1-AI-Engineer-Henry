@@ -5,7 +5,9 @@ Desde la raíz del checkout, con el entorno de `docs/REPRODUCIBILIDAD.md` activo
 el servicio normal: guardrail de entrada, proveedor, validación y reparación de
 JSON/contrato, guardrail de salida, métricas. No entrena ni modifica pesos.
 No agrega dependencias. Los comandos `evals.run_evals` (mock),
-`evals.run_local_sample` y `evals.run_adversarial_pairs` (Ollama) conservan su interfaz.
+`evals.run_local_sample` conservan su interfaz. La prueba de seguridad
+`evals.run_adversarial_pairs` también admite Gemini/OpenAI, con sus
+[propios permisos, límites y denominadores](SEGURIDAD_PAREADA.md#repetición-acotada-con-distintos-proveedores--05112026).
 
 ## Previsualizar primero
 
@@ -149,3 +151,20 @@ protección completa, privacidad o moderación general.
 
 Las pruebas offline de permisos, fallos y privacidad se registran en la
 [bitácora](bitacora/VERIFICACIONES.md#evaluador-multiproveedor-04112026).
+
+
+## Diagnóstico HTTP seguro de Gemini — 05/11/2026
+
+Un rechazo HTTP de Gemini mantiene `failure_code: "http_error"` y ahora conserva
+`failure_http_status`, sólo si es un entero entre 400 y 599. El campo aparece en
+métricas y resultados; queda `null` en éxito, fallos no HTTP o valores inválidos.
+La CLI muestra, por ejemplo, `[http_error] HTTP 429`, con texto fijo. El adaptador
+cierra el error sin leer su cuerpo ni copiar URL, reason, headers o claves.
+No se agregan reintentos HTTP, llamadas de diagnóstico ni cambios de límites.
+
+El número distingue respuestas HTTP, pero no prueba su causa concreta ni el cargo
+de la solicitud. No se infieren cuotas, problemas de credenciales o rate limits
+sólo desde el código local. La llamada fallida de la prueba real inicial del 05/11
+conserva únicamente `http_error`: su número HTTP y consumo siguen desconocidos y
+no se reconstruyen ni se alteran sus artefactos. Esta mejora posterior se verificó
+con transportes simulados, sin repetir esa llamada real.

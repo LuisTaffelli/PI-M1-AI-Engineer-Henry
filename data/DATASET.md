@@ -1,4 +1,11 @@
-# Corpus sintético propuesto para Nubbix — 03/11/2026
+# Corpus sintético de Nubbix
+
+**Estado al 05/11/2026:** Luis leyó y confirmó las 32 referencias del corpus base,
+incluida a05=account. Se conservaron textos, categorías y flags. La confirmación
+es posterior a los experimentos y no convierte el corpus en un holdout ciego.
+[Registro de revisión y cronología](../docs/REVISION_ETIQUETAS.md).
+
+## Origen del corpus — 03/11/2026
 
 `eval_dataset.jsonl` contiene 32 tickets escritos con asistencia de IA para este
 proyecto: ocho billing, ocho technical, ocho account y ocho other. No contiene
@@ -14,8 +21,8 @@ ambigüedad son decisiones pedagógicas nuestras. No constituyen nombres exigido
 por la rúbrica ni una distribución observada del tráfico real. Se fijaron estas
 etiquetas antes de ejecutar el runner sobre este corpus; al crearlo no hubo llamadas
 a LLM con él. Las pruebas locales posteriores se registran en docs/RESULTADOS_EVAL_LOCAL.md. En la revisión del 04/11/2026 Luis confirmó nubbix-b07=billing y
-nubbix-a07=account. Las otras 30 etiquetas siguen propuestas, incluidas las seis
-fronteras restantes analizadas abajo por IA. La corrección del formato no demuestra
+nubbix-a07=account. En ese momento las otras 30 etiquetas seguían propuestas,
+incluidas las seis fronteras restantes analizadas abajo por IA. La corrección del formato no demuestra
 que una etiqueta sea correcta ni constituye aprobación humana.
 
 ## Contrato por línea
@@ -43,10 +50,13 @@ Se prioriza el objetivo explícito del pedido, sin decidir sólo por palabras cl
 | other | Consultas comerciales, aprendizaje y propuestas de capacidades nuevas. |
 
 Estos criterios se apoyan en las categorías y ejemplos de la consigna, pero las
-resoluciones de frontera son anotación propuesta, no respuestas oficiales. No se
+resoluciones de frontera son decisiones de anotación del proyecto, no respuestas oficiales. No se
 inventan políticas de reembolso, plazos ni permisos empresariales.
 
-## Revisión de las ocho fronteras — 04/11/2026
+## Revisión de las ocho fronteras — registro del 04/11/2026
+
+Este apartado conserva el estado de esa revisión. La aprobación posterior de las
+32 referencias figura arriba; los estados de la tabla no describen pendientes actuales.
 
 Luis confirmó los dos ejemplos de factura/importes y factura/acceso porque la
 necesidad cambia según el texto. Aplicamos esa misma lectura al resto: objetivo
@@ -87,8 +97,8 @@ causa real del HTTP500 ni autoriza reembolsos o desbloqueos: esas acciones requi
 sus propias verificaciones/políticas, fuera de esta revisión.
 
 Las justificaciones completas están en cada línea. Los 24 casos no marcados
-siguen pendientes de revisión humana; ambiguous=false no certifica ausencia de
-dudas. Si Luis cambia una etiqueta, registrar el motivo antes de usar nuevas salidas para
+también quedaron confirmados el 05/11; ambiguous=false no certifica ausencia de
+dudas. Si se cambia una etiqueta en el futuro, registrar el motivo antes de usar nuevas salidas para
 comparar prompts. No ajustar la referencia para favorecer al proveedor observado.
 
 ## Controles offline
@@ -105,7 +115,8 @@ El primer comando sólo comprueba datos/prompts, sin cargar claves, crear provee
 ni inferir. Exige 30 o más casos, las cuatro categorías, IDs/consultas únicos,
 metadatos explícitos y separación de los ejemplos de ambas variantes. Informa
 balance y lista de fronteras marcadas, no aprobación humana ni procedencia del contenido.
-El estado de revisión parcial se conserva en esta tabla; el check no lo interpreta.
+El estado histórico de revisión se conserva en la tabla; el check no interpreta
+aprobaciones humanas, registradas por separado.
 Normaliza caja, tildes, puntuación y espacios para detectar coincidencias. No
 reconoce paráfrasis o duplicados semánticos: sigue haciendo falta revisión humana.
 
@@ -121,7 +132,7 @@ Cada salida válida recibe 1 si response.category == expected_category y 0 si no
 El score global es aciertos / todos los casos; el score por categoría usa los casos
 con esa etiqueta de referencia. Los fallos de validación/proveedor cuentan como
 0 y se informan como errors, no se eliminan del denominador. Los ocho ambiguos se
-incluyen con su referencia propuesta y el reporte muestra ambiguous_total=8.
+incluyen con su referencia y el reporte muestra ambiguous_total=8.
 
 No se comparan literalmente answer o actions. Tampoco se mide utilidad de la
 respuesta, seguridad completa, explicación, calibración de confidence, corrección
@@ -144,11 +155,12 @@ asistente ayudó a escribir prompts y corpus. El check de coincidencias detecta
 copias normalizadas, no garantiza independencia semántica.
 
 La revisión técnica posterior de los 32 casos está en docs/REVISION_ETIQUETAS.md;
-conserva todas las referencias y no las presenta como aprobadas por una persona.
-Sólo b07/a07 tienen confirmación humana previa. El runner general sigue mock y el
+conserva todas las referencias y registra la confirmación humana completa del
+05/11, posterior a las corridas. El runner general sigue mock y el
 runner local optativo ahora admite comparar el corpus completo con presupuesto
 explícito. La suite suplementaria eval_robustness.jsonl tiene ocho paráfrasis con
 referencias propuestas; no sustituye el mínimo de 30 ni es un holdout independiente.
 Las consultas sin objetivo único figuran aparte, sin imponerles una etiqueta.
 Resultados y límites: docs/RESULTADOS_EVAL_LOCAL.md. La comparación local no certifica
-calidad general ni completa la revisión humana o la rúbrica.
+calidad general ni cumplimiento de la rúbrica. La aprobación humana del corpus
+se documenta por separado, no se deduce de sus scores.

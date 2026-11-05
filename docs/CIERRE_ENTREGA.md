@@ -11,9 +11,9 @@ locales disponibles. Evitar agregar arquitectura o modelos antes de cerrar estos
 - Adaptadores OpenAI, Gemini y Ollama, además del mock. Los tests usan transportes
   falsos; pasar pruebas offline no acredita acceso actual a una cuenta o modelo.
 - Corpus base: 32 casos, ocho por categoría. Revisión técnica en
-  [REVISION_ETIQUETAS.md](REVISION_ETIQUETAS.md); tres confirmaciones humanas
-  (b07, a07 y o03) y 29 referencias propuestas. A05 sigue pendiente. Las ocho
-  paráfrasis se reportan aparte.
+  [REVISION_ETIQUETAS.md](REVISION_ETIQUETAS.md); Luis confirmó las 32 referencias
+  el 05/11, incluida a05=account. Las ocho paráfrasis se reportan aparte. La revisión
+  humana posterior no convierte el corpus de desarrollo en evaluación ciega.
 - Cuatro YAML y comparación local reproducible: resultados globales y por categoría
   en [PROMPTS_V3_V4.md](PROMPTS_V3_V4.md). Fallos incluidos, sin entrenamiento ni
   cambio de referencias después de ver los resultados.
@@ -27,28 +27,30 @@ locales disponibles. Evitar agregar arquitectura o modelos antes de cerrar estos
   el venv aislado usado para la instalación anterior. Se reprodujo el ejemplo mock
   del README sin métricas; no hubo llamadas reales, claves leídas ni dependencias nuevas.
 
-## Próximos pasos, en orden
+## Estado de los cuatro puntos
 
-1. **Revisar las referencias pendientes.** Usar la [revisión de desacuerdos](REVISION_DESACUERDOS.md):
-   seis casos fallados por todos, matiz de a05 y luego el resto. O03 ya fue confirmado
-   como other por Luis. Conservar resultados viejos.
-   Si cambia una etiqueta, versionar esa decisión y no atribuirla a la corrida anterior.
-2. **Explicar la comparación, sin optimizar el score.** Luis fijó como objetivo observar
-   cómo interpreta cada modelo los tickets frente a lo esperado, sea Gemini, Luna,
-   Ollama u otro. Conservar los prompts y registrar coincidencias, desacuerdos, fallos
-   y condiciones. No corregirlos para que todo salga bien ni buscar un ganador universal.
-   La revisión de referencias tampoco se ajusta a las respuestas del modelo.
-   No hace falta ejecutar otra API para discutir la evidencia disponible.
-3. **Cerrar el material autocontenido.** Preparar un resumen publicable de los prompts
-   de asistencia de IA y su influencia; el registro de trabajo fuera del repositorio
-   no acompaña por sí solo a un clon. Revisar el README y conservar una muestra
-   sanitizada de métricas con procedencia, diferenciando simulación y uso real.
-4. **Ensayar y revisar antes de publicar.** Seguir instalación, CLI, control de corpus
-   y runner mock. Revisar configuración, archivos previstos y diferencias de Git;
-   no incorporar `.env`, pesos, consultas privadas o corridas completas sin revisión.
-   Resolver con la consigna los extras, la moderación requerida y los datos de entrega.
+1. **Referencias: revisión técnica y confirmación humana completas para el corpus base.**
+   Luis confirmó las 32 etiquetas, incluida a05=account, después de leer el dataset.
+   Los [desacuerdos y matices](REVISION_DESACUERDOS.md) quedan documentados; no se
+   cambiaron categorías, textos ni flags. Esta aprobación es trazabilidad del
+   proyecto, no una exigencia literal verificada de aprobación individual ni una
+   nueva medición de calidad.
+2. **Comparación: documentada sin optimizar el score.**
+   Se explica cómo interpretó cada variante los casos, separando categoría, formato,
+   fallos y condiciones. [Informe y pares de paráfrasis](REVISION_DESACUERDOS.md).
+   Se conservan versiones y resultados, sin retocar prompts ni elegir ganador universal.
+3. **Material autocontenido: preparado.**
+   [Uso de IA](USO_IA.md) registra instrucciones y su influencia.
+   [Muestras de métricas](METRICAS_EJEMPLOS.md) distinguen extractos de dos requests
+   mock nuevos y una línea histórica real de Ollama. Se retiraron identificadores
+   y horarios; se conservan procedencia, hashes y valores técnicos sin texto privado.
+   `null` sigue significando desconocido, no costo cero.
+4. **Ensayo offline: completado; contraste académico pendiente.**
+   [Clon limpio, CLI, 188 tests, corpus y runner mock](bitacora/ENSAYO_ENTREGA_2026-11-05.md)
+   verificados usando el venv ya instalado, sin nueva resolución de dependencias.
+   Falta contrastar extras, moderación y datos de entrega con la consigna completa.
    Publicar avances y presentar el enlace académico son acciones distintas.
 
-Una comparación remota nueva debe fijar antes corpus, variantes, modelo, límites y
-permiso de gasto. El runner tiene cota de llamadas, no tope monetario. La suite de
-ocho paráfrasis no sustituye al corpus de 30+ casos ni decide por sí sola el prompt.
+No hubo llamadas nuevas a modelos ni modificación de prompts, corpus o resultados
+históricos. Cualquier nueva comparación remota debe fijar corpus, modelo, límites
+y permiso de gasto; la cota de llamadas no es un tope monetario.

@@ -1,0 +1,48 @@
+{
+  "recorded_on": "2026-11-05",
+  "mock": {
+    "file": "metrics_mock_2026-11-05.jsonl",
+    "source": "clean local clone of commit 1d63fab46c0ec9cb30bc05dbeaf50891b9cb6e34",
+    "generated_during_this_rehearsal": true,
+    "requests": 2,
+    "attempts": [
+      1,
+      2
+    ],
+    "append_only_preserved_first_record": true,
+    "sha256": "876d13fda11072887253fced6b4939400c0d6bfe09d360f04e0282a12d577d50",
+    "raw_sample_sha256": "280b6726c3432225834085a5b1f557b5957e33fd30a222c663056c896fc33f91",
+    "extraction": "Selected source lines with only request_id and timestamp omitted; all remaining JSON values unchanged.",
+    "removed_fields": [
+      "request_id",
+      "timestamp"
+    ],
+    "source_file_in_clone": "data/metrics.jsonl",
+    "source_lines": [
+      1,
+      2
+    ],
+    "source_sha256": "280b6726c3432225834085a5b1f557b5957e33fd30a222c663056c896fc33f91",
+    "source_recorded_on": "2026-11-05"
+  },
+  "ollama": {
+    "file": "metrics_ollama_2026-11-04.jsonl",
+    "source_local_untracked": "data/local_runs/2026-11-04-v34-session-v1-v2/metrics.jsonl",
+    "source_sha256": "41dec7861dd14f1c0eb9d25dc5ad6f417466d44ad95be43c8fe482f5d4cca885",
+    "source_line": 1,
+    "generated_during_this_rehearsal": false,
+    "model": "qwen2.5-coder:0.5b-test",
+    "matching_public_numeric_evidence": "../EVAL_PROMPTS_V34_2026-11-04.json",
+    "sha256": "1a8e5562111fa2edc04620774819f9c13dde240ab1dfa1fd6bdc6c9577a76809",
+    "raw_sample_sha256": "5f5999cfc4d0771ddf7b5afd1ee3bd9225f0a03c74b7a47e64807fbcec5c23a6",
+    "extraction": "Selected source lines with only request_id and timestamp omitted; all remaining JSON values unchanged.",
+    "removed_fields": [
+      "request_id",
+      "timestamp"
+    ],
+    "source_recorded_on": "2026-11-04"
+  },
+  "new_real_model_requests": 0,
+  "new_remote_requests": 0,
+  "privacy": "Minimized excerpts, not complete application records. No request IDs, timestamps, ticket, answer, actions, credentials or raw exception. Cost null is unknown, not zero."
+}

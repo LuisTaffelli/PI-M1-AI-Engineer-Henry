@@ -8,7 +8,8 @@ no certifica cumplimiento académico ni elige una versión ganadora.
 Actualización posterior: se ejecutaron los 32 casos base y ocho paráfrasis por
 ambos prompts; resultados completos en [RESULTADOS_EVAL_LOCAL.md](RESULTADOS_EVAL_LOCAL.md).
 La muestra inicial de cuatro se conserva abajo como historia. Las 32 referencias
-tienen [revisión técnica](REVISION_ETIQUETAS.md), sin aprobación humana nueva.
+tienen [revisión técnica y confirmación humana posterior](REVISION_ETIQUETAS.md)
+del 05/11. La muestra y los estados del 04/11 se conservan como historia.
 
 ## Estado frente a los requisitos disponibles
 
@@ -19,7 +20,7 @@ indicado por Luis, no una fecha/zona horaria académica verificada aquí.
 
 | Prioridad | Evidencia disponible | Trabajo que aporta más antes de entregar |
 |---|---|---|
-| Alta: diseño y etiquetas | 32 tickets, 8 por categoría; 2 etiquetas confirmadas y 30 propuestas. | Revisión técnica de los 32 realizada y documentada; mantener explícitas fronteras y dos confirmaciones humanas previas. No marcar una etiqueta aprobada porque el modelo coincidió. |
+| Alta: diseño y etiquetas | 32 tickets, 8 por categoría; las 32 referencias confirmadas por Luis el 05/11. | Revisión cerrada sin cambiar datos ni flags. Conservar fronteras y cronología: la aprobación humana posterior no hace ciega la evaluación. |
 | Alta: comparación reproducible | Dos YAML; runner general mock y runner local optativo con comparación completa de 32 y suite de ocho paráfrasis. | Comparación local realizada con criterios previos y fallos conservados. Completar otros escenarios acordados; no presentar el corpus de desarrollo como validación independiente. |
 | Alta: instalación | 132 tests/lint/formato pasan en el entorno existente. | Instalación limpia verificada después en Linux x86_64/Python 3.14.8: 44 pins exactos, Ruff, pip check y 132 tests. El entorno original conserva sólo 6/44. Mantener el recorrido desde checkout y documentar plataformas aún no probadas; ver REPRODUCIBILIDAD.md. |
 | Alta: alcance de seguridad | Heurísticas de injection y posible credencial; contrato y logs sin texto. | Definir qué se espera bloquear/permitir y probar ataques, paráfrasis y consultas legítimas parecidas. Un regex no acredita moderación completa. |

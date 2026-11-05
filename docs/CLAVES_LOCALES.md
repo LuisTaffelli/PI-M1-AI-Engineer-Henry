@@ -2,7 +2,11 @@
 
 El CLI `python -m src.main` y el evaluador `python -m evals.run_provider_evals`
 usan el mismo camino: al construir OpenAI/Gemini, el adaptador busca únicamente su
-variable (`OPENAI_API_KEY` o `GEMINI_API_KEY`). No hay que exportarla manualmente.
+variable (`OPENAI_API_KEY` o `GEMINI_API_KEY`) mediante
+`src/runtime/environment.py`, el único lector de entorno y `.env`.
+No hay que exportarla manualmente. `runtime/config.py` se ocupa del TOML y
+`runtime/paths.py` de las rutas; `runtime/credentials.py` conserva sólo el import
+compatible de `load_api_key`.
 
 1. Un `api_key=` explícito programático tiene prioridad (permite fixtures aislados).
 2. Si la variable existe en el entorno del proceso, usa ese valor, **incluso vacío**,

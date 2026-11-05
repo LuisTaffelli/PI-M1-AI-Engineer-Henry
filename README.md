@@ -35,6 +35,11 @@ El mock siempre devuelve `other`: sirve para probar el recorrido, no para medir
 clasificación. Con modelos, las categorías son `billing`, `technical`, `account`
 y `other`; `confidence` es una estimación del modelo, no una probabilidad calibrada.
 
+La consulta admite hasta **500 caracteres del texto original**, incluidos espacios
+y saltos de línea. Se cuentan puntos de código Unicode, no tokens ni caracteres
+visuales. Si supera el límite, se rechaza sin truncarla ni enviarla al proveedor;
+`max_query_chars` permite reducirlo. Ver [detalle del guardrail](docs/ARQUITECTURA.md#límite-de-la-consulta).
+
 ## Qué comparamos
 
 Hay adaptadores para OpenAI, Gemini y Ollama, además del mock; cuatro prompts YAML;
@@ -48,12 +53,14 @@ Hay adaptadores para OpenAI, Gemini y Ollama, además del mock; cuatro prompts Y
 | v3: estructurado | 17/32 | 32/32 |
 | v4: deliberación | 13/32 | 30/32 |
 
-Los fallos se incluyen en el total. Tres etiquetas están confirmadas por Luis y
-29 siguen propuestas; esto no es un holdout ni un ranking general de modelos.
+Los fallos se incluyen en el total. Luis revisó y confirmó las 32 referencias del
+corpus base el 05/11; esto no es un holdout ni un ranking general de modelos.
 El [informe de variantes](docs/PROMPTS_V3_V4.md) detalla categorías, paráfrasis y
 condiciones; la [revisión de desacuerdos](docs/REVISION_DESACUERDOS.md) explica casos concretos.
 
 Para repetir con otro proveedor, consultá la [guía de evaluaciones](docs/EVALUACION_PROVEEDORES.md).
+La [suite adversarial pareada](docs/SEGURIDAD_PAREADA.md#repetición-acotada-con-distintos-proveedores--05112026)
+también admite Ollama, Gemini y OpenAI, con preview offline y un mock de prueba.
 Las llamadas remotas requieren habilitación explícita y pueden tener costo.
 La cota de llamadas no es un tope de gasto; los guardrails tampoco garantizan seguridad completa.
 
@@ -62,7 +69,7 @@ La cota de llamadas no es un tope de gasto; los guardrails tampoco garantizan se
 - [Instalación y reproducción](docs/REPRODUCIBILIDAD.md), [claves locales](docs/CLAVES_LOCALES.md) y [Ollama](docs/OLLAMA.md).
 - [Arquitectura](docs/ARQUITECTURA.md) y [tokens y costos](docs/PRICING.md).
 - [Dataset y criterios](data/DATASET.md), [etiquetas revisadas](docs/REVISION_ETIQUETAS.md) y [seguridad](docs/SEGURIDAD_PAREADA.md).
-- [Qué falta revisar para la entrega](docs/CIERRE_ENTREGA.md).
+- [Uso de IA](docs/USO_IA.md), [muestras de métricas](docs/METRICAS_EJEMPLOS.md) y [cierre de entrega](docs/CIERRE_ENTREGA.md).
 - [Bitácora del proyecto](docs/BITACORA.md): cambios, decisiones, verificaciones y registros anteriores.
 
 La entrega aún requiere contrastar los pendientes con la consigna completa.

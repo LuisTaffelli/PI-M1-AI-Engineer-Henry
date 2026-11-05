@@ -1,24 +1,28 @@
 # Revisión de referencias
 
-## Decisión de Luis: 05/11/2026
+## Confirmación humana del corpus base: 05/11/2026
 
-Luis confirmó **nubbix-o03 = other**: «Yo lo dejaria el contraste de los graficos
-como other, porque es mas UI/UX que tecnico en si xd». Para este ticket considera
-el mayor contraste una mejora de UI/UX. Es una decisión sobre ese texto, no una
-regla universal que excluya problemas de accesibilidad de la categoría technical.
+Luis confirmó las **32 etiquetas del corpus base** después de leer el dataset,
+incluida **nubbix-a05 = account**. Antes se habían confirmado b07, a07 y o03;
+la aprobación completa cierra las 29 referencias que seguían propuestas.
 
-Estado actual del corpus base: **tres etiquetas confirmadas** (b07, a07 y o03) y
-**29 propuestas**. **A05 no fue aprobado** y permanece propuesto como account.
-La confirmación conserva el valor other ya existente y ambiguous=false; no se
-modificaron JSONL, flags, prompts ni resultados. Las métricas previas no cambian.
+Para o03 se mantiene el criterio explícito de Luis: el mayor contraste de los
+gráficos es una mejora de UI/UX en este ticket y se conserva **other**. No es una
+regla universal que excluya problemas de accesibilidad de technical.
+
+La aprobación no cambia textos, categorías ni flags de `data/eval_dataset.jsonl`,
+YAML o resultados históricos. Se mantienen ocho `ambiguous=true` y 24 `false`.
+La revisión humana fue posterior a conocer resultados: no se presenta como ciega
+ni como una aprobación de las respuestas de los modelos. Los fundamentos técnicos
+de abajo explican las referencias; no son citas ni razonamientos atribuidos a Luis.
 
 ## Objetivo comparativo aclarado por Luis: 05/11/2026
 
 Se busca observar cómo interpreta cada modelo los tickets frente a las referencias,
 independientemente del proveedor. No retocar prompts para que todas las respuestas
 coincidan ni maximizar el score. Las versiones y resultados se conservan; se explican
-los desacuerdos con condiciones y límites. Esta aclaración no aprueba a05 ni permite
-cambiar etiquetas para favorecer las respuestas observadas.
+los desacuerdos con condiciones y límites. La aprobación posterior del corpus no permite cambiar etiquetas para favorecer
+las respuestas observadas.
 
 ## Revisión técnica original: 04/11/2026
 
@@ -26,7 +30,8 @@ Revisión realizada por el asistente sobre los 32 tickets sintéticos y el crite
 propuesto en data/DATASET.md. **No es validación humana nueva ni respuesta oficial
 de la consigna.** Sólo nubbix-b07 y nubbix-a07 tenían confirmación individual de
 Luis registrada antes de esta revisión; las otras 30 referencias seguían propuestas.
-La actualización humana del 05/11 está registrada arriba y en la fila o03.
+La confirmación humana posterior de las 32 está registrada arriba; se conserva
+esta cronología para no atribuir aprobación a la revisión técnica original.
 
 No se modifican textos, etiquetas ni flags del JSONL. La referencia sigue siendo
 el objetivo principal expresado, no una palabra aislada ni una causa hipotética.
@@ -41,9 +46,10 @@ no un holdout independiente que permita afirmar generalización.
 
 ## Revisión por caso
 
-Para todos salvo b07/a07 y la confirmación posterior de o03, “conservar” significa
-consistencia técnica con el criterio actual, **no aprobación humana**. Las condiciones alternativas indican qué dato
-adicional podría cambiar la interpretación; no afirman que ese dato esté presente.
+Esta tabla conserva los fundamentos de la revisión técnica original. En ese
+momento sólo b07/a07 tenían aprobación humana; el 05/11 Luis confirmó las 32
+referencias. Las condiciones alternativas indican qué dato adicional podría
+cambiar la interpretación; no afirman que ese dato esté presente.
 
 | ID | Referencia conservada | Fundamento y cautela |
 |---|---|---|
@@ -83,8 +89,8 @@ adicional podría cambiar la interpretación; no afirman que ese dato esté pres
 “ambiguous=false” no prueba ausencia de interpretaciones alternativas. Se conservan
 los ocho flags definidos previamente para mantener trazabilidad; el reporte separa
 “marcados ambiguos” y “no marcados”, no certeza frente a incertidumbre absoluta.
-Las fronteras adicionales b01/b05/a02/a05 quedan documentadas para discusión.
-La decisión particular de o03 se cerró como other; su flag permanece intacto.
+Las fronteras adicionales b01/b05/a02/a05 quedan documentadas como matices, con
+sus etiquetas ya confirmadas. La aprobación no cambia los flags históricos.
 
 ## Escenarios sin una etiqueta única fijada
 
@@ -122,5 +128,6 @@ no mezclar su tasa de bloqueo con exact match de clasificación.
 
 [La revisión posterior](REVISION_DESACUERDOS.md) cruza las 32 referencias con
 las cuatro variantes conservadas y empareja las ocho paráfrasis con sus originales.
-Se preservan etiquetas y flags, se separan respuestas incompletas de clasificaciones
-distintas y se registran decisiones pendientes sin atribuir nuevas aprobaciones.
+Se preservan etiquetas y flags y se separan respuestas incompletas de
+clasificaciones distintas. El informe distingue el análisis original de la
+confirmación humana posterior, sin reescribir sus resultados.

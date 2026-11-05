@@ -1,0 +1,543 @@
+{
+  "commit": "1d63fab46c0ec9cb30bc05dbeaf50891b9cb6e34",
+  "checkout": "new local clone, tracked files only",
+  "checkout_clean_before_and_after": true,
+  "dotenv_absent": true,
+  "process_credentials_inherited": false,
+  "python": "3.14",
+  "platform": "Linux x86_64",
+  "environment": "existing isolated venv previously used for verified installation",
+  "new_dependency_installation": false,
+  "new_dependency_resolution": false,
+  "installed_pins": [
+    {
+      "name": "annotated-types",
+      "pinned": "0.8.0",
+      "installed": "0.8.0",
+      "matches": true
+    },
+    {
+      "name": "anthropic",
+      "pinned": "2.1.0",
+      "installed": "2.1.0",
+      "matches": true
+    },
+    {
+      "name": "anyio",
+      "pinned": "4.15.1",
+      "installed": "4.15.1",
+      "matches": true
+    },
+    {
+      "name": "certifi",
+      "pinned": "2026.10.19",
+      "installed": "2026.10.19",
+      "matches": true
+    },
+    {
+      "name": "cffi",
+      "pinned": "2.1.1",
+      "installed": "2.1.1",
+      "matches": true
+    },
+    {
+      "name": "charset-normalizer",
+      "pinned": "3.5.2",
+      "installed": "3.5.2",
+      "matches": true
+    },
+    {
+      "name": "cloudpickle",
+      "pinned": "3.1.2",
+      "installed": "3.1.2",
+      "matches": true
+    },
+    {
+      "name": "cryptography",
+      "pinned": "50.0.2",
+      "installed": "50.0.2",
+      "matches": true
+    },
+    {
+      "name": "distro",
+      "pinned": "1.9.0",
+      "installed": "1.9.0",
+      "matches": true
+    },
+    {
+      "name": "docstring_parser",
+      "pinned": "0.18.0",
+      "installed": "0.18.0",
+      "matches": true
+    },
+    {
+      "name": "google-auth",
+      "pinned": "2.62.0",
+      "installed": "2.62.0",
+      "matches": true
+    },
+    {
+      "name": "google-genai",
+      "pinned": "2.32.0",
+      "installed": "2.32.0",
+      "matches": true
+    },
+    {
+      "name": "h11",
+      "pinned": "0.16.0",
+      "installed": "0.16.0",
+      "matches": true
+    },
+    {
+      "name": "httpcore",
+      "pinned": "1.0.9",
+      "installed": "1.0.9",
+      "matches": true
+    },
+    {
+      "name": "httpcore2",
+      "pinned": "2.16.0",
+      "installed": "2.16.0",
+      "matches": true
+    },
+    {
+      "name": "httpx",
+      "pinned": "0.28.1",
+      "installed": "0.28.1",
+      "matches": true
+    },
+    {
+      "name": "httpx2",
+      "pinned": "2.16.0",
+      "installed": "2.16.0",
+      "matches": true
+    },
+    {
+      "name": "idna",
+      "pinned": "3.20",
+      "installed": "3.20",
+      "matches": true
+    },
+    {
+      "name": "jiter",
+      "pinned": "0.17.0",
+      "installed": "0.17.0",
+      "matches": true
+    },
+    {
+      "name": "joblib",
+      "pinned": "1.6.0",
+      "installed": "1.6.0",
+      "matches": true
+    },
+    {
+      "name": "narwhals",
+      "pinned": "2.27.1",
+      "installed": "2.27.1",
+      "matches": true
+    },
+    {
+      "name": "numpy",
+      "pinned": "2.5.4",
+      "installed": "2.5.4",
+      "matches": true
+    },
+    {
+      "name": "openai",
+      "pinned": "3.36.0",
+      "installed": "3.36.0",
+      "matches": true
+    },
+    {
+      "name": "opentelemetry-api",
+      "pinned": "1.45.1",
+      "installed": "1.45.1",
+      "matches": true
+    },
+    {
+      "name": "pandas",
+      "pinned": "3.0.6",
+      "installed": "3.0.6",
+      "matches": true
+    },
+    {
+      "name": "pyasn1",
+      "pinned": "0.6.4",
+      "installed": "0.6.4",
+      "matches": true
+    },
+    {
+      "name": "pyasn1_modules",
+      "pinned": "0.4.2",
+      "installed": "0.4.2",
+      "matches": true
+    },
+    {
+      "name": "pycparser",
+      "pinned": "3.11",
+      "installed": "3.11",
+      "matches": true
+    },
+    {
+      "name": "pydantic",
+      "pinned": "2.14.1",
+      "installed": "2.14.1",
+      "matches": true
+    },
+    {
+      "name": "pydantic_core",
+      "pinned": "2.50.1",
+      "installed": "2.50.1",
+      "matches": true
+    },
+    {
+      "name": "python-dateutil",
+      "pinned": "2.9.0.post0",
+      "installed": "2.9.0.post0",
+      "matches": true
+    },
+    {
+      "name": "PyYAML",
+      "pinned": "6.0.3",
+      "installed": "6.0.3",
+      "matches": true
+    },
+    {
+      "name": "requests",
+      "pinned": "2.34.2",
+      "installed": "2.34.2",
+      "matches": true
+    },
+    {
+      "name": "scikit-learn",
+      "pinned": "1.9.1",
+      "installed": "1.9.1",
+      "matches": true
+    },
+    {
+      "name": "scipy",
+      "pinned": "1.18.1",
+      "installed": "1.18.1",
+      "matches": true
+    },
+    {
+      "name": "six",
+      "pinned": "1.17.0",
+      "installed": "1.17.0",
+      "matches": true
+    },
+    {
+      "name": "sniffio",
+      "pinned": "1.3.1",
+      "installed": "1.3.1",
+      "matches": true
+    },
+    {
+      "name": "tenacity",
+      "pinned": "9.1.4",
+      "installed": "9.1.4",
+      "matches": true
+    },
+    {
+      "name": "threadpoolctl",
+      "pinned": "3.7.0",
+      "installed": "3.7.0",
+      "matches": true
+    },
+    {
+      "name": "truststore",
+      "pinned": "0.10.5",
+      "installed": "0.10.5",
+      "matches": true
+    },
+    {
+      "name": "typing-inspection",
+      "pinned": "0.4.4",
+      "installed": "0.4.4",
+      "matches": true
+    },
+    {
+      "name": "typing_extensions",
+      "pinned": "4.16.0",
+      "installed": "4.16.0",
+      "matches": true
+    },
+    {
+      "name": "urllib3",
+      "pinned": "2.8.0",
+      "installed": "2.8.0",
+      "matches": true
+    },
+    {
+      "name": "websockets",
+      "pinned": "16.1.1",
+      "installed": "16.1.1",
+      "matches": true
+    }
+  ],
+  "tests": 188,
+  "checks": [
+    {
+      "name": "pip-check",
+      "command": [
+        "PYTHON",
+        "-m",
+        "pip",
+        "check"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0,
+      "passed": true,
+      "stdout_sha256": "9261363b733079a641c2e4cc9bc46ffa1d8336945a87f807b6cf68847dbc9b09",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "lint",
+      "command": [
+        "RUFF",
+        "check",
+        "src",
+        "evals",
+        "tests"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0,
+      "passed": true,
+      "stdout_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "format",
+      "command": [
+        "RUFF",
+        "format",
+        "--check",
+        "src",
+        "evals",
+        "tests"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0,
+      "passed": true,
+      "stdout_sha256": "4cfce4314a68bfd72805ca6ee4c4477596a8626548f54945751eb6fcfa34f996",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "unit-tests",
+      "command": [
+        "PYTHON",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0,
+      "passed": true,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "20086af80cd44c1bb072018ddb29744e07a6bb4465b6c7f691b2ed91a20d1249"
+    },
+    {
+      "name": "mock-fixed",
+      "command": [
+        "PYTHON",
+        "-m",
+        "src.main",
+        "Consulta sintética para ensayo de entrega.",
+        "--provider",
+        "mock",
+        "--mock-scenario",
+        "fixed"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0,
+      "passed": true,
+      "stdout_sha256": "2b372ba3e63f4059fcedcb85492e6f6f73f04368897d408bffd43a7b556b6f54",
+      "stderr_sha256": "45c675d45b039485173b6e959308ccc73c3af9a4efe9046f4d349ff491f3ed3c"
+    },
+    {
+      "name": "mock-repair",
+      "command": [
+        "PYTHON",
+        "-m",
+        "src.main",
+        "Otra consulta sintética para ensayo de entrega.",
+        "--provider",
+        "mock",
+        "--mock-scenario",
+        "recover_once"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0,
+      "passed": true,
+      "stdout_sha256": "2b372ba3e63f4059fcedcb85492e6f6f73f04368897d408bffd43a7b556b6f54",
+      "stderr_sha256": "45c675d45b039485173b6e959308ccc73c3af9a4efe9046f4d349ff491f3ed3c"
+    },
+    {
+      "name": "mock-malformed",
+      "command": [
+        "PYTHON",
+        "-m",
+        "src.main",
+        "Consulta sintética.",
+        "--provider",
+        "mock",
+        "--mock-scenario",
+        "malformed",
+        "--no-metrics"
+      ],
+      "returncode": 2,
+      "expected_returncode": 2,
+      "passed": true,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "ebc0fa6bc4dbe9f416d061298e0303744e540790bd03621871fd91fa5c797742"
+    },
+    {
+      "name": "empty-query",
+      "command": [
+        "PYTHON",
+        "-m",
+        "src.main",
+        "",
+        "--provider",
+        "mock",
+        "--no-metrics"
+      ],
+      "returncode": 2,
+      "expected_returncode": 2,
+      "passed": true,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "3ce18e1e9751592bc3a03a8b2b124021ea80bc588e4d1751968ecd8e51a569bf"
+    },
+    {
+      "name": "dataset-check",
+      "command": [
+        "PYTHON",
+        "-m",
+        "evals.run_evals",
+        "--dataset",
+        "data/eval_dataset.jsonl",
+        "--check-dataset"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0,
+      "passed": true,
+      "stdout_sha256": "548c87a6f1a263d52b09fd95f4d9adae35aa99a3b9defd486cdd3e10bb81c310",
+      "stderr_sha256": "f3c94afdd0e469196cb618442503f82fd961e3020d4729a7d56d5647274ecfeb"
+    },
+    {
+      "name": "mock-corpus",
+      "command": [
+        "PYTHON",
+        "-m",
+        "evals.run_provider_evals",
+        "--provider",
+        "mock",
+        "--prompt",
+        "v1_zero_shot",
+        "--prompt",
+        "v2_few_shot",
+        "--all-cases",
+        "--max-calls",
+        "64",
+        "--output",
+        "data/local_runs/ensayo-entrega-2026-11-05",
+        "--execute"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0,
+      "passed": true,
+      "stdout_sha256": "392ccce1dcca89c78a951e8ba3834fb26a87d17f93867495ba48bf72bca4d226",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "guardrail-diagnostic",
+      "command": [
+        "PYTHON",
+        "-m",
+        "evals.run_guardrail_diagnostics"
+      ],
+      "returncode": 0,
+      "expected_returncode": 0,
+      "passed": true,
+      "stdout_sha256": "a93493defe532ec9e19cc374ee4c9cc30c05a5b9e62eeccd2199cb1ae8d65955",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "installed-pins",
+      "returncode": 0,
+      "expected_returncode": 0,
+      "passed": true,
+      "stdout_sha256": "8b3464d55de80897f8d63cf648bb0958fd2fd1153b24eb2c461cdac90296f569",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "method": "Read requirements.txt pins and compare each installed distribution with importlib.metadata.version; no resolution or installation."
+    }
+  ],
+  "mock_append_only": {
+    "requests": 2,
+    "first_record_preserved": true,
+    "attempts": [
+      1,
+      2
+    ]
+  },
+  "mock_corpus": {
+    "processed": 64,
+    "remote_calls_attempted": 0,
+    "simulated": true,
+    "by_prompt": {
+      "v1_zero_shot": {
+        "total": 32,
+        "correct": 8,
+        "validated_outputs": 32
+      },
+      "v2_few_shot": {
+        "total": 32,
+        "correct": 8,
+        "validated_outputs": 32
+      }
+    },
+    "distinct_tickets": 32,
+    "prompt_variants": 2,
+    "processed_unit": "ticket-prompt executions"
+  },
+  "resource_sha256": {
+    "requirements.txt": "4f5abcda3dbc5e732f1d63b0826e0a46b64b0037f13be84d03d410e89b6dcd06",
+    "pyproject.toml": "440ea10fa61404bf9b5429259ef303ed9a623dbc8f6992916701d29500605a86",
+    "data/eval_dataset.jsonl": "d575ef2c26a0f071b9f31cab4ee1554a47c8b3a9e074017a225b90823a4a4bcf",
+    "data/eval_robustness.jsonl": "e04ef0fb821c67f6471b2cb0d5f29d2689fa99ad2ed799573863f6ef13a4f8d6",
+    "prompts/v1_zero_shot.yaml": "67f5b70d9400eef6e76d2393009c14b3f831d0af597450f2bd83c63cd3750a2c",
+    "prompts/v2_few_shot.yaml": "ad75c9833cb90caff3e87061e4c6d35d4d35c3ad48571d59941dc18237b34418",
+    "prompts/v3_structured.yaml": "bb60c89539d530d184d9c2ca827368b5446f6b07ce9c6c0f91684c1456e986ac",
+    "prompts/v4_reasoning.yaml": "c8e04b0e625765eb507bf3034e07c60667677aea3f6e4c6722127b4af3c8ba3f"
+  },
+  "guardrail_diagnostic_exit_zero_means_report_produced_not_full_protection": true,
+  "limitations": [
+    "No new clean dependency installation; existing isolated environment reused.",
+    "No real model or paid API requests.",
+    "The rehearsal itself does not approve labels or certify the full rubric; subsequent human review is documented separately."
+  ],
+  "export_note": "Export initially stopped on newly-added token/cost metadata not in the allowlist. Fields were checked against current usage/pricing schema before export; application checks had already passed.",
+  "recorded_on": "2026-11-05",
+  "publication_minimization": {
+    "omitted": [
+      "exact recording time",
+      "kernel version",
+      "distribution",
+      "glibc version",
+      "Python patch version"
+    ],
+    "retained": [
+      "recording date",
+      "OS family and architecture",
+      "Python major/minor",
+      "dependency versions",
+      "commands",
+      "checks",
+      "resource and log hashes"
+    ],
+    "original_local_evidence_preserved": true
+  }
+}

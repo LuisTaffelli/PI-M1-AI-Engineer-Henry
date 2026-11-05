@@ -10,7 +10,7 @@ se hizo y verificó en cada etapa, incluso cuando después cambió el estado.
   ocho paráfrasis. Se separaron desacuerdos de clasificación y respuestas incompletas.
   [Análisis y evidencia](REVISION_DESACUERDOS.md).
 - Luis confirmó o03 como `other`, por interpretar la sugerencia de contraste como
-  mejora de UI/UX. Quedan b07, a07 y o03 confirmados; a05 sigue pendiente.
+  mejora de UI/UX. En ese momento quedaban b07, a07 y o03 confirmados; a05 seguía pendiente.
   [Registro y criterio](REVISION_ETIQUETAS.md).
 - Objetivo aclarado: observar cómo interpreta cada modelo los tickets frente a las
   referencias. No retocar prompts para maximizar aciertos ni buscar un ganador universal.
@@ -19,7 +19,65 @@ se hizo y verificó en cada etapa, incluso cuando después cambió el estado.
   Los YAML, datasets, métricas y JSON de resultados no se modificaron.
 - Validación al cierre: 188 tests, lint y formato correctos; 186 enlaces/anclas
   locales verificados, ejemplo mock reproducido y contenido trasladado comprobado.
-  Los cambios documentales siguen locales, sin commit ni push.
+  En ese cierre los cambios seguían locales, antes de la publicación registrada abajo.
+
+## 05/11/2026: publicación y ensayo del entregable
+
+- Publicados con autorización los commits daf2131 (revisión/evidencia), 4895a0b
+  (bitácora) y 1d63fab (README). El HEAD remoto se verificó igual a 1d63fab.
+- [Ensayo offline en un clon limpio](bitacora/ENSAYO_ENTREGA_2026-11-05.md): 188 tests,
+  dependencias verificadas y 64 ejecuciones mock, sin llamadas a modelos.
+- Preparados [uso de IA](USO_IA.md) y [ejemplos de métricas](METRICAS_EJEMPLOS.md),
+  con procedencia y límites. Son materiales nuevos posteriores a esos tres commits.
+
+## 05/11/2026: confirmación del corpus y minimización del material nuevo
+
+- Luis confirmó las 32 referencias del corpus base después de leerlo, incluida
+  a05=account. Se actualizó el estado en las guías sin cambiar datos, flags, prompts
+  ni resultados. El snapshot de la revisión offline conserva su estado histórico.
+- El registro de IA resume pedidos y decisiones sin copiar conversaciones privadas.
+  Las muestras JSONL omiten identificadores de request y horarios; el ensayo omite
+  la versión detallada del sistema. Los originales locales se conservan y la
+  procedencia distingue hashes de origen y de los extractos minimizados.
+- Esta actualización y el material de cierre permanecen locales, pendientes de
+  revisión para publicación. No hubo nuevas inferencias ni una entrega académica.
+
+## 05/11/2026: carpetas de evaluación y entorno centralizado
+
+- Las evaluaciones comunes viven en `evals/classification/` y las de seguridad en
+  `evals/adversarial/`. `common/` contiene persistencia/costos y `cli/` los argumentos
+  y salidas. Los comandos anteriores quedan como entradas pequeñas compatibles.
+- `src/runtime/environment.py` concentra la lectura del entorno y `.env`;
+  configuración TOML y rutas tienen responsabilidades separadas. Se conservan
+  precedencia, carga diferida y ausencia de cambios globales al entorno.
+- [Arquitectura y recorridos](ARQUITECTURA.md), [claves locales](CLAVES_LOCALES.md)
+  y [uso de IA](USO_IA.md) actualizados. [Checkpoint del refactor](bitacora/VERIFICACIONES.md#carpetas-y-entorno-05112026):
+  194 tests, lint/formato, equivalencia offline y 85 archivos de datos intactos.
+  Ese checkpoint es anterior al nuevo límite de 500 caracteres.
+- Cambios locales, sin commit/push ni inferencias. Se preservó el trabajo documental
+  previo; el aviso del control automático de etiquetas no cambió en este refactor.
+
+## 05/11/2026: límite explícito de entrada
+
+- A pedido de Luis, la consulta tiene un techo de 500 puntos de código Unicode del
+  texto original, sin truncar. La configuración puede reducirlo, no ampliarlo.
+- El rechazo ocurre antes de cargar prompts, construir adaptadores o inferir. La
+  CLI explica el máximo sin repetir el texto; métricas registran cero intentos.
+- [Comportamiento y límites](ARQUITECTURA.md#límite-de-la-consulta) y
+  [verificación integrada](bitacora/VERIFICACIONES.md#límite-de-entrada-e-integración-05112026):
+  208 tests, lint y formato correctos. Sin llamadas a modelos ni cambios en corpus,
+  prompts o resultados históricos. Sigue siendo una protección acotada.
+
+## 05/11/2026: adversariales también con Gemini y OpenAI
+
+- A pedido de Luis, el protocolo pareado ya admite Gemini/OpenAI, Ollama y mock.
+  Mismos casos/prompts, un intento, cota explícita y preview sin claves ni red.
+- Se conserva el comando Ollama previo. Los remotos requieren `--execute` y
+  `--allow-remote-inference`; un error técnico conserva una corrida parcial.
+- [Comandos y límites](SEGURIDAD_PAREADA.md#repetición-acotada-con-distintos-proveedores--05112026)
+  y [checkpoint](bitacora/VERIFICACIONES.md#adversariales-multiproveedor-05112026):
+  226 tests, lint y formato correctos. Adaptadores probados con transportes falsos;
+  no son nuevos scores de modelos reales. Sin APIs, claves, commits ni push.
 
 ## Recorrido por etapas
 
