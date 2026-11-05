@@ -38,11 +38,12 @@ def summarize_financials(rows: list[dict]) -> dict:
         context.prec = max(50, sum(len(str(cost)) for cost in known_costs) + 10)
         subtotal = format(sum(known_costs, Decimal(0)), "f") if known_costs else None
     all_estimated = (
-        bool(rows)
+        bool(attempts)
         and len(known_costs) == len(attempts)
         and all(
             row.get("cost_status") == "estimated" and not row.get("simulated", False)
             for row in rows
+            if row.get("usage_by_attempt")  # Prebloqueos: cero consumo de generación.
         )
     )
     return {

@@ -1,109 +1,60 @@
-"""Ejecución pareada local: permiso, plan, orden y registro de resultados."""
+"""Ejecución pareada multiproveedor mediante el servicio y guardrails comunes."""
 
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-from evals.adversarial.pairs import build_jobs, load_protocol
-from evals.adversarial.report import analyze
-from evals.common.artifacts import (
-    next_metric,
-    prompt_hashes,
-    sha256,
-    source_hashes,
-    write_json,
-)
-from src.llm.prompt_catalog import PROMPT_NAMES
+from evals.adversarial.plan import REMOTE_PROVIDERS, PairedPlan, prepare_plan
+from evals.adversarial.report import analyze, execution_summary
+from evals.common.artifacts import next_metric, write_json
 from src.runtime.config import ROOT, Settings
 from src.runtime.metrics import append_metric
 from src.support.service import simulate_response
 
 
-def run_pairs(
-    settings: Settings,
-    prompts: tuple[str, ...],
-    output: Path,
+def execute_plan(
+    plan: PairedPlan,
     *,
-    allow_local_inference: bool,
-    max_calls: int,
-    pairs_path: Path = ROOT / "evals/adversarial_pairs.jsonl",
-    attack_paths: list[Path] | None = None,
-    controls_path: Path = ROOT / "evals/guardrail_controls.jsonl",
-):
-    if not allow_local_inference or settings.provider != "ollama":
-        raise ValueError("Sólo Ollama local con permiso explícito.")
+    execute: bool = False,
+    allow_local_inference: bool = False,
+    allow_remote_inference: bool = False,
+) -> dict:
+    remote = plan.settings.provider in REMOTE_PROVIDERS
     if (
-        not prompts
-        or len(set(prompts)) != len(prompts)
-        or any(p not in PROMPT_NAMES for p in prompts)
+        not execute
+        or (remote and not allow_remote_inference)
+        or (plan.settings.provider == "ollama" and not allow_local_inference)
     ):
-        raise ValueError("Prompts inválidos o repetidos.")
-    attack_paths = (
-        attack_paths
-        if attack_paths is not None
-        else [
-            ROOT / "evals/adversarial.jsonl",
-            ROOT / "evals/adversarial_unicode.jsonl",
-        ]
-    )
-    pairs, attacks, controls = load_protocol(pairs_path, attack_paths, controls_path)
-    planned = len(prompts) * (2 * len(pairs) + len(controls))
-    if type(max_calls) is not int or not 1 <= max_calls <= 128 or planned > max_calls:
         raise ValueError(
-            "Presupuesto insuficiente o superior a 128 llamadas de servicio."
+            "Falta permiso explícito para ejecutar el proveedor seleccionado."
         )
-    output = output.resolve()
-    output.mkdir(parents=True, exist_ok=False)
-    settings = settings.model_copy(
-        update={
-            "max_attempts": 1,
-            "log_metrics": True,
-            "metrics_path": str(output / "metrics.jsonl"),
-            "pricing_path": None,
-            "ollama_max_output_tokens": min(settings.ollama_max_output_tokens, 256),
-            "ollama_num_ctx": min(settings.ollama_num_ctx, 2048),
-            "ollama_timeout_seconds": min(settings.ollama_timeout_seconds, 30),
-        }
-    )
-    files = [pairs_path, controls_path, *attack_paths]
-    plan = {
-        "timestamp": datetime.now(timezone.utc).isoformat(),
-        "planned_service_calls": planned,
-        "generation_upper_bound": planned,
-        "max_calls": max_calls,
-        "prompts": list(prompts),
-        "dataset_sha256": {p.name: sha256(p) for p in files},
-        "prompt_sha256": prompt_hashes(prompts),
-        "source_sha256": source_hashes(),
-        "settings": {
-            k: v
-            for k, v in settings.model_dump().items()
-            if k.startswith("ollama_")
-            or k in {"provider", "model", "max_attempts", "max_query_chars"}
+    plan.output.mkdir(parents=True, exist_ok=False)
+    write_json(
+        plan.output / "plan.json",
+        {
+            **plan.metadata,
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "execution_requested": True,
+            "remote_execution_confirmed": remote,
         },
-        "pairs": [
-            {
-                "case_id": p.case_id,
-                "attack_case_id": p.attack_case_id,
-                "expected_category": p.expected_category,
-                "attacker_target": p.attacker_target,
-            }
-            for p in pairs
-        ],
-        "order": "prompt then pair(clean, attacked), then controls; no randomization or warmup",
-        "reference_status": "technical_proposals; not human validated",
-    }
-    write_json(output / "plan.json", plan)
+    )
+    pricing_path = None
+    if plan.pricing_data is not None:
+        pricing_path = plan.output / "pricing.json"
+        pricing_path.write_bytes(plan.pricing_data)
+    settings = plan.settings.model_copy(
+        update={"pricing_path": str(pricing_path) if pricing_path else None}
+    )
     rows = []
-    for prompt in prompts:
+    stop = False
+    for prompt in plan.prompts:
         current = settings.model_copy(update={"prompt": prompt})
-        jobs = build_jobs(pairs, attacks, controls)
-        for case_id, condition, query, expected, target in jobs:
+        for case_id, condition, query, expected, target in plan.jobs:
             response = None
             try:
                 response = simulate_response(query, settings=current)
             except (ValueError, OSError):
-                pass
+                pass  # No persistir mensajes/cuerpos de error ni repetir llamadas.
             metric = next_metric(
                 Path(current.metrics_path),
                 len(rows),
@@ -111,15 +62,53 @@ def run_pairs(
             )
             row = {
                 **metric,
+                "model": current.model,
                 "case_id": case_id,
                 "condition": condition,
                 "expected_category": expected,
                 "attacker_target": target,
                 "category": response.category if response else None,
             }
-            append_metric(output / "results.jsonl", row)
+            append_metric(plan.output / "results.jsonl", row)
             rows.append(row)
             print(f"{prompt} {case_id} {condition}: {row['status']}", file=sys.stderr)
-    report = analyze(rows)
-    write_json(output / "summary.json", report)
+            if row["status"] in {"configuration_error", "provider_error"}:
+                stop = True
+                break
+        if stop:
+            break
+    # analyze conserva el formato histórico para replay; ejecución se informa aparte.
+    report = {**analyze(rows), "execution": execution_summary(rows, plan.metadata)}
+    write_json(plan.output / "summary.json", report)
     return report
+
+
+def run_pairs(
+    settings: Settings,
+    prompts: tuple[str, ...],
+    output: Path,
+    *,
+    allow_local_inference: bool = False,
+    max_calls: int,
+    pairs_path: Path = ROOT / "evals/adversarial_pairs.jsonl",
+    attack_paths: list[Path] | None = None,
+    controls_path: Path = ROOT / "evals/guardrail_controls.jsonl",
+    execute: bool = False,
+    allow_remote_inference: bool = False,
+):
+    """Fachada histórica: el permiso Ollama sigue implicando ejecución local."""
+    plan = prepare_plan(
+        settings,
+        prompts,
+        output,
+        max_calls=max_calls,
+        pairs_path=pairs_path,
+        attack_paths=attack_paths,
+        controls_path=controls_path,
+    )
+    return execute_plan(
+        plan,
+        execute=execute or (settings.provider == "ollama" and allow_local_inference),
+        allow_local_inference=allow_local_inference,
+        allow_remote_inference=allow_remote_inference,
+    )

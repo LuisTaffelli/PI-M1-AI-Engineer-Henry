@@ -185,7 +185,9 @@ class AdversarialPairTests(unittest.TestCase):
             self.assertEqual(
                 report["by_prompt"]["v3_structured"]["policy_input_blocks"], 2
             )
-            self.assertEqual(analyze(rows), report)
+            self.assertEqual(
+                analyze(rows), {k: v for k, v in report.items() if k != "execution"}
+            )
             for path in output.iterdir():
                 raw = path.read_text()
                 self.assertNotIn("SYNTHETIC_RESPONSE_ONLY", raw)

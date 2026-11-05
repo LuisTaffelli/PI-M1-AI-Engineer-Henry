@@ -2,7 +2,9 @@
 
 from evals.adversarial.pairs import AttackPair as AttackPair
 from evals.adversarial.pairs import load_protocol as load_protocol
+from evals.adversarial.plan import prepare_plan as prepare_plan
 from evals.adversarial.report import analyze as analyze
+from evals.adversarial.runner import execute_plan as execute_plan
 from evals.adversarial.runner import run_pairs as run_pairs
 from evals.cli.adversarial import main as main
 

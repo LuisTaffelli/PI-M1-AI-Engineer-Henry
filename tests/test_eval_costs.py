@@ -136,6 +136,40 @@ class EvalCostTests(unittest.TestCase):
         row["simulated"] = True
         self.assertIsNone(summarize_financials([row])["known_estimated_subtotal_usd"])
 
+    def test_zero_attempt_rows_do_not_hide_known_generation_costs(self):
+        usage = self.usage()
+        generated = {
+            **cost_metrics(
+                [usage], provider="openai", model="gpt-6-luna", pricing_path=CATALOG
+            ),
+            "usage_by_attempt": [usage.__dict__],
+            "simulated": False,
+            "attempts": 1,
+        }
+        preblocked = {
+            **cost_metrics(
+                [], provider="openai", model="gpt-6-luna", pricing_path=CATALOG
+            ),
+            "usage_by_attempt": [],
+            "simulated": False,
+            "attempts": 0,
+        }
+        report = summarize_financials([generated, preblocked])
+        self.assertEqual(Decimal(report["cost_usd"]), Decimal("0.001565"))
+        self.assertEqual(report["processed_cases"], 2)
+        self.assertEqual(report["generation_attempts"], 1)
+        self.assertEqual(report["cost_status_counts"]["not_requested"], 1)
+        # Sin generación reportada no afirmar factura cero ni costo de un mock.
+        self.assertIsNone(summarize_financials([preblocked])["cost_usd"])
+        unknown = {
+            **generated,
+            "cost_by_attempt": [None],
+            "cost_status": "usage_unavailable",
+        }
+        self.assertIsNone(
+            summarize_financials([generated, preblocked, unknown])["cost_usd"]
+        )
+
     def test_plan_snapshot_retry_failure_and_summary_costs(self):
         copied = self.root / "catalog.json"
         copied.write_bytes(CATALOG.read_bytes())
