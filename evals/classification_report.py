@@ -67,3 +67,27 @@ def summarize(rows: list[dict]) -> dict:
         "warning": "Comparación exploratoria con referencias propuestas; sin validación humana nueva, ranking general ni elección definitiva de prompt.",
         "by_prompt": reports,
     }
+
+
+def classification_result(metric, model, case, response) -> dict:
+    """Contrato compartido de filas: sin ticket ni respuesta cruda."""
+    status = metric["status"]
+    return {
+        **metric,
+        "model": model,
+        "case_id": case.case_id,
+        "expected_category": case.expected_category,
+        "ambiguous": case.ambiguous,
+        "predicted_category": response.category if response else None,
+        "correct": response is not None and response.category == case.expected_category,
+        "application_contract_valid": True
+        if status in {"ok", "rejected_output"}
+        else False
+        if status == "invalid_response"
+        else None,
+        "application_output_guardrail_passed": True
+        if status == "ok"
+        else False
+        if status == "rejected_output"
+        else None,
+    }

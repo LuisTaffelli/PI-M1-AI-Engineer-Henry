@@ -1,0 +1,129 @@
+"""Ejecución local legacy: conserva selección, límites y artefactos originales."""
+
+import sys
+from pathlib import Path
+
+from evals.artifacts import (
+    next_metric,
+    prompt_hashes,
+    sha256,
+    source_hashes,
+    write_json,
+)
+from evals.classification_report import classification_result, summarize
+from evals.datasets import check_dataset, load_cases
+from src.llm.prompt_catalog import DEFAULT_COMPARISON, PROMPT_NAMES
+from src.llm.prompts import load_prompt
+from src.runtime.config import Settings
+from src.runtime.metrics import append_metric
+from src.support.service import simulate_response
+
+
+def run_sample(
+    dataset: Path,
+    settings: Settings,
+    case_ids: list[str],
+    output: Path,
+    *,
+    allow_local_inference: bool = False,
+    all_cases: bool = False,
+    max_generations: int = 8,
+    diagnostic_suite: bool = False,
+    prompts: tuple[str, ...] = DEFAULT_COMPARISON,
+) -> dict:
+    if not allow_local_inference or settings.provider != "ollama":
+        raise ValueError("Se requiere permiso explícito y provider=ollama.")
+    if (
+        not prompts
+        or len(set(prompts)) != len(prompts)
+        or any(name not in PROMPT_NAMES for name in prompts)
+    ):
+        raise ValueError("Elegí versiones conocidas, sin repetirlas.")
+    if all_cases and case_ids:
+        raise ValueError("Elegí IDs o corpus completo, no ambos.")
+    if not all_cases and (
+        not 1 <= len(case_ids) <= 4 or len(set(case_ids)) != len(case_ids)
+    ):
+        raise ValueError("Elegí entre uno y cuatro IDs únicos antes de ejecutar.")
+    cases = load_cases(dataset)
+    check_dataset(cases, minimum_cases=4 if diagnostic_suite else 30)
+    if all_cases:
+        case_ids = [case.case_id for case in cases]
+    if (
+        type(max_generations) is not int
+        or not 2 <= max_generations <= 64
+        or len(case_ids) * len(prompts) > max_generations
+    ):
+        raise ValueError(
+            "La corrida excede el presupuesto explícito (máximo 64 generaciones)."
+        )
+    indexed = {case.case_id: case for case in cases}
+    if any(case_id not in indexed for case_id in case_ids):
+        raise ValueError("ID ausente en el dataset.")
+    for prompt in prompts:
+        load_prompt(prompt)
+    output = output.resolve()
+    # Falla si ya existe: una segunda ejecución nunca borra una corrida anterior.
+    output.mkdir(parents=True, exist_ok=False)
+    settings = settings.model_copy(
+        update={
+            "max_attempts": 1,
+            "ollama_max_output_tokens": min(settings.ollama_max_output_tokens, 256),
+            "ollama_num_ctx": min(settings.ollama_num_ctx, 2048),
+            "ollama_timeout_seconds": min(settings.ollama_timeout_seconds, 30),
+            "log_metrics": True,
+            "metrics_path": str(output / "metrics.jsonl"),
+            "pricing_path": None,
+        }
+    )
+    plan = {
+        "format_version": 2,
+        "suite_kind": "supplementary_diagnostic" if diagnostic_suite else "base_corpus",
+        "max_generations": max_generations,
+        "all_cases": all_cases,
+        "prompts": list(prompts),
+        "dataset_sha256": sha256(dataset),
+        "prompt_sha256": prompt_hashes(prompts),
+        "source_sha256": source_hashes(),
+        "settings": {
+            key: value
+            for key, value in settings.model_dump().items()
+            if key.startswith("ollama_") or key in {"provider", "model", "max_attempts"}
+        },
+        "label_review_status": "not_verified_by_this_run",
+        "order": "prompt_then_case_id_order; no warmup or randomization",
+        "planned_generations": len(case_ids) * len(prompts),
+        "cases": [
+            {
+                "case_id": case_id,
+                "expected_category": indexed[case_id].expected_category,
+                "ambiguous": indexed[case_id].ambiguous,
+            }
+            for case_id in case_ids
+        ],
+    }
+    write_json(output / "plan.json", plan)
+    rows = []
+    for prompt in prompts:
+        current = settings.model_copy(update={"prompt": prompt})
+        for case_id in case_ids:
+            case = indexed[case_id]
+            response = None
+            try:
+                response = simulate_response(case.query, settings=current)
+            except (ValueError, OSError):
+                # La etapa/código fijo de metrics evita conservar excepciones crudas.
+                pass
+            metric = next_metric(
+                Path(current.metrics_path),
+                len(rows),
+                "Registro de métricas incompleto; corrida conservada.",
+            )
+            row = classification_result(metric, current.model, case, response)
+            append_metric(output / "results.jsonl", row)
+            rows.append(row)
+            print(f"{prompt} {case_id}: {row['status']}", file=sys.stderr)
+    report = summarize(rows)
+    report["suite_kind"] = plan["suite_kind"]
+    write_json(output / "summary.json", report)
+    return report

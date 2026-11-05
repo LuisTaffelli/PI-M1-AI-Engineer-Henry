@@ -4,7 +4,12 @@ import hashlib
 from dataclasses import dataclass
 from pathlib import Path
 
-from evals.run_evals import Case, check_dataset, load_cases
+from evals.artifacts import (
+    prompt_hashes,
+    sha256,
+    source_hashes,
+)
+from evals.datasets import Case, check_dataset, load_cases
 from src.llm.prompt_catalog import PROMPT_NAMES
 from src.llm.prompts import load_prompt
 from src.runtime.config import ROOT, Settings
@@ -95,16 +100,9 @@ def prepare_plan(
         "continue_on_error": continue_on_error,
         "suite_kind": "supplementary_diagnostic" if diagnostic_suite else "base_corpus",
         "reference_status": "not_verified_by_this_run",
-        "dataset_sha256": hashlib.sha256(dataset.read_bytes()).hexdigest(),
-        "prompt_sha256": {
-            p: hashlib.sha256((ROOT / "prompts" / f"{p}.yaml").read_bytes()).hexdigest()
-            for p in prompts
-        },
-        "source_sha256": {
-            str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()
-            for folder in ("src", "evals")
-            for p in sorted((ROOT / folder).rglob("*.py"))
-        },
+        "dataset_sha256": sha256(dataset),
+        "prompt_sha256": prompt_hashes(prompts),
+        "source_sha256": source_hashes(),
         "settings": {
             k: v
             for k, v in settings.model_dump().items()
