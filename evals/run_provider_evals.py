@@ -28,6 +28,9 @@ def main() -> int:
     selection.add_argument("--case-id", action="append")
     selection.add_argument("--all-cases", action="store_true")
     parser.add_argument("--max-calls", type=int, required=True)
+    pricing = parser.add_mutually_exclusive_group()
+    pricing.add_argument("--pricing", type=Path)
+    pricing.add_argument("--no-pricing", action="store_true")
     parser.add_argument("--max-attempts", type=int, default=1)
     parser.add_argument("--max-output-tokens", type=int, default=256)
     parser.add_argument("--output", type=Path, required=True)
@@ -49,7 +52,17 @@ def main() -> int:
                 for p in ("openai", "gemini", "ollama")
             },
         )
-        settings = settings.model_copy(update={"pricing_path": None})
+        settings = settings.model_copy(
+            update={
+                "pricing_path": str(
+                    args.pricing
+                    or settings.pricing_path
+                    or ROOT / "pricing/standard-text-2026-11-05.json"
+                )
+                if not args.no_pricing and args.provider in REMOTE_PROVIDERS
+                else None
+            }
+        )
         plan = prepare_plan(
             args.dataset,
             settings,

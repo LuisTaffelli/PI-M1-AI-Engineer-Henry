@@ -8,6 +8,7 @@ from evals.run_evals import Case, check_dataset, load_cases
 from src.llm.prompt_catalog import PROMPT_NAMES
 from src.llm.prompts import load_prompt
 from src.runtime.config import ROOT, Settings
+from src.runtime.pricing import load_catalog
 
 REMOTE_PROVIDERS = frozenset({"openai", "gemini"})
 MAX_PROVIDER_CALLS = 384
@@ -20,6 +21,7 @@ class EvaluationPlan:
     prompts: tuple[str, ...]
     output: Path
     metadata: dict
+    pricing_data: bytes | None = None
 
 
 def prepare_plan(
@@ -65,10 +67,20 @@ def prepare_plan(
     output = output.resolve()
     if output.exists():
         raise ValueError("Elegí un directorio de salida nuevo.")
+    pricing_data = None
+    pricing_metadata = None
+    if settings.pricing_path is not None:
+        catalog, pricing_data = load_catalog(ROOT / settings.pricing_path)
+        pricing_metadata = {
+            "catalog_version": catalog.catalog_version,
+            "sha256": hashlib.sha256(pricing_data).hexdigest(),
+            "basis": "paid_standard_text_estimate_not_invoice",
+        }
     metadata = {
         "format_version": 1,
         "provider": settings.provider,
         "model": settings.model,
+        "pricing": pricing_metadata,
         "prompts": list(prompts),
         "planned_cases": planned_cases,
         "max_attempts_per_case": settings.max_attempts,
@@ -108,4 +120,6 @@ def prepare_plan(
             for c in cases
         ],
     }
-    return EvaluationPlan(settings, tuple(cases), prompts, output, metadata)
+    return EvaluationPlan(
+        settings, tuple(cases), prompts, output, metadata, pricing_data
+    )

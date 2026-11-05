@@ -4,6 +4,7 @@ import json
 
 from evals.classification_report import summarize
 from evals.evaluation_plan import REMOTE_PROVIDERS, EvaluationPlan
+from evals.usage_cost_report import summarize_financials
 from src.runtime.metrics import append_metric
 from src.support.service import simulate_response
 
@@ -23,11 +24,15 @@ def execute_plan(
         "remote_execution_confirmed": remote,
     }
     (plan.output / "plan.json").write_text(json.dumps(metadata, indent=2) + "\n")
+    pricing_path = None
+    if plan.pricing_data is not None:
+        pricing_path = plan.output / "pricing.json"
+        pricing_path.write_bytes(plan.pricing_data)
     settings = plan.settings.model_copy(
         update={
             "log_metrics": True,
             "metrics_path": str(plan.output / "metrics.jsonl"),
-            "pricing_path": None,
+            "pricing_path": str(pricing_path) if pricing_path else None,
         }
     )
     rows = []
@@ -93,6 +98,11 @@ def execute_plan(
             for subset in group.get("by_ambiguity", {}).values():
                 subset["exact_match_on_processed"] = subset["exact_match"]
                 subset["exact_match"] = None
+    report["usage_and_cost"] = summarize_financials(rows)
+    for prompt in plan.prompts:
+        report["by_prompt"][prompt]["usage_and_cost"] = summarize_financials(
+            [row for row in rows if row["prompt_version"] == prompt]
+        )
     attempts = sum(row["attempts"] for row in rows)
     report.update(
         simulated=settings.provider == "mock",
