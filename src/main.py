@@ -53,8 +53,9 @@ def main() -> int:
         print(f"Error: {error}", file=sys.stderr)
         return 2
     except ProviderError as error:
+        http_detail = f" HTTP {error.http_status}" if error.http_status else ""
         print(
-            f"Error: proveedor [{error.code}]. No se produjo una respuesta válida.",
+            f"Error: proveedor [{error.code}]{http_detail}. No se produjo una respuesta válida.",
             file=sys.stderr,
         )
         return 2

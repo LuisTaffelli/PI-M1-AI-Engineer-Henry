@@ -68,9 +68,14 @@ class GeminiProvider:
         try:
             data = self._transport(request, 30.0)
         except HTTPError as error:
+            # No leer el cuerpo ni copiar metadatos externos. ProviderError valida
+            # el entero antes de exponerlo al CLI o persistirlo en métricas.
+            status = error.code
             error.close()
             raise ProviderError(
-                "Gemini rechazó la solicitud HTTP.", code="http_error"
+                "Gemini rechazó la solicitud HTTP.",
+                code="http_error",
+                http_status=status,
             ) from None
         except (json.JSONDecodeError, UnicodeDecodeError):
             raise ProviderError(

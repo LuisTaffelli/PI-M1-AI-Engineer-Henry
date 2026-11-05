@@ -30,9 +30,18 @@ class ProviderError(ValueError):
         *,
         code: str = "provider_error",
         usage: TokenUsage | None = None,
+        http_status: int | None = None,
     ) -> None:
         super().__init__(message)
         self.code = code if code in self.CODES else "provider_error"
+        # Sólo el número HTTP de error: nunca reason, URL, headers o cuerpo.
+        self.http_status = (
+            http_status
+            if self.code == "http_error"
+            and type(http_status) is int
+            and 400 <= http_status <= 599
+            else None
+        )
         self.usage = usage if isinstance(usage, TokenUsage) else TokenUsage()
 
 

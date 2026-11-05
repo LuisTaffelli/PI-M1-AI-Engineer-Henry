@@ -24,6 +24,7 @@ def simulate_response(
     attempts = 0
     status = "rejected_input"
     failure_code = None
+    failure_http_status = None
     usage_by_attempt: list[TokenUsage] = []
     injected = provider is not None
     try:
@@ -63,6 +64,7 @@ def simulate_response(
         raise RuntimeError("No se ejecutó ningún intento.")
     except ProviderError as error:
         failure_code = error.code
+        failure_http_status = error.http_status
         raise
     except ValidationError as error:
         # Settings/prompts también usan Pydantic: no confundirlos con salida del modelo.
@@ -80,6 +82,7 @@ def simulate_response(
                 injected=injected,
                 status=status,
                 failure_code=failure_code,
+                failure_http_status=failure_http_status,
                 attempts=attempts,
                 started=started,
                 usage_by_attempt=usage_by_attempt,
