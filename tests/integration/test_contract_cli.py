@@ -10,7 +10,7 @@ from pydantic import ValidationError
 
 from src.support.schemas import SupportResponse
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 
 
 class ContractTests(unittest.TestCase):

@@ -27,7 +27,7 @@ class ModuleLayoutTests(unittest.TestCase):
             )
 
     def test_cli_loads_config_and_prompts_outside_project_directory(self):
-        self.assertEqual(ROOT, Path(__file__).resolve().parents[1])
+        self.assertEqual(ROOT, Path(__file__).resolve().parents[2])
         for scenario, expected in (("fixed", 0), ("recover_once", 0), ("malformed", 2)):
             result = self.invoke_from_other_directory(
                 "src.main",
