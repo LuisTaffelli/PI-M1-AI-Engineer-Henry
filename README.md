@@ -215,7 +215,10 @@ La cota de llamadas no es un tope de gasto; los guardrails tampoco garantizan se
 - [Uso de IA](docs/USO_IA.md), [muestras de métricas](docs/METRICAS_EJEMPLOS.md) y [cierre de entrega](docs/CIERRE_ENTREGA.md).
 - [Bitácora del proyecto](docs/BITACORA.md): cambios, decisiones, verificaciones y registros anteriores.
 
-La entrega aún requiere contrastar los pendientes con la consigna completa.
+La consigna oficial se contrastó el 07/11/2026. La Evaluación admite la comparativa
+de modelos como extra; el [cierre de entrega](docs/CIERRE_ENTREGA.md#consigna-oficial-contrastada--07112026)
+registra requisitos, la diferencia con la guía y el calendario sin zona horaria.
+Esta revisión no garantiza una nota ni acredita la presentación académica.
 
 ## Evidencia original versionada
 
