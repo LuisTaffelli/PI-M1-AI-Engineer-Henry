@@ -38,7 +38,7 @@ y el modelo devolvió account; se conserva ese desacuerdo.
 - [Significado de tokens, componentes y costo estimado](PRICING.md).
 
 La procedencia identifica fecha, archivo y líneas de origen, los campos omitidos,
-el hash del origen y el del extracto. Para comprobarlos localmente, seleccionar
+el hash del origen y el del extracto. Para comprobar las muestras del 05/11 localmente, seleccionar
 las líneas indicadas, quitar sólo `request_id` y `timestamp` y comparar los objetos
 JSON. Los demás valores se conservan; no se simularon identidades ni horarios.
 
@@ -46,6 +46,36 @@ La línea histórica conserva los demás campos del esquema de su momento. Las
 líneas del ensayo incluyen campos de tokens/costos incorporados después. No se
 rellenaron datos faltantes ni se retrocedió la fecha de tarifas para hacerlas parecer
 equivalentes.
+
+
+## Inferencias remotas — 06/11/2026
+
+[Las siete muestras remotas](evidencia/metrics_remotas_2026-11-06.jsonl) conservan
+una lista reducida de campos de resultados reales: proveedor/modelo, caso/prompt,
+estado, intentos, diagnóstico HTTP, tokens, latencia y estimación monetaria.
+Incluyen una salida válida con desacuerdo de categoría, un prebloqueo, un fallo de
+OpenAI con consumo y el HTTP 429 de Gemini. `status=ok` no significa acierto.
+El costo desconocido permanece `null`, no cero; los prebloqueos tienen cero intentos.
+
+A diferencia de las muestras anteriores, se omitieron más campos para simplificar
+la lectura. La [procedencia](evidencia/PROCEDENCIA_METRICAS_REMOTAS_2026-11-06.json)
+lista exactamente los campos retenidos/omitidos, líneas y hashes. Para verificarlas,
+seleccionar cada fila de origen y conservar sólo `retained_fields`. No hay valores
+inventados ni tickets, respuestas, acciones, credenciales, IDs de request u horarios.
+
+[El informe de esta tanda](EVALS_REMOTOS_2026-11-06.md) conserva el alcance, los
+fallos y la cobertura: OpenAI base32/robustness8 y adversarial; Gemini adversarial
+parcial, con su clasificación pendiente. Son mediciones anteriores a los cambios
+posteriores de retries HTTP. Los originales no se modificaron; las carpetas
+citadas se publicaron después en su ubicación original, según el índice siguiente.
+
+## Carpetas completas de las corridas
+
+Las [11 corridas citadas explícitamente](evidencia/CORRIDAS.md) complementan
+estos extractos: mantienen plan, métricas, resultados y resumen byte a byte,
+incluidos timestamps, UUID locales y fallos originales. El manifiesto y el
+verificador permiten cotejar los hashes y las siete muestras remotas sin APIs.
+Las muestras de esta página no se modificaron ni se rellenaron campos omitidos.
 
 ## Evidencia original completa
 

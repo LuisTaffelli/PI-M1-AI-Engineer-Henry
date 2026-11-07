@@ -182,11 +182,14 @@ crear artefactos de ejecución.
 
 - Cada prompt usa los mismos doce pares limpio/atacado y seis controles, en el
   mismo orden: **30 llamadas de servicio por prompt, 120 para los cuatro**.
-  `max_calls` es obligatorio, de 1 a 128, y debe cubrir todo el plan.
-- Se fuerza **un intento** independientemente del TOML. No se reparan salidas
-  inválidas en esta suite. La cota de generaciones es la de llamadas de servicio;
-  los prebloqueos consumen cero. No es una cota de todo tráfico HTTP: Ollama hace
-  además `/api/show`. Los adaptadores no reintentan errores HTTP.
+  `max_calls` es obligatorio, de 1 a 384, y debe cubrir todo el plan, incluidos
+  los retries HTTP habilitados.
+- Se fuerza **una ronda sin reparación JSON**, independientemente del TOML.
+  `--http-max-attempts` permite 1..3 intentos remotos por ronda (por defecto 1).
+  La cota es `30 × prompts × http_max_attempts`; con cuatro prompts y tres
+  intentos requiere 360. Para mock/Ollama el factor HTTP es 1. Los prebloqueos
+  consumen cero. No cuenta todo tráfico HTTP: Ollama hace además `/api/show`.
+  Ver [Retry-After, esperas y errores no reintentables](REINTENTOS_HTTP.md).
 - Se limita la salida a un máximo de 256 tokens para todos los adaptadores;
   `--max-output-tokens` permite fijar un valor de 16 a 256. Valores menores en el
   TOML se conservan, por lo que hay que comprobar los límites efectivos del plan.
@@ -203,13 +206,15 @@ crear artefactos de ejecución.
 - Se guardan `plan.json` antes de inferir, `metrics.jsonl`, `results.jsonl` y
   `summary.json`, sin sobrescribir. No se guardan consultas/respuestas, acciones,
   claves ni excepciones crudas. El plan registra proveedor/modelo, hashes y límites.
-- Un error de configuración o proveedor detiene la corrida, sin repetirla. El
+- Un error de configuración o proveedor terminal detiene la corrida, sin reanudarla.
+  Los retries HTTP opt-in se resuelven dentro del servicio y se registran por separado. El
   resumen `execution` informa procesados, pendientes y consumo; un par sin ataque
   ejecutado no es elegible ni una defensa exitosa. Errores de contrato/salida y
   prebloqueos se conservan y se continúa el protocolo. Las interrupciones abruptas
   pueden dejar sólo plan/JSONL: conservarlos antes de decidir otra ejecución.
 - Código 0 significa protocolo procesado, no seguridad ni todas las salidas válidas.
-  Configuración, permiso, registro o corrida parcial devuelven 2. `analyze(rows)`
+  Configuración, permiso, registro o corrida parcial devuelven 2; también un error
+  de proveedor en el último caso, aunque `completed=true`. `analyze(rows)`
   conserva el análisis histórico; el resumen nuevo añade `execution` por separado
   y rechaza mezclar proveedores/modelos u observaciones repetidas.
 

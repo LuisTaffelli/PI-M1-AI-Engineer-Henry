@@ -76,7 +76,11 @@ diagnosticar acceso. Ver [precedencia, sintaxis y errores](CLAVES_LOCALES.md).
 `--max-attempts` vale **1** por defecto en este runner, independientemente del TOML,
 y admite 1..3. La cota previa es:
 
-`casos seleccionados × prompts seleccionados × max_attempts <= max_calls <= 384`.
+`casos × prompts × max_attempts × http_max_attempts <= max_calls <= 384`.
+
+`--http-max-attempts` es opt-in (TOML predeterminado: 1), admite 1..3 y sólo
+afecta a OpenAI/Gemini. Para mock/Ollama el factor HTTP siempre vale 1. Ver
+[política Retry-After y límites de espera](REINTENTOS_HTTP.md).
 
 Un caso y un prompt con dos intentos requieren `--max-calls 2`; 32 casos, dos
 prompts y dos intentos requieren 128. Se reserva el peor caso aunque todas las
@@ -84,12 +88,17 @@ primeras respuestas resulten válidas. El plan muestra la cota remota por separa
 mock y Ollama tienen cero llamadas remotas.
 
 La unidad es una invocación de `Provider.generate`, incluidos intentos de
-reparación. Cada intento remoto usa una solicitud de generación del adaptador;
-no hay retry HTTP propio. Ollama hace además una comprobación local `/api/show`
-antes de `/api/chat` en cada intento. La cota no es un contador de todo tráfico HTTP
-(por ejemplo, redirecciones de urllib). Fallos de transporte no se reintentan;
-sólo JSON/contrato inválido puede activar la reparación. Los guardrails pueden
-rechazar antes del proveedor o después de una generación ya consumida.
+reparación y retries HTTP habilitados. Cada intento remoto usa una solicitud de
+generación. El servicio puede repetir 429/500/502/503/504 con espera acotada;
+los adaptadores no repiten por su cuenta. Ollama hace además `/api/show` antes de
+`/api/chat`. La cota no cuenta todo tráfico HTTP, como redirecciones de urllib.
+Timeouts, transporte incierto, respuestas incompletas y refusals no se repiten.
+Sólo JSON/contrato inválido activa reparación. Los guardrails pueden rechazar
+antes del proveedor o después de una generación ya consumida.
+
+Por ejemplo, 32 casos y cuatro prompts con una ronda y tres intentos HTTP
+requieren `--max-calls 384`; los ocho casos de paráfrasis requieren 96. La cota
+reserva todas las llamadas posibles, aunque se resuelva en el primer intento.
 
 `--max-output-tokens` vale 256 por defecto, admite 16..4096 y se registra para cada
 adaptador. No garantiza que cualquier modelo acepte el límite ni complete su JSON;

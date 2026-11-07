@@ -48,6 +48,19 @@ evals/
 Los JSONL de ataques conservan sus rutas en `evals/`; los corpus etiquetados siguen
 en `data/`. Prompts, datasets, tarifas y resultados previos no se movieron ni editaron.
 
+## Pruebas por responsabilidad
+
+`tests/` acompaña este mapa con siete grupos: `integration/`, `providers/`,
+`prompts/`, `guardrails/`, `service/`, `runtime/` y `evaluation/`. Los archivos
+mixtos conservan sus casos y fixtures, agrupados por su responsabilidad principal.
+Las pruebas de `evaluation/` verifican la mecánica de los runners sin modelos;
+no sustituyen los experimentos académicos de `evals/`.
+
+`make test` y `make check` siguen descubriendo toda la suite. La
+[guía de tests](../tests/README.md) explica el alcance de cada carpeta y cómo
+correr un grupo, un archivo o un caso. Los `__init__.py` permiten el descubrimiento
+recursivo sin dependencias nuevas.
+
 ## Seguir la traza de una evaluación
 
 - **Clasificación común:** `evals.run_provider_evals` → `cli/providers.py` →
@@ -100,11 +113,16 @@ y límites del formato están en [claves locales](CLAVES_LOCALES.md).
 4. Guardrail de salida y respuesta con el mismo contrato.
 5. `runtime.request_metrics` registra el resultado incluso tras un fallo.
 
-El servicio conserva el orden y alcance de retries: no reintenta transporte ni
-rechazos del guardrail. La factory recibe el generador del schema y sólo lo usa
-para Gemini/Ollama. La interfaz `Provider` sigue en `llm/providers/base.py`.
-Los estados, privacidad, uso y costos no cambian; la latencia incluye orquestación
-y reparaciones. El catálogo de tarifas y la aritmética siguen separados en
+El servicio separa reparación JSON de retry HTTP opt-in. `llm/http_retry.py`
+normaliza Retry-After sin conservar headers; `support/http_retry.py` aplica límites
+por ronda y por consulta. Sólo 429/500/502/503/504 remotos pueden repetirse. No se
+reintenta transporte incierto, salida incompleta ni rechazos del guardrail. Cada
+invocación se cuenta, incluso fallos sin usage. La latencia incluye esperas y
+reparaciones; el costo desconocido no se convierte en cero. Ver
+[política y métricas](REINTENTOS_HTTP.md).
+
+La factory recibe el generador del schema y sólo lo usa para Gemini/Ollama.
+La interfaz `Provider` sigue en `llm/providers/base.py`. El catálogo de tarifas y la aritmética siguen separados en
 `runtime/pricing_catalog.py` y `runtime/pricing_calculation.py`, con la API de
 `runtime/pricing.py` como punto de uso.
 

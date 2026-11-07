@@ -73,6 +73,91 @@ La bitácora y los commits permiten seguir cambios y verificaciones. El
 [informe de desacuerdos](REVISION_DESACUERDOS.md) muestra observaciones que se
 conservaron en lugar de corregir referencias para favorecer al modelo.
 
+
+## Evaluaciones reales y evidencia — 06/11/2026
+
+Luis pidió ejecutar adversariales OpenAI/Gemini, después los datasets y dejar
+muestras simples de métricas. La asistencia preparó previews y ejecutó los cuatro
+prompts sin alterarlos: un intento, salida máxima de 256 tokens y límites explícitos.
+Gemini quedó parcial tras HTTP 429, sin retry; su clasificación no se inició.
+OpenAI completó adversarial y robustness. La base se reunió a partir de la corrida
+original y tres lotes de casos no ejecutados, sin repetir los dos fallos ni superar
+128 intentos. No se retocaron etiquetas para mejorar el resultado.
+
+Se conservaron desacuerdos, consumo desconocido, resultados originales y hashes.
+El sample legacy y los fixtures de guardrails se evaluaron offline, sin presentarlos
+como calidad de modelos. Se prepararon [informe y evidencia](EVALS_REMOTOS_2026-11-06.md)
+y siete muestras minimizadas con procedencia. No hubo commit, push o entrega de
+esta tanda. Cualquier implementación posterior de retries se verifica por separado;
+no cambia estas observaciones ni autoriza repetirlas automáticamente.
+
+
+## Reintentos HTTP y comandos de reproducción — 06/11/2026
+
+Luis pidió respetar Retry-After cuando la espera fuera razonable y aclarar en README
+cómo usar cada proveedor, evaluar datasets y ejecutar ataques. La asistencia
+propuso e implementó una política opt-in: hasta tres intentos HTTP por ronda,
+30 s por espera y 60 s acumulados por consulta, separada de reparación JSON.
+Se reintentan sólo 429/500/502/503/504, se rechazan esperas excesivas sin recortarlas
+y no se repiten resultados inciertos de transporte ni respuestas incompletas.
+Se amplió el diagnóstico seguro de OpenAI y se corrigió el código de salida del
+pareado cuando el último caso falla en proveedor/configuración.
+
+Los presupuestos previos incluyen las llamadas extra y las métricas mantienen
+consumo desconocido en los fallos, aunque una llamada posterior se recupere.
+Se documentaron previews, permisos y ejecución por proveedor/corpus. Esta mejora
+se implementó después de terminar la tanda remota y se comprobó offline; no alteró
+prompts, datasets, resultados previos ni generó nuevas llamadas reales.
+Ver [diseño, límites y pruebas](REINTENTOS_HTTP.md).
+
+
+## Organización de tests — 06/11/2026
+
+Luis pidió: «Me da un poco de toc, pero, podemos separar los tests en categorias
+por carpetas? o responsabilidades? Gracias». La asistencia agrupó los 26 archivos
+en siete responsabilidades, sin dividir sus clases ni cambiar sus fixtures o
+assertions. Sólo se ajustó la profundidad de dos rutas basadas en `__file__` y se
+agregaron `__init__.py` para el descubrimiento recursivo con `unittest`.
+
+Se conservaron los mismos 256 casos: comparación de IDs antes/después ignorando
+únicamente el nuevo prefijo de carpeta. `make check`, cada grupo aislado, el filtro
+anterior por archivo y un caso por módulo pasaron. La [guía de tests](../tests/README.md)
+explica dónde agregar pruebas y cómo ejecutarlas. No cambió el código de producción,
+no hubo inferencias reales ni modificaciones de resultados, commit o push.
+
+
+## Conservación literal de corridas y elección provisional
+
+Luis pidió conservar las carpetas con las métricas citadas, además de su
+procedencia, y explicar en README qué prompt se considera más viable. La
+asistencia revisó los registros y conservó 14 corridas históricas del 04/11 y
+06/11: 75 archivos y 671 resultados, sin modificar bytes, horarios, fallos ni
+valores desconocidos. Se agregaron manifiesto SHA-256, guía y verificador offline.
+
+La recomendación se limitó a v2 few-shot con OpenAI/gpt-6-luna en la muestra
+observada: empata 32/32 con v1 y tiene menor latencia mediana; no se trasladó
+a todos los proveedores ni cambió la configuración. La comparación con una
+nueva suite Gemini queda separada de esta evidencia histórica. Se conservaron
+los cambios preexistentes del proyecto, sin llamadas a modelos ni publicación
+durante esta preparación.
+
+La nueva corrida Gemini del 07/11 se archivó por separado con cinco archivos
+literales y 23 resultados. La asistencia documentó los compromisos por proveedor
+sin declarar ganador Gemini ni Ollama; la recomendación OpenAI sigue provisional.
+
+
+## Excepción Gemini y nueva tanda — 07/11/2026 UTC
+
+Luis aprobó excepcionalmente hasta 120 s por espera, 300 s acumulados por consulta
+y tres intentos. La asistencia implementó un opt-in exclusivo de runners Gemini,
+con una ronda JSON, defaults conservados, segundos normalizados sin headers crudos
+y 13 regresiones offline nuevas. `make check` aprobó 269 tests y revisión estática.
+La tanda completó adversarial y parte de base32; se detuvo ante el tercer HTTP 503
+en v4/nubbix-t06, sin iniciar robustness8. Se preservaron resultados y errores,
+sin ajustar los prompts o etiquetas para mejorar scores, ni publicar o hacer push.
+La [evidencia y sus límites](EXCEPCION_GEMINI_2026-11-07.md) distingue los 503 de los
+429 y corrige el diagnóstico intermedio que confundía algunas esperas de 30 s.
+
 ## Corrección de ubicación de la evidencia — 07/11/2026
 
 Luis aclaró que quería commitear y pushear los casos originales citados de
@@ -89,3 +174,15 @@ inventarios circulares: mantuvo 11 carpetas citadas en los JSON de procedencia
 o informes de `docs/evidencia` y retiró seis del versionado conservando los
 originales locales. Cada corrida seleccionada ahora señala su referencia exacta;
 ni manifiestos ni documentación general amplían el alcance.
+
+
+## Revisión y publicación de pendientes — 07/11/2026
+
+Luis pidió: «Pushea y commitea lo que falte, yo creo que ya esta todo por lo que
+veo, no se si falto un punto del PI». La asistencia revisó los cambios locales,
+los separó por responsabilidad y validó tests, formato, enlaces y manifiestos
+antes de publicar. Se aclaró el estado histórico de los informes sin modificar
+sus resultados. Se mantuvo la decisión de conservar el historial Git y la
+selección de 11 corridas, sin reintroducir las seis excluidas ni un mirror.
+La revisión no abrió otra tanda Gemini, no ejecutó inferencias ni equivalió a
+una entrega académica o certificación de la consigna completa.
