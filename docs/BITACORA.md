@@ -112,3 +112,12 @@ bytes, timestamps, errores y costos desconocidos; los manifiestos, enlaces y
 verificador apuntan a esa única ubicación. `.gitignore` permite sólo los archivos
 inventariados. No se hicieron inferencias ni se reanudó Gemini. Los cambios
 previos de código, retry HTTP y reorganización de tests quedan fuera de este commit.
+
+## 07/11/2026: reducción a referencias explícitas
+
+Luis precisó que no quería conservar las 17 carpetas: sólo las citadas por los
+archivos JSON de procedencia e informes de `docs/evidencia`, sin usar manifiestos
+o documentación general para ampliar el conjunto. Quedan 11 carpetas, 56 archivos
+y 620 resultados. Se retiraron seis carpetas del índice de Git, sin borrar sus
+34 archivos locales ni cambiar sus bytes. Se ajustaron selección, manifiestos,
+enlaces y verificación. No se hicieron inferencias ni se reescribió el historial.

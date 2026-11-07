@@ -9,6 +9,15 @@ from statistics import median
 from uuid import UUID
 
 MANIFEST = "MANIFIESTO_CORRIDAS_2026-11-06.json"
+EVIDENCE_DOCUMENTS = frozenset(
+    {
+        "PROCEDENCIA_METRICAS_2026-11-05.json",
+        "PROCEDENCIA_METRICAS_REMOTAS_2026-11-06.json",
+        "EVALS_REMOTOS_2026-11-06.json",
+        "EVALS_GEMINI_RETRY_2026-11-07.json",
+        "EVALS_GEMINI_EXCEPCION_2026-11-07.json",
+    }
+)
 
 
 def require(condition, message):
@@ -41,6 +50,26 @@ def read_rows(path):
     return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines()]
 
 
+def verify_reference(evidence, run):
+    reference = run["evidence_reference"]
+    document = reference["document"]
+    require(document in EVIDENCE_DOCUMENTS, "Documento de evidencia no permitido")
+    pointer = reference["pointer"]
+    require(pointer.startswith("/"), "JSON Pointer inválido")
+    value = read_json(confined(evidence, document))
+    try:
+        for part in pointer[1:].split("/"):
+            part = part.replace("~1", "/").replace("~0", "~")
+            value = value[int(part)] if isinstance(value, list) else value[part]
+    except (KeyError, IndexError, TypeError, ValueError) as error:
+        raise ValueError("Referencia explícita ausente") from error
+    require(isinstance(value, str), "La referencia debe contener una ruta")
+    require(
+        value == run["directory"] or str(Path(value).parent) == run["directory"],
+        f"Referencia no corresponde a la corrida: {run['name']}",
+    )
+
+
 def verify(evidence, check_mtime=False, manifest_name=MANIFEST):
     manifest = read_json(confined(evidence, manifest_name))
     require(manifest["format_version"] == 2, "Formato de manifiesto no admitido")
@@ -61,6 +90,8 @@ def verify(evidence, check_mtime=False, manifest_name=MANIFEST):
         if path.is_file() or path.is_symlink()
     }
     require(actual == expected, "Faltan archivos o hay archivos no inventariados")
+    for run in manifest["runs"]:
+        verify_reference(evidence, run)
     for entry in entries:
         path = confined(root, entry["path"])
         raw = path.read_bytes()

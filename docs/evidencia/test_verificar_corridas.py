@@ -38,6 +38,8 @@ class VerifyOriginalRunsTests(unittest.TestCase):
             ],
         }
         shutil.copytree(HERE.parents[1] / run["directory"], self.directory)
+        document = run["evidence_reference"]["document"]
+        shutil.copy2(HERE / document, self.evidence / document)
         self.save_manifest()
 
     def save_manifest(self):
@@ -55,6 +57,24 @@ class VerifyOriginalRunsTests(unittest.TestCase):
         self.assertEqual(VERIFIER.verify(self.evidence), (1, 5, 2))
         with self.assertRaisesRegex(ValueError, "mtime"):
             VERIFIER.verify(self.evidence, check_mtime=True)
+
+    def test_inventory_is_not_a_reference(self):
+        self.manifest["runs"][0]["evidence_reference"]["document"] = VERIFIER.MANIFEST
+        self.save_manifest()
+        with self.assertRaisesRegex(ValueError, "no permitido"):
+            VERIFIER.verify(self.evidence)
+
+    def test_reference_to_different_run(self):
+        self.manifest["runs"][0]["evidence_reference"]["pointer"] = "/runs/0/run_dir"
+        self.save_manifest()
+        with self.assertRaisesRegex(ValueError, "no corresponde"):
+            VERIFIER.verify(self.evidence)
+
+    def test_missing_reference(self):
+        self.manifest["runs"][0]["evidence_reference"]["pointer"] = "/missing"
+        self.save_manifest()
+        with self.assertRaisesRegex(ValueError, "Referencia explícita ausente"):
+            VERIFIER.verify(self.evidence)
 
     def test_missing_file(self):
         (self.directory / "plan.json").unlink()

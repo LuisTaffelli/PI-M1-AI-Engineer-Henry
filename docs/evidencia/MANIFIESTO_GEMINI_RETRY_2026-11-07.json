@@ -13,7 +13,11 @@
       "rows": 23,
       "first_recorded_timestamp": "2026-11-07T00:02:41.722012+00:00",
       "last_recorded_timestamp": "2026-11-07T00:03:09.235260+00:00",
-      "directory": "data/local_runs/2026-11-07-gemini-adversarial-v1-v4-http3"
+      "directory": "data/local_runs/2026-11-07-gemini-adversarial-v1-v4-http3",
+      "evidence_reference": {
+        "document": "EVALS_GEMINI_RETRY_2026-11-07.json",
+        "pointer": "/suites/0/output"
+      }
     }
   ],
   "files": [
@@ -53,5 +57,7 @@
       "source_mtime_utc": "2026-11-07T00:03:09.235935+00:00"
     }
   ],
-  "storage": "Archivos originales versionados en data/local_runs; rutas relativas a la raíz del repositorio, sin mirror."
+  "storage": "Archivos originales versionados en data/local_runs; rutas relativas a la raíz del repositorio, sin mirror.",
+  "selection": "Sólo carpetas citadas explícitamente por los JSON de procedencia o informes de docs/evidencia. Manifiestos, índices y documentación general no justifican incluir una corrida.",
+  "scope_corrected_on": "2026-11-07"
 }

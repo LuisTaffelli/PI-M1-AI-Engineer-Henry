@@ -80,3 +80,12 @@ Luis aclaró que quería commitear y pushear los casos originales citados de
 privacidad e integridad, adaptó manifiestos/verificador/enlaces y preparó una
 publicación limitada a esa evidencia, sin incorporar cambios previos de código
 ni ejecutar más inferencias. Se preservan los resultados originales.
+
+## Precisión del alcance de evidencia — 07/11/2026
+
+Luis corrigió la selección de 17 corridas y pidió sólo las mencionadas en los
+archivos de evidencia. La asistencia separó las referencias reales de los
+inventarios circulares: mantuvo 11 carpetas citadas en los JSON de procedencia
+o informes de `docs/evidencia` y retiró seis del versionado conservando los
+originales locales. Cada corrida seleccionada ahora señala su referencia exacta;
+ni manifiestos ni documentación general amplían el alcance.

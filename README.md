@@ -76,6 +76,6 @@ La entrega aún requiere contrastar los pendientes con la consigna completa.
 
 ## Evidencia original versionada
 
-Las [17 corridas citadas](docs/evidencia/CORRIDAS.md) se conservan directamente en
-`data/local_runs/`: 90 archivos y 924 resultados, sin mirror. Los tres manifiestos
+Las [11 corridas citadas](docs/evidencia/CORRIDAS.md) se conservan directamente en
+`data/local_runs/`: 56 archivos y 620 resultados, sin mirror. Los tres manifiestos
 y el verificador permiten comprobarlos offline; otras salidas siguen ignoradas.
