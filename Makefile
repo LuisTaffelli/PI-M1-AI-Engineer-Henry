@@ -1,9 +1,11 @@
 PYTHON ?= .venv/bin/python
 RUFF ?= .venv/bin/ruff
 
-.PHONY: run test eval lint format format-check check
+.PHONY: run tui test eval lint format format-check check
 run:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -m src.main 'Me cobraron dos veces este mes.'
+tui:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -m src.tui
 test:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -m unittest discover -s tests -v
 eval:
