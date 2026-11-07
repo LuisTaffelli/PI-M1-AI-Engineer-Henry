@@ -8,7 +8,7 @@ La suite académica de evaluaciones sigue en `evals/`, con sus propios comandos.
 
 ```text
 tests/
-  integration/   contrato JSON, CLI, recorrido offline e imports/recursos
+  integration/   contrato JSON, CLI/TUI, recorrido offline e imports/recursos
   providers/     OpenAI, Gemini, Ollama, salida estructurada y status HTTP
   prompts/       carga segura de YAML y compatibilidad de las cuatro versiones
   guardrails/    diagnóstico de reglas, Unicode y límite de entrada
@@ -62,3 +62,14 @@ Mantené `__init__.py` en `tests/` y en cada subcarpeta: permite descubrir los t
 recursivamente en las versiones de Python compatibles y ejecutarlos por módulo.
 Los nombres de archivos `test_*.py` se mantienen para conservar los filtros `-p`.
 No hace falta agregar un runner, framework ni configuración nuevos.
+
+## Menú de terminal
+
+`tests/integration/test_tui.py` prueba entrada simulada, validación, configuración,
+previews, confirmación remota por corrida, límites, cancelación y conservación de
+resultados parciales. Ejecuta los runners con mock en carpetas temporales; bloquea
+lectura de claves y transportes de red. No son evaluaciones de calidad de un LLM.
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m unittest tests.integration.test_tui -v
+```

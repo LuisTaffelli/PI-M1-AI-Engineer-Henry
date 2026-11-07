@@ -227,3 +227,21 @@ enlaces y verificación. No se hicieron inferencias ni se reescribió el histori
   costos desconocidos y controles offline de inferencias reales.
 - Gemini queda cerrado con cobertura parcial. Publicar los avances no reanuda
   pruebas, no certifica una rúbrica incompleta ni realiza una entrega académica.
+
+
+## 06/11/2026 Argentina (07/11 UTC): mini TUI opcional
+
+- Nuevo `make tui` / `python -m src.tui`: tickets independientes en loop y menú
+  para base32, paráfrasis8 o adversariales, con prompt actual o los cuatro.
+- `src/tui.py` es una capa de entrada sobre el servicio y los runners existentes.
+  Comienza en mock, confirma cada corrida, muestra cotas/costo no garantizado y
+  conserva configuración sólo en memoria. No se cambia la CLI original.
+- Ctrl+C/EOF se manejan sin reanudar automáticamente. Las corridas interrumpidas
+  conservan archivos, pueden carecer de resumen y no se presentan como completas.
+- Validación: `make check` pasó 296 tests (27 nuevos), lint y formato de 101 archivos.
+  Tests con claves/red bloqueadas, runners mock en carpetas temporales y regresiones
+  de resultados parciales. Ensayo PTY real: ticket mock, `/volver`, Ctrl+C y Ctrl+D;
+  también `make tui` y `python -m src.tui --help`.
+- Se comprobó sin cambios el hash combinado de 168 archivos en prompts, data y
+  docs/evidencia. Sin nuevas inferencias reales, secretos, commits, push o entrega.
+  [Guía del menú](TUI.md) y [uso de IA](USO_IA.md).

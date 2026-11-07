@@ -186,3 +186,24 @@ sus resultados. Se mantuvo la decisión de conservar el historial Git y la
 selección de 11 corridas, sin reintroducir las seis excluidas ni un mirror.
 La revisión no abrió otra tanda Gemini, no ejecutó inferencias ni equivalió a
 una entrega académica o certificación de la consigna completa.
+
+
+## Menú de terminal opcional — 06/11/2026 Argentina (07/11 UTC)
+
+Luis pidió una mini TUI para probar tickets en loop y ejecutar datasets o ataques
+más fácilmente, dejando la publicación para otro día. La asistencia propuso e
+implementó un menú numerado con biblioteca estándar que reutiliza el servicio y
+los planes/runners existentes, sin cambiar prompts, datasets, scoring ni CLI.
+
+Se priorizó mock al iniciar, consultas independientes, límite original de 500
+caracteres, configuración sólo de sesión y preview con opt-in por cada corrida.
+OpenAI/Gemini requieren escribir REMOTO; el límite de llamadas no es un tope en
+USD. Ctrl+C/EOF no provocan reenvíos ni reanudación y se advierte de consumo y
+artefactos incompletos cuando una solicitud pudo haber empezado. La revisión
+independiente mejoró el mensaje de guardrail de salida para no ocultar el posible
+consumo. No se guardaron claves ni se ejecutaron inferencias reales.
+
+Se añadieron 27 pruebas offline de interacción, permisos, límites, cancelación y
+artefactos parciales. `make check` pasó 296 tests, lint y formato. Se ensayó además
+la entrada real de terminal con mock, retorno al menú, Ctrl+C y Ctrl+D. La
+[guía de uso](TUI.md) documenta alcance y límites; esta etapa quedó sin commit/push.

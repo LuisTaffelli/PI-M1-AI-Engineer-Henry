@@ -40,6 +40,27 @@ y saltos de línea. Se cuentan puntos de código Unicode, no tokens ni caractere
 visuales. Si supera el límite, se rechaza sin truncarla ni enviarla al proveedor;
 `max_query_chars` permite reducirlo. Ver [detalle del guardrail](docs/ARQUITECTURA.md#límite-de-la-consulta).
 
+## Menú interactivo de terminal
+
+Para probar tickets en loop o elegir una evaluación sin armar comandos largos:
+
+```bash
+make tui
+# Equivalente, con el entorno activo:
+python -m src.tui
+```
+
+El menú siempre empieza en **mock**, incluso si el TOML selecciona un modelo real.
+Podés configurar proveedor/modelo/prompt, probar consultas independientes o elegir
+base32, paráfrasis8 y adversariales, con el prompt actual o los cuatro. Antes de cada
+corrida muestra un preview y pide `EJECUTAR` para mock/Ollama o `REMOTO` para
+OpenAI/Gemini. Enter cancela; la aprobación no se conserva para la siguiente.
+La cota de llamadas no limita dólares. `Ctrl+C` vuelve al menú y `Ctrl+D` sale;
+si interrumpís una inferencia, puede haber consumo y archivos parciales sin resumen.
+
+La [guía del menú](docs/TUI.md) explica límites, métricas y cancelación. Es una capa
+opcional sobre el mismo servicio y runners: la CLI original y sus JSON no cambian.
+
 ## Consultar con un modelo
 
 Desde la raíz y con `.venv` activo. OpenAI/Gemini necesitan su clave en el entorno
