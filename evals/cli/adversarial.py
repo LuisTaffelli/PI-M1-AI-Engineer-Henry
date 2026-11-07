@@ -7,6 +7,10 @@ from pathlib import Path
 
 from evals.adversarial.plan import prepare_plan
 from evals.adversarial.runner import execute_plan
+from src.llm.http_retry import (
+    GEMINI_SUITE_MAX_DELAY_SECONDS,
+    GEMINI_SUITE_MAX_WAIT_SECONDS,
+)
 from src.llm.prompt_catalog import PROMPT_NAMES
 from src.runtime.config import ROOT, load_settings
 
@@ -16,6 +20,18 @@ def main() -> int:
     parser.add_argument("--config", type=Path, default=ROOT / "config.toml")
     parser.add_argument("--provider", choices=("mock", "ollama", "openai", "gemini"))
     parser.add_argument("--model")
+    parser.add_argument(
+        "--gemini-suite-retry-exception",
+        action="store_true",
+        default=None,
+        help="Excepción sólo Gemini: hasta 120 s por espera, 300 s acumulados y una generación por consulta.",
+    )
+    parser.add_argument(
+        "--http-max-attempts",
+        type=int,
+        choices=range(1, 4),
+        help="Intentos HTTP por generación remota (1 desactiva retry; máximo 3).",
+    )
     parser.add_argument(
         "--prompt", action="append", choices=PROMPT_NAMES, required=True
     )
@@ -46,6 +62,15 @@ def main() -> int:
             args.config,
             provider=args.provider,
             model=args.model,
+            max_attempts=1,
+            http_max_attempts=args.http_max_attempts,
+            gemini_suite_retry_exception=args.gemini_suite_retry_exception,
+            http_retry_max_delay_seconds=GEMINI_SUITE_MAX_DELAY_SECONDS
+            if args.gemini_suite_retry_exception
+            else None,
+            http_retry_max_total_wait_seconds=GEMINI_SUITE_MAX_WAIT_SECONDS
+            if args.gemini_suite_retry_exception
+            else None,
             **{
                 f"{p}_max_output_tokens": args.max_output_tokens
                 for p in ("openai", "gemini", "ollama")
@@ -84,7 +109,8 @@ def main() -> int:
         )
         return 2
     print(json.dumps(report, ensure_ascii=False, indent=2))
-    return 0 if report["execution"]["completed"] else 2
+    execution = report["execution"]
+    return 0 if execution["completed"] and not execution["failed_provider_cases"] else 2
 
 
 if __name__ == "__main__":

@@ -7,6 +7,7 @@ from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
 from ...runtime import environment
+from ..http_retry import MAX_HTTP_RETRY_DELAY_SECONDS, parse_retry_after
 from ..usage import gemini_usage
 from .base import GenerationResult, ProviderError
 
@@ -28,6 +29,7 @@ class GeminiProvider:
         max_output_tokens: int = 512,
         transport: Transport | None = None,
         response_schema: dict | None = None,
+        retry_after_max_delay_seconds: float = MAX_HTTP_RETRY_DELAY_SECONDS,
     ):
         if not isinstance(model, str) or not model.strip():
             raise ProviderError("Elegí un modelo antes de usar Gemini.")
@@ -43,6 +45,7 @@ class GeminiProvider:
         self.max_output_tokens = max_output_tokens
         self._transport = transport if transport is not None else _post_json
         self.response_schema = response_schema
+        self.retry_after_max_delay_seconds = retry_after_max_delay_seconds
 
     def generate(self, instructions: str, query: str) -> GenerationResult:
         payload = {
@@ -68,14 +71,19 @@ class GeminiProvider:
         try:
             data = self._transport(request, 30.0)
         except HTTPError as error:
-            # No leer el cuerpo ni copiar metadatos externos. ProviderError valida
-            # el entero antes de exponerlo al CLI o persistirlo en métricas.
+            # Sólo status validado y Retry-After normalizado; nunca leer cuerpo,
+            # reason, URL u otros headers. Cerrar también los errores reintentados.
             status = error.code
+            retry_after = parse_retry_after(
+                error.headers.get("Retry-After") if error.headers is not None else None,
+                max_delay_seconds=self.retry_after_max_delay_seconds,
+            )
             error.close()
             raise ProviderError(
                 "Gemini rechazó la solicitud HTTP.",
                 code="http_error",
                 http_status=status,
+                retry_after=retry_after,
             ) from None
         except (json.JSONDecodeError, UnicodeDecodeError):
             raise ProviderError(

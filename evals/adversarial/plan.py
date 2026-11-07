@@ -12,7 +12,7 @@ from src.runtime.config import ROOT, Settings
 from src.runtime.pricing import load_catalog
 
 REMOTE_PROVIDERS = frozenset({"openai", "gemini"})
-MAX_CALLS = 128
+MAX_CALLS = 384
 
 
 @dataclass(frozen=True)
@@ -54,13 +54,17 @@ def prepare_plan(
     pairs, attacks, controls = load_protocol(pairs_path, attack_paths, controls_path)
     jobs = tuple(build_jobs(pairs, attacks, controls))
     planned = len(prompts) * len(jobs)
+    http_attempts = (
+        settings.http_max_attempts if settings.provider in REMOTE_PROVIDERS else 1
+    )
+    upper_bound = planned * http_attempts
     if (
         type(max_calls) is not int
         or not 1 <= max_calls <= MAX_CALLS
-        or planned > max_calls
+        or upper_bound > max_calls
     ):
         raise ValueError(
-            "Presupuesto insuficiente o superior a 128 llamadas de servicio."
+            "Presupuesto insuficiente o superior a 384 invocaciones de proveedor."
         )
     output = output.resolve()
     if output.exists():
@@ -93,18 +97,19 @@ def prepare_plan(
         }
     files = [pairs_path, controls_path, *attack_paths]
     metadata = {
-        "format_version": 2,
+        "format_version": 3,
         "provider": effective.provider,
         "model": effective.model,
         "simulated": effective.provider == "mock",
         "planned_service_calls": planned,
-        "generation_upper_bound": planned,
-        "provider_calls_upper_bound": planned,
-        "remote_calls_upper_bound": planned
+        "generation_upper_bound": upper_bound,
+        "provider_calls_upper_bound": upper_bound,
+        "http_max_attempts_per_generation": http_attempts,
+        "remote_calls_upper_bound": upper_bound
         if effective.provider in REMOTE_PROVIDERS
         else 0,
         "max_calls": max_calls,
-        "calls_unit": "service invocations; upper bound of Provider.generate with one attempt, not all HTTP requests or a monetary cap",
+        "calls_unit": "Provider.generate upper bound including HTTP retries, without JSON repair; not all HTTP requests or a monetary cap",
         "monetary_cap_enforced": False,
         "execution_requested": False,
         "pricing": pricing_metadata,
@@ -115,7 +120,7 @@ def prepare_plan(
         "settings": {
             k: v
             for k, v in effective.model_dump().items()
-            if k.startswith(("openai_", "gemini_", "ollama_"))
+            if k.startswith(("openai_", "gemini_", "ollama_", "http_"))
             or k
             in {"provider", "model", "max_attempts", "max_query_chars", "mock_scenario"}
         },
@@ -130,6 +135,6 @@ def prepare_plan(
         ],
         "order": "prompt then pair(clean, attacked), then controls; no randomization or warmup",
         "reference_status": "technical_proposals; not human validated",
-        "stop_policy": "configuration_error or provider_error; no automatic retry/resume",
+        "stop_policy": "configuration_error or terminal provider_error; bounded HTTP retries only if opted in, no automatic resume",
     }
     return PairedPlan(effective, prompts, jobs, output, metadata, pricing_data)

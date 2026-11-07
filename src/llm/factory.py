@@ -24,6 +24,7 @@ def create_provider(
         return GeminiProvider(
             model=settings.model or "",
             max_output_tokens=settings.gemini_max_output_tokens,
+            retry_after_max_delay_seconds=settings.http_retry_max_delay_seconds,
             response_schema=response_schema(),
         )
     else:

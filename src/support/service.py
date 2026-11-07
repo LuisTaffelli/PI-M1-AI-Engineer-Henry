@@ -6,11 +6,12 @@ from pydantic import ValidationError
 
 from ..llm.factory import create_provider
 from ..llm.prompts import load_prompt
-from ..llm.providers.base import GenerationResult, Provider, ProviderError
+from ..llm.providers.base import Provider, ProviderError
 from ..llm.usage import TokenUsage
 from ..runtime.config import Settings
 from ..runtime.request_metrics import record_request
 from .guardrails import check_input, check_output
+from .http_retry import HttpRetryState, generate_with_http_retry
 from .repair import _validation_feedback as _validation_feedback
 from .schemas import SupportResponse, validation_failure_code
 
@@ -21,7 +22,7 @@ def simulate_response(
     # Invocaciones programáticas no registran métricas salvo pedido explícito.
     settings = settings if settings is not None else Settings()
     started = perf_counter()
-    attempts = 0
+    http_retry = HttpRetryState()
     status = "rejected_input"
     failure_code = None
     failure_http_status = None
@@ -36,17 +37,15 @@ def simulate_response(
         if provider is None:
             provider = create_provider(settings, SupportResponse.model_json_schema)
         for attempt in range(1, settings.max_attempts + 1):
-            attempts = attempt
             status = "provider_error"
-            usage_by_attempt.append(TokenUsage())
-            try:
-                result = provider.generate(instructions, query)
-                if not isinstance(result, GenerationResult):
-                    raise ProviderError("El proveedor incumple el contrato interno.")
-                usage_by_attempt[-1] = result.usage
-            except ProviderError as error:
-                usage_by_attempt[-1] = error.usage
-                raise
+            result = generate_with_http_retry(
+                provider,
+                instructions,
+                query,
+                settings=settings,
+                usages=usage_by_attempt,
+                state=http_retry,
+            )
             raw_text = result.text
             status = "invalid_response"
             try:
@@ -83,7 +82,8 @@ def simulate_response(
                 status=status,
                 failure_code=failure_code,
                 failure_http_status=failure_http_status,
-                attempts=attempts,
+                attempts=len(usage_by_attempt),
+                http_retry=http_retry,
                 started=started,
                 usage_by_attempt=usage_by_attempt,
             )

@@ -4,6 +4,10 @@ provider = "mock"
 prompt = "v1_zero_shot"
 mock_scenario = "fixed"
 max_attempts = 2
+# Retry HTTP remoto opt-in, independiente de reparación JSON. Máximo 3.
+http_max_attempts = 1
+http_retry_max_delay_seconds = 30.0
+http_retry_max_total_wait_seconds = 60.0
 # Máximo permitido: 500 caracteres Unicode del texto original; se puede reducir.
 max_query_chars = 500
 log_metrics = true

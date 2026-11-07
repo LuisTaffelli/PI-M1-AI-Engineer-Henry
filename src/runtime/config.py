@@ -6,6 +6,13 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
+from ..llm.http_retry import (
+    GEMINI_SUITE_MAX_DELAY_SECONDS,
+    GEMINI_SUITE_MAX_WAIT_SECONDS,
+    MAX_HTTP_ATTEMPTS,
+    MAX_HTTP_RETRY_DELAY_SECONDS,
+    MAX_HTTP_RETRY_WAIT_SECONDS,
+)
 from ..llm.prompt_catalog import PromptName
 from ..llm.providers.ollama_provider import normalize_base_url
 from ..support.guardrails import MAX_QUERY_CHARS
@@ -27,10 +34,33 @@ class Settings(BaseModel):
         "fixed"
     )
     max_attempts: int = Field(default=2, ge=1, le=3)
+    # Opt-in: preserva el coste/cantidad de llamadas de comandos existentes.
+    http_max_attempts: int = Field(default=1, ge=1, le=MAX_HTTP_ATTEMPTS)
+    gemini_suite_retry_exception: bool = False
+    http_retry_max_delay_seconds: float = Field(
+        default=MAX_HTTP_RETRY_DELAY_SECONDS, ge=0, le=GEMINI_SUITE_MAX_DELAY_SECONDS
+    )
+    http_retry_max_total_wait_seconds: float = Field(
+        default=MAX_HTTP_RETRY_WAIT_SECONDS, ge=0, le=GEMINI_SUITE_MAX_WAIT_SECONDS
+    )
     max_query_chars: int = Field(default=MAX_QUERY_CHARS, ge=1, le=MAX_QUERY_CHARS)
     log_metrics: bool = False
     metrics_path: str = Field(default="data/metrics.jsonl", min_length=1)
     pricing_path: str | None = Field(default=None, min_length=1)
+
+    @model_validator(mode="after")
+    def scoped_retry_limits(self):
+        if self.gemini_suite_retry_exception:
+            if self.provider != "gemini" or self.max_attempts != 1:
+                raise ValueError(
+                    "La excepción requiere Gemini y una sola generación por consulta."
+                )
+        elif (
+            self.http_retry_max_delay_seconds > MAX_HTTP_RETRY_DELAY_SECONDS
+            or self.http_retry_max_total_wait_seconds > MAX_HTTP_RETRY_WAIT_SECONDS
+        ):
+            raise ValueError("Ampliar esperas requiere la excepción de suite Gemini.")
+        return self
 
     @field_validator("ollama_base_url")
     @classmethod

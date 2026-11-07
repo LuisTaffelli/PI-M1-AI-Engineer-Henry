@@ -30,6 +30,12 @@ def main() -> int:
     )
     parser.add_argument("--prompt", choices=PROMPT_NAMES)
     parser.add_argument(
+        "--http-max-attempts",
+        type=int,
+        choices=range(1, 4),
+        help="Intentos HTTP por generación remota (1 desactiva retry; máximo 3).",
+    )
+    parser.add_argument(
         "--mock-scenario",
         choices=["fixed", "malformed", "invalid_contract", "recover_once"],
     )
@@ -44,10 +50,15 @@ def main() -> int:
             args.config,
             provider=args.provider,
             model=args.model,
+            http_max_attempts=args.http_max_attempts,
             prompt=args.prompt,
             mock_scenario=args.mock_scenario,
             log_metrics=False if args.no_metrics else None,
         )
+        if settings.gemini_suite_retry_exception:
+            raise ValueError(
+                "La excepción Gemini sólo se usa en runners de evaluación."
+            )
         response = simulate_response(args.query, settings=settings)
     except InputTooLongError as error:
         print(f"Error: {error}", file=sys.stderr)

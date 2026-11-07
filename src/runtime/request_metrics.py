@@ -7,6 +7,7 @@ from uuid import uuid4
 from ..llm.providers.base import Provider
 from ..llm.providers.mock_provider import MockProvider
 from ..llm.usage import TokenUsage, summarize_usage
+from ..support.http_retry import HttpRetryState
 from .config import ROOT, Settings
 from .metrics import append_metric
 from .pricing import cost_metrics
@@ -21,6 +22,7 @@ def record_request(
     failure_code: str | None,
     failure_http_status: int | None,
     attempts: int,
+    http_retry: HttpRetryState,
     started: float,
     usage_by_attempt: list[TokenUsage],
 ) -> None:
@@ -42,6 +44,9 @@ def record_request(
             "failure_code": failure_code,
             "failure_http_status": failure_http_status,
             "attempts": attempts,
+            "http_retry_count": http_retry.retry_count,
+            "http_retry_wait_seconds": http_retry.wait_seconds,
+            "http_retry_events": http_retry.events,
             "latency_seconds": perf_counter() - started,
             **usage_metrics,
             **cost_metrics(

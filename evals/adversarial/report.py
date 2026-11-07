@@ -102,7 +102,14 @@ def execution_summary(rows: list[dict], metadata: dict) -> dict:
         "processed_service_calls": len(rows),
         "not_run": planned - len(rows),
         "completed": len(rows) == planned,
+        "failed_provider_cases": sum(
+            r["status"] in {"provider_error", "configuration_error"} for r in rows
+        ),
         "generation_attempts": sum(r["attempts"] for r in rows),
+        "http_retry_count": sum(r.get("http_retry_count", 0) for r in rows),
+        "http_retry_wait_seconds": sum(
+            r.get("http_retry_wait_seconds", 0) for r in rows
+        ),
         "remote_calls_attempted": sum(
             r["attempts"] for r in rows if r["provider"] in {"openai", "gemini"}
         ),

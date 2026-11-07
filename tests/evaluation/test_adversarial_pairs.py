@@ -118,7 +118,7 @@ class AdversarialPairTests(unittest.TestCase):
                 (settings, ("v3_structured", "v3_structured"), True, 60),
                 (settings, ("unknown",), True, 30),
                 (settings, ("v3_structured",), True, 29),
-                (settings, ("v3_structured",), True, 129),
+                (settings, ("v3_structured",), True, 385),
             ):
                 with (
                     self.subTest(budget=budget, prompts=prompts),

@@ -41,6 +41,8 @@ def prepare_plan(
     diagnostic_suite: bool = False,
     continue_on_error: bool = False,
 ) -> EvaluationPlan:
+    if settings.gemini_suite_retry_exception and continue_on_error:
+        raise ValueError("La excepción Gemini detiene la suite ante fallos terminales.")
     if (
         not prompts
         or len(set(prompts)) != len(prompts)
@@ -62,7 +64,10 @@ def prepare_plan(
     for prompt in prompts:
         load_prompt(prompt)
     planned_cases = len(cases) * len(prompts)
-    upper_bound = planned_cases * settings.max_attempts
+    http_attempts = (
+        settings.http_max_attempts if settings.provider in REMOTE_PROVIDERS else 1
+    )
+    upper_bound = planned_cases * settings.max_attempts * http_attempts
     if (
         type(max_calls) is not int
         or not 1 <= max_calls <= MAX_PROVIDER_CALLS
@@ -82,19 +87,20 @@ def prepare_plan(
             "basis": "paid_standard_text_estimate_not_invoice",
         }
     metadata = {
-        "format_version": 1,
+        "format_version": 2,
         "provider": settings.provider,
         "model": settings.model,
         "pricing": pricing_metadata,
         "prompts": list(prompts),
         "planned_cases": planned_cases,
         "max_attempts_per_case": settings.max_attempts,
+        "http_max_attempts_per_generation": http_attempts,
         "provider_calls_upper_bound": upper_bound,
         "remote_calls_upper_bound": upper_bound
         if settings.provider in REMOTE_PROVIDERS
         else 0,
         "max_calls": max_calls,
-        "calls_unit": "Provider.generate invocations including JSON/contract repair; not a monetary cap",
+        "calls_unit": "Provider.generate invocations including JSON/contract repair and HTTP retries; not a monetary cap",
         "monetary_cap_enforced": False,
         "execution_requested": False,
         "continue_on_error": continue_on_error,
@@ -106,7 +112,7 @@ def prepare_plan(
         "settings": {
             k: v
             for k, v in settings.model_dump().items()
-            if k.startswith(("openai_", "gemini_", "ollama_"))
+            if k.startswith(("openai_", "gemini_", "ollama_", "http_"))
             or k in {"max_attempts", "max_query_chars"}
         },
         "cases": [

@@ -282,7 +282,7 @@ class AdversarialProviderTests(unittest.TestCase):
         self.assertIsNone(report["execution"]["usage_and_cost"]["cost_usd"])
 
     def test_budget_type_and_bounds_checked_before_output(self):
-        for budget in (0, 29, 129, True, 30.0):
+        for budget in (0, 29, 385, True, 30.0):
             with self.subTest(budget=budget), self.assertRaises(ValueError):
                 prepare_plan(
                     Settings(), ("v3_structured",), self.output, max_calls=budget

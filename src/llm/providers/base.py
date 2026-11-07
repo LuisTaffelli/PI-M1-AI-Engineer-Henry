@@ -3,6 +3,7 @@
 from dataclasses import dataclass, field
 from typing import Protocol
 
+from ..http_retry import RetryAfter
 from ..usage import TokenUsage
 
 
@@ -31,6 +32,7 @@ class ProviderError(ValueError):
         code: str = "provider_error",
         usage: TokenUsage | None = None,
         http_status: int | None = None,
+        retry_after: RetryAfter | None = None,
     ) -> None:
         super().__init__(message)
         self.code = code if code in self.CODES else "provider_error"
@@ -41,6 +43,11 @@ class ProviderError(ValueError):
             and type(http_status) is int
             and 400 <= http_status <= 599
             else None
+        )
+        self.retry_after = (
+            retry_after
+            if self.http_status is not None and isinstance(retry_after, RetryAfter)
+            else RetryAfter()
         )
         self.usage = usage if isinstance(usage, TokenUsage) else TokenUsage()
 

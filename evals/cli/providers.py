@@ -7,6 +7,10 @@ from pathlib import Path
 
 from evals.classification.plan import REMOTE_PROVIDERS, prepare_plan
 from evals.classification.runner import execute_plan
+from src.llm.http_retry import (
+    GEMINI_SUITE_MAX_DELAY_SECONDS,
+    GEMINI_SUITE_MAX_WAIT_SECONDS,
+)
 from src.llm.prompt_catalog import PROMPT_NAMES
 from src.runtime.config import ROOT, load_settings
 
@@ -21,6 +25,18 @@ def main() -> int:
         "--provider", required=True, choices=("mock", "ollama", "openai", "gemini")
     )
     parser.add_argument("--model")
+    parser.add_argument(
+        "--gemini-suite-retry-exception",
+        action="store_true",
+        default=None,
+        help="Excepción sólo Gemini: hasta 120 s por espera, 300 s acumulados y una generación por consulta.",
+    )
+    parser.add_argument(
+        "--http-max-attempts",
+        type=int,
+        choices=range(1, 4),
+        help="Intentos HTTP por generación remota (1 desactiva retry; máximo 3).",
+    )
     parser.add_argument(
         "--prompt", action="append", required=True, choices=PROMPT_NAMES
     )
@@ -46,6 +62,14 @@ def main() -> int:
             args.config,
             provider=args.provider,
             model=args.model,
+            http_max_attempts=args.http_max_attempts,
+            gemini_suite_retry_exception=args.gemini_suite_retry_exception,
+            http_retry_max_delay_seconds=GEMINI_SUITE_MAX_DELAY_SECONDS
+            if args.gemini_suite_retry_exception
+            else None,
+            http_retry_max_total_wait_seconds=GEMINI_SUITE_MAX_WAIT_SECONDS
+            if args.gemini_suite_retry_exception
+            else None,
             max_attempts=args.max_attempts,
             **{
                 f"{p}_max_output_tokens": args.max_output_tokens

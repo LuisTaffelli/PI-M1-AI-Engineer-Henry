@@ -40,6 +40,10 @@ def evaluation_report(rows, plan):
         not_run=metadata["planned_cases"] - len(rows),
         completed=len(rows) == metadata["planned_cases"],
         generation_attempts=attempts,
+        http_retry_count=sum(row.get("http_retry_count", 0) for row in rows),
+        http_retry_wait_seconds=sum(
+            row.get("http_retry_wait_seconds", 0) for row in rows
+        ),
         remote_calls_attempted=attempts if remote else 0,
         provider_calls_upper_bound=metadata["provider_calls_upper_bound"],
         monetary_cap_enforced=False,
