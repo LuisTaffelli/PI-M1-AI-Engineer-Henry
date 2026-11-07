@@ -1,0 +1,210 @@
+{
+  "simulated": false,
+  "quality_claim": false,
+  "label_review_status": "not_verified_by_this_run",
+  "warning": "Comparaci\u00f3n exploratoria con referencias propuestas; sin validaci\u00f3n humana nueva, ranking general ni elecci\u00f3n definitiva de prompt.",
+  "by_prompt": {
+    "v4_reasoning": {
+      "total": 4,
+      "correct": 4,
+      "exact_match": 1.0,
+      "validated_outputs": 4,
+      "schema_valid_outputs": 4,
+      "status_counts": {
+        "ok": 4
+      },
+      "latency_median_seconds": 2.3394799749949016,
+      "latency_min_seconds": 1.9433977470034733,
+      "latency_max_seconds": 3.421856189961545,
+      "by_category": {
+        "billing": {
+          "count": 0,
+          "correct": 0,
+          "errors": 0,
+          "exact_match": null
+        },
+        "technical": {
+          "count": 0,
+          "correct": 0,
+          "errors": 0,
+          "exact_match": null
+        },
+        "account": {
+          "count": 2,
+          "correct": 2,
+          "errors": 0,
+          "exact_match": 1.0
+        },
+        "other": {
+          "count": 2,
+          "correct": 2,
+          "errors": 0,
+          "exact_match": 1.0
+        }
+      },
+      "confusion_matrix": {
+        "billing": {},
+        "technical": {},
+        "account": {
+          "account": 2
+        },
+        "other": {
+          "other": 2
+        }
+      },
+      "by_ambiguity": {
+        "marked_ambiguous": {
+          "count": 2,
+          "correct": 2,
+          "exact_match": 1.0
+        },
+        "not_marked_ambiguous": {
+          "count": 2,
+          "correct": 2,
+          "exact_match": 1.0
+        }
+      },
+      "planned": 4,
+      "not_run": 0,
+      "exact_match_on_processed": 1.0,
+      "usage_and_cost": {
+        "scope": "processed_cases_only",
+        "processed_cases": 4,
+        "generation_attempts": 4,
+        "tokens": {
+          "prompt_tokens": {
+            "total": 1438,
+            "reported_subtotal": 1438,
+            "attempts_with_reported_value": 4
+          },
+          "completion_tokens": {
+            "total": 593,
+            "reported_subtotal": 593,
+            "attempts_with_reported_value": 4
+          },
+          "total_tokens": {
+            "total": 2031,
+            "reported_subtotal": 2031,
+            "attempts_with_reported_value": 4
+          },
+          "cached_prompt_tokens": {
+            "total": 0,
+            "reported_subtotal": 0,
+            "attempts_with_reported_value": 4
+          },
+          "reasoning_tokens": {
+            "total": 249,
+            "reported_subtotal": 249,
+            "attempts_with_reported_value": 4
+          },
+          "tool_use_prompt_tokens": {
+            "total": null,
+            "reported_subtotal": null,
+            "attempts_with_reported_value": 0
+          },
+          "cache_write_tokens": {
+            "total": 0,
+            "reported_subtotal": 0,
+            "attempts_with_reported_value": 4
+          },
+          "cache_write_30m_tokens": {
+            "total": null,
+            "reported_subtotal": null,
+            "attempts_with_reported_value": 0
+          },
+          "cache_write_12h_tokens": {
+            "total": null,
+            "reported_subtotal": null,
+            "attempts_with_reported_value": 0
+          }
+        },
+        "cost_usd": "0.0004403",
+        "known_estimated_subtotal_usd": "0.0004403",
+        "attempts_with_estimated_cost": 4,
+        "cost_status_counts": {
+          "estimated": 4
+        },
+        "cost_unavailable_reason_counts": {},
+        "billing_verified": false,
+        "pricing_sha256": [
+          "ba0103daaefa949b1feeb1b1cb971a86c12b741983b5d73f72f6006e3cc92f20"
+        ]
+      }
+    }
+  },
+  "usage_and_cost": {
+    "scope": "processed_cases_only",
+    "processed_cases": 4,
+    "generation_attempts": 4,
+    "tokens": {
+      "prompt_tokens": {
+        "total": 1438,
+        "reported_subtotal": 1438,
+        "attempts_with_reported_value": 4
+      },
+      "completion_tokens": {
+        "total": 593,
+        "reported_subtotal": 593,
+        "attempts_with_reported_value": 4
+      },
+      "total_tokens": {
+        "total": 2031,
+        "reported_subtotal": 2031,
+        "attempts_with_reported_value": 4
+      },
+      "cached_prompt_tokens": {
+        "total": 0,
+        "reported_subtotal": 0,
+        "attempts_with_reported_value": 4
+      },
+      "reasoning_tokens": {
+        "total": 249,
+        "reported_subtotal": 249,
+        "attempts_with_reported_value": 4
+      },
+      "tool_use_prompt_tokens": {
+        "total": null,
+        "reported_subtotal": null,
+        "attempts_with_reported_value": 0
+      },
+      "cache_write_tokens": {
+        "total": 0,
+        "reported_subtotal": 0,
+        "attempts_with_reported_value": 4
+      },
+      "cache_write_30m_tokens": {
+        "total": null,
+        "reported_subtotal": null,
+        "attempts_with_reported_value": 0
+      },
+      "cache_write_12h_tokens": {
+        "total": null,
+        "reported_subtotal": null,
+        "attempts_with_reported_value": 0
+      }
+    },
+    "cost_usd": "0.0004403",
+    "known_estimated_subtotal_usd": "0.0004403",
+    "attempts_with_estimated_cost": 4,
+    "cost_status_counts": {
+      "estimated": 4
+    },
+    "cost_unavailable_reason_counts": {},
+    "billing_verified": false,
+    "pricing_sha256": [
+      "ba0103daaefa949b1feeb1b1cb971a86c12b741983b5d73f72f6006e3cc92f20"
+    ]
+  },
+  "provider": "openai",
+  "model": "gpt-6-luna",
+  "suite_kind": "base_corpus",
+  "planned": 4,
+  "processed": 4,
+  "not_run": 0,
+  "completed": true,
+  "generation_attempts": 4,
+  "remote_calls_attempted": 4,
+  "provider_calls_upper_bound": 4,
+  "monetary_cap_enforced": false,
+  "failed_cases": 0
+}

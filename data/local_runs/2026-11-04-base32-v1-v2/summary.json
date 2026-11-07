@@ -1,0 +1,157 @@
+{
+  "simulated": false,
+  "quality_claim": false,
+  "label_review_status": "not_verified_by_this_run",
+  "warning": "Comparaci\u00f3n exploratoria con referencias propuestas; sin validaci\u00f3n humana nueva, ranking general ni elecci\u00f3n definitiva de prompt.",
+  "by_prompt": {
+    "v1_zero_shot": {
+      "total": 32,
+      "correct": 11,
+      "exact_match": 0.34375,
+      "validated_outputs": 31,
+      "schema_valid_outputs": 31,
+      "status_counts": {
+        "ok": 31,
+        "provider_error": 1
+      },
+      "latency_median_seconds": 0.228938325017225,
+      "latency_min_seconds": 0.15774021297693253,
+      "latency_max_seconds": 1.8104666490107775,
+      "by_category": {
+        "billing": {
+          "count": 8,
+          "correct": 0,
+          "errors": 1,
+          "exact_match": 0.0
+        },
+        "technical": {
+          "count": 8,
+          "correct": 7,
+          "errors": 0,
+          "exact_match": 0.875
+        },
+        "account": {
+          "count": 8,
+          "correct": 3,
+          "errors": 0,
+          "exact_match": 0.375
+        },
+        "other": {
+          "count": 8,
+          "correct": 1,
+          "errors": 0,
+          "exact_match": 0.125
+        }
+      },
+      "confusion_matrix": {
+        "billing": {
+          "account": 4,
+          "technical": 3,
+          "error": 1
+        },
+        "technical": {
+          "technical": 7,
+          "account": 1
+        },
+        "account": {
+          "technical": 5,
+          "account": 3
+        },
+        "other": {
+          "technical": 5,
+          "account": 2,
+          "other": 1
+        }
+      },
+      "by_ambiguity": {
+        "marked_ambiguous": {
+          "count": 8,
+          "correct": 3,
+          "exact_match": 0.375
+        },
+        "not_marked_ambiguous": {
+          "count": 24,
+          "correct": 8,
+          "exact_match": 0.3333333333333333
+        }
+      }
+    },
+    "v2_few_shot": {
+      "total": 32,
+      "correct": 18,
+      "exact_match": 0.5625,
+      "validated_outputs": 30,
+      "schema_valid_outputs": 30,
+      "status_counts": {
+        "ok": 30,
+        "provider_error": 2
+      },
+      "latency_median_seconds": 0.23691548148053698,
+      "latency_min_seconds": 0.16803574399091303,
+      "latency_max_seconds": 1.08358005102491,
+      "by_category": {
+        "billing": {
+          "count": 8,
+          "correct": 6,
+          "errors": 1,
+          "exact_match": 0.75
+        },
+        "technical": {
+          "count": 8,
+          "correct": 5,
+          "errors": 1,
+          "exact_match": 0.625
+        },
+        "account": {
+          "count": 8,
+          "correct": 5,
+          "errors": 0,
+          "exact_match": 0.625
+        },
+        "other": {
+          "count": 8,
+          "correct": 2,
+          "errors": 0,
+          "exact_match": 0.25
+        }
+      },
+      "confusion_matrix": {
+        "billing": {
+          "billing": 6,
+          "error": 1,
+          "technical": 1
+        },
+        "technical": {
+          "technical": 5,
+          "billing": 2,
+          "error": 1
+        },
+        "account": {
+          "account": 5,
+          "technical": 1,
+          "other": 1,
+          "billing": 1
+        },
+        "other": {
+          "billing": 3,
+          "technical": 2,
+          "other": 2,
+          "account": 1
+        }
+      },
+      "by_ambiguity": {
+        "marked_ambiguous": {
+          "count": 8,
+          "correct": 2,
+          "exact_match": 0.25
+        },
+        "not_marked_ambiguous": {
+          "count": 24,
+          "correct": 16,
+          "exact_match": 0.6666666666666666
+        }
+      }
+    }
+  },
+  "suite_kind": "base_corpus"
+}

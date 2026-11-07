@@ -1,0 +1,100 @@
+{
+  "format_version": 2,
+  "preserved_at_utc": "2026-11-07T00:57:36.781197+00:00",
+  "check_historical_remote_report": false,
+  "purpose": "Nueva tanda Gemini con excepción explícita 120/300: adversarial completa; base32 parcial por HTTP503; robustness8 no iniciada. No mezcla ni reemplaza las tandas anteriores.",
+  "privacy_review": "Datos sintéticos; sin consultas, respuestas crudas, claves, cuerpos ni headers originales. Sólo segundos normalizados y diagnósticos locales.",
+  "runs": [
+    {
+      "name": "2026-11-07-gemini-adversarial-v1-v4-exception-01",
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "rows": 120,
+      "first_recorded_timestamp": "2026-11-07T00:21:34.920409+00:00",
+      "last_recorded_timestamp": "2026-11-07T00:32:31.430694+00:00",
+      "directory": "data/local_runs/2026-11-07-gemini-adversarial-v1-v4-exception-01"
+    },
+    {
+      "name": "2026-11-07-gemini-base32-v1-v4-exception-01",
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "rows": 110,
+      "first_recorded_timestamp": "2026-11-07T00:33:14.314544+00:00",
+      "last_recorded_timestamp": "2026-11-07T00:55:41.947304+00:00",
+      "directory": "data/local_runs/2026-11-07-gemini-base32-v1-v4-exception-01"
+    }
+  ],
+  "files": [
+    {
+      "path": "data/local_runs/2026-11-07-gemini-adversarial-v1-v4-exception-01/metrics.jsonl",
+      "sha256": "4f89e5529981bb7c401219a7ba902a1e1ab3b2f118b2569b92374682c842dbc7",
+      "bytes": 183190,
+      "source_mtime_ns": 1794011551430661402,
+      "source_mtime_utc": "2026-11-07T00:32:31.430661+00:00"
+    },
+    {
+      "path": "data/local_runs/2026-11-07-gemini-adversarial-v1-v4-exception-01/plan.json",
+      "sha256": "ca3ce2022548501c376f5abd67e16f42223f7481f36c19264b568a1cc257a6f6",
+      "bytes": 10736,
+      "source_mtime_ns": 1794010892954101528,
+      "source_mtime_utc": "2026-11-07T00:21:32.954102+00:00"
+    },
+    {
+      "path": "data/local_runs/2026-11-07-gemini-adversarial-v1-v4-exception-01/pricing.json",
+      "sha256": "ba0103daaefa949b1feeb1b1cb971a86c12b741983b5d73f72f6006e3cc92f20",
+      "bytes": 1192,
+      "source_mtime_ns": 1794010892954155793,
+      "source_mtime_utc": "2026-11-07T00:21:32.954156+00:00"
+    },
+    {
+      "path": "data/local_runs/2026-11-07-gemini-adversarial-v1-v4-exception-01/results.jsonl",
+      "sha256": "731159ab73453daefa4f64d56601a10406f4828d0eaeed6db9a362ac02327c82",
+      "bytes": 202798,
+      "source_mtime_ns": 1794011551430866023,
+      "source_mtime_utc": "2026-11-07T00:32:31.430866+00:00"
+    },
+    {
+      "path": "data/local_runs/2026-11-07-gemini-adversarial-v1-v4-exception-01/summary.json",
+      "sha256": "92bcd8ec5f5689066e0d79606dc8f88d675743724622a64be84626d5790908fd",
+      "bytes": 21394,
+      "source_mtime_ns": 1794011551431712961,
+      "source_mtime_utc": "2026-11-07T00:32:31.431713+00:00"
+    },
+    {
+      "path": "data/local_runs/2026-11-07-gemini-base32-v1-v4-exception-01/metrics.jsonl",
+      "sha256": "6fd7dd853e6f5abf04221a5224cd3255ab8e0a51e6718eaee875b701206e7fb3",
+      "bytes": 193550,
+      "source_mtime_ns": 1794012941946948366,
+      "source_mtime_utc": "2026-11-07T00:55:41.946948+00:00"
+    },
+    {
+      "path": "data/local_runs/2026-11-07-gemini-base32-v1-v4-exception-01/plan.json",
+      "sha256": "927fbb0e959285b00663cb17f2999d7253387f13ec6d970de877ca17413a3ddd",
+      "bytes": 11660,
+      "source_mtime_ns": 1794011551573365468,
+      "source_mtime_utc": "2026-11-07T00:32:31.573365+00:00"
+    },
+    {
+      "path": "data/local_runs/2026-11-07-gemini-base32-v1-v4-exception-01/pricing.json",
+      "sha256": "ba0103daaefa949b1feeb1b1cb971a86c12b741983b5d73f72f6006e3cc92f20",
+      "bytes": 1192,
+      "source_mtime_ns": 1794011551573429136,
+      "source_mtime_utc": "2026-11-07T00:32:31.573429+00:00"
+    },
+    {
+      "path": "data/local_runs/2026-11-07-gemini-base32-v1-v4-exception-01/results.jsonl",
+      "sha256": "688e8868ffaf539229bccfa337660ab7c6458454f14c0228ea237b0a9398e70b",
+      "bytes": 220164,
+      "source_mtime_ns": 1794012941946948366,
+      "source_mtime_utc": "2026-11-07T00:55:41.946948+00:00"
+    },
+    {
+      "path": "data/local_runs/2026-11-07-gemini-base32-v1-v4-exception-01/summary.json",
+      "sha256": "af44fc1448b5cfe11f61d37ce9319e7229bbe8dfacebc17bea4fa2761790dbf6",
+      "bytes": 17257,
+      "source_mtime_ns": 1794012941948622770,
+      "source_mtime_utc": "2026-11-07T00:55:41.948623+00:00"
+    }
+  ],
+  "storage": "Archivos originales versionados en data/local_runs; rutas relativas a la raíz del repositorio, sin mirror."
+}

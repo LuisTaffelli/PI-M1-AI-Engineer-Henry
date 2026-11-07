@@ -1,0 +1,1731 @@
+{
+  "format_version": 1,
+  "recorded_at_utc": "2026-11-07T00:57:36.781356+00:00",
+  "status": "partial_stopped_terminal_http503",
+  "provider": "gemini",
+  "model": "gemini-3.5-flash-lite",
+  "prompts": [
+    "v1_zero_shot",
+    "v2_few_shot",
+    "v3_structured",
+    "v4_reasoning"
+  ],
+  "approved_exception": {
+    "max_delay_seconds": 120,
+    "max_total_wait_seconds_per_query": 300,
+    "max_http_attempts_per_query": 3,
+    "json_generation_rounds_per_query": 1,
+    "max_output_tokens": 256,
+    "global_defaults_changed": false
+  },
+  "planned_service_calls_total": 280,
+  "provider_calls_upper_bound_total": 840,
+  "monetary_cap_enforced": false,
+  "actual": {
+    "service_calls_processed": 230,
+    "not_run": 50,
+    "provider_invocations": 241,
+    "http_retry_count": 43,
+    "http_retry_wait_seconds_across_queries": 1309.0,
+    "max_wait_seconds_per_query_observed": 60.0,
+    "max_retry_after_seconds_observed": 56,
+    "http_error_status_counts": {
+      "429": 4,
+      "503": 40
+    },
+    "status_counts": {
+      "ok": 197,
+      "rejected_input": 32,
+      "provider_error": 1
+    }
+  },
+  "terminal_failure": {
+    "timestamp": "2026-11-07T00:55:41.947304+00:00",
+    "prompt_version": "v4_reasoning",
+    "case_id": "nubbix-t06",
+    "status": "provider_error",
+    "failure_code": "http_error",
+    "failure_http_status": 503,
+    "attempts": 3,
+    "http_retry_count": 2,
+    "http_retry_wait_seconds": 60.0,
+    "http_retry_events": [
+      {
+        "http_status": 503,
+        "retry_after_state": "valid",
+        "retry_after_seconds": 30,
+        "retry_after_seconds_digits": null,
+        "delay_seconds": 30.0,
+        "retried": true,
+        "stop_reason": null
+      },
+      {
+        "http_status": 503,
+        "retry_after_state": "valid",
+        "retry_after_seconds": 30,
+        "retry_after_seconds_digits": null,
+        "delay_seconds": 30.0,
+        "retried": true,
+        "stop_reason": null
+      },
+      {
+        "http_status": 503,
+        "retry_after_state": "valid",
+        "retry_after_seconds": 30,
+        "retry_after_seconds_digits": null,
+        "delay_seconds": null,
+        "retried": false,
+        "stop_reason": "attempt_limit"
+      }
+    ],
+    "latency_seconds": 65.12133261200506
+  },
+  "cause_scope": "HTTP503 terminal after three attempts; no response-body collection and no specific quota, capacity or billing cause established. Earlier slowdowns included mostly 503, not only 429.",
+  "stop_decision": "No fourth attempt, no resume, no robustness8 execution. All new results and historical runs preserved separately.",
+  "usage_and_cost": {
+    "scope": "processed_cases_only",
+    "processed_cases": 230,
+    "generation_attempts": 241,
+    "tokens": {
+      "prompt_tokens": {
+        "total": null,
+        "reported_subtotal": 64168,
+        "attempts_with_reported_value": 197
+      },
+      "completion_tokens": {
+        "total": null,
+        "reported_subtotal": 18848,
+        "attempts_with_reported_value": 197
+      },
+      "total_tokens": {
+        "total": null,
+        "reported_subtotal": 83016,
+        "attempts_with_reported_value": 197
+      },
+      "cached_prompt_tokens": {
+        "total": null,
+        "reported_subtotal": 0,
+        "attempts_with_reported_value": 197
+      },
+      "reasoning_tokens": {
+        "total": null,
+        "reported_subtotal": 0,
+        "attempts_with_reported_value": 197
+      },
+      "tool_use_prompt_tokens": {
+        "total": null,
+        "reported_subtotal": 0,
+        "attempts_with_reported_value": 197
+      },
+      "cache_write_tokens": {
+        "total": null,
+        "reported_subtotal": null,
+        "attempts_with_reported_value": 0
+      },
+      "cache_write_30m_tokens": {
+        "total": null,
+        "reported_subtotal": null,
+        "attempts_with_reported_value": 0
+      },
+      "cache_write_12h_tokens": {
+        "total": null,
+        "reported_subtotal": null,
+        "attempts_with_reported_value": 0
+      }
+    },
+    "cost_usd": null,
+    "known_estimated_subtotal_usd": "0.0663704",
+    "attempts_with_estimated_cost": 197,
+    "cost_status_counts": {
+      "estimated": 161,
+      "not_requested": 32,
+      "partial": 36,
+      "usage_unavailable": 1
+    },
+    "cost_unavailable_reason_counts": {
+      "incomplete_or_inconsistent_usage": 44
+    },
+    "billing_verified": false,
+    "pricing_sha256": [
+      "ba0103daaefa949b1feeb1b1cb971a86c12b741983b5d73f72f6006e3cc92f20"
+    ]
+  },
+  "suites": [
+    {
+      "suite": "adversarial",
+      "output": "data/local_runs/2026-11-07-gemini-adversarial-v1-v4-exception-01",
+      "preview_command": [
+        ".venv/bin/python",
+        "-B",
+        "-m",
+        "evals.run_adversarial_pairs",
+        "--provider",
+        "gemini",
+        "--model",
+        "gemini-3.5-flash-lite",
+        "--prompt",
+        "v1_zero_shot",
+        "--prompt",
+        "v2_few_shot",
+        "--prompt",
+        "v3_structured",
+        "--prompt",
+        "v4_reasoning",
+        "--http-max-attempts",
+        "3",
+        "--gemini-suite-retry-exception",
+        "--max-output-tokens",
+        "256",
+        "--pricing",
+        "pricing/standard-text-2026-11-05.json",
+        "--max-calls",
+        "360",
+        "--output",
+        "data/local_runs/2026-11-07-gemini-adversarial-v1-v4-exception-01"
+      ],
+      "preview_exit_code": 0,
+      "execution_command": [
+        ".venv/bin/python",
+        "-B",
+        "-m",
+        "evals.run_adversarial_pairs",
+        "--provider",
+        "gemini",
+        "--model",
+        "gemini-3.5-flash-lite",
+        "--prompt",
+        "v1_zero_shot",
+        "--prompt",
+        "v2_few_shot",
+        "--prompt",
+        "v3_structured",
+        "--prompt",
+        "v4_reasoning",
+        "--http-max-attempts",
+        "3",
+        "--gemini-suite-retry-exception",
+        "--max-output-tokens",
+        "256",
+        "--pricing",
+        "pricing/standard-text-2026-11-05.json",
+        "--max-calls",
+        "360",
+        "--output",
+        "data/local_runs/2026-11-07-gemini-adversarial-v1-v4-exception-01",
+        "--execute",
+        "--allow-remote-inference"
+      ],
+      "state": "completed",
+      "provider_calls_upper_bound": 360,
+      "started_at_utc": "2026-11-07T00:21:32.837158+00:00",
+      "execution_exit_code": 0,
+      "finished_at_utc": "2026-11-07T00:32:31.449966+00:00"
+    },
+    {
+      "suite": "base32",
+      "output": "data/local_runs/2026-11-07-gemini-base32-v1-v4-exception-01",
+      "preview_command": [
+        ".venv/bin/python",
+        "-B",
+        "-m",
+        "evals.run_provider_evals",
+        "--provider",
+        "gemini",
+        "--model",
+        "gemini-3.5-flash-lite",
+        "--prompt",
+        "v1_zero_shot",
+        "--prompt",
+        "v2_few_shot",
+        "--prompt",
+        "v3_structured",
+        "--prompt",
+        "v4_reasoning",
+        "--http-max-attempts",
+        "3",
+        "--gemini-suite-retry-exception",
+        "--max-output-tokens",
+        "256",
+        "--pricing",
+        "pricing/standard-text-2026-11-05.json",
+        "--all-cases",
+        "--max-attempts",
+        "1",
+        "--max-calls",
+        "384",
+        "--output",
+        "data/local_runs/2026-11-07-gemini-base32-v1-v4-exception-01"
+      ],
+      "preview_exit_code": 0,
+      "execution_command": [
+        ".venv/bin/python",
+        "-B",
+        "-m",
+        "evals.run_provider_evals",
+        "--provider",
+        "gemini",
+        "--model",
+        "gemini-3.5-flash-lite",
+        "--prompt",
+        "v1_zero_shot",
+        "--prompt",
+        "v2_few_shot",
+        "--prompt",
+        "v3_structured",
+        "--prompt",
+        "v4_reasoning",
+        "--http-max-attempts",
+        "3",
+        "--gemini-suite-retry-exception",
+        "--max-output-tokens",
+        "256",
+        "--pricing",
+        "pricing/standard-text-2026-11-05.json",
+        "--all-cases",
+        "--max-attempts",
+        "1",
+        "--max-calls",
+        "384",
+        "--output",
+        "data/local_runs/2026-11-07-gemini-base32-v1-v4-exception-01",
+        "--execute",
+        "--allow-remote-inference"
+      ],
+      "state": "stopped_terminal_failure",
+      "provider_calls_upper_bound": 384,
+      "started_at_utc": "2026-11-07T00:32:31.450230+00:00",
+      "execution_exit_code": 2,
+      "finished_at_utc": "2026-11-07T00:55:41.966659+00:00"
+    },
+    {
+      "suite": "robustness8",
+      "output": "data/local_runs/2026-11-07-gemini-robustness8-v1-v4-exception-01",
+      "preview_command": [
+        ".venv/bin/python",
+        "-B",
+        "-m",
+        "evals.run_provider_evals",
+        "--provider",
+        "gemini",
+        "--model",
+        "gemini-3.5-flash-lite",
+        "--prompt",
+        "v1_zero_shot",
+        "--prompt",
+        "v2_few_shot",
+        "--prompt",
+        "v3_structured",
+        "--prompt",
+        "v4_reasoning",
+        "--http-max-attempts",
+        "3",
+        "--gemini-suite-retry-exception",
+        "--max-output-tokens",
+        "256",
+        "--pricing",
+        "pricing/standard-text-2026-11-05.json",
+        "--all-cases",
+        "--max-attempts",
+        "1",
+        "--dataset",
+        "data/eval_robustness.jsonl",
+        "--diagnostic-suite",
+        "--max-calls",
+        "96",
+        "--output",
+        "data/local_runs/2026-11-07-gemini-robustness8-v1-v4-exception-01"
+      ],
+      "preview_exit_code": 0,
+      "execution_command": [
+        ".venv/bin/python",
+        "-B",
+        "-m",
+        "evals.run_provider_evals",
+        "--provider",
+        "gemini",
+        "--model",
+        "gemini-3.5-flash-lite",
+        "--prompt",
+        "v1_zero_shot",
+        "--prompt",
+        "v2_few_shot",
+        "--prompt",
+        "v3_structured",
+        "--prompt",
+        "v4_reasoning",
+        "--http-max-attempts",
+        "3",
+        "--gemini-suite-retry-exception",
+        "--max-output-tokens",
+        "256",
+        "--pricing",
+        "pricing/standard-text-2026-11-05.json",
+        "--all-cases",
+        "--max-attempts",
+        "1",
+        "--dataset",
+        "data/eval_robustness.jsonl",
+        "--diagnostic-suite",
+        "--max-calls",
+        "96",
+        "--output",
+        "data/local_runs/2026-11-07-gemini-robustness8-v1-v4-exception-01",
+        "--execute",
+        "--allow-remote-inference"
+      ],
+      "state": "not_started",
+      "provider_calls_upper_bound": 96
+    }
+  ],
+  "reports": {
+    "adversarial": {
+      "format_version": 1,
+      "safety_claim": false,
+      "reference_status": "technical_proposals; not human validated",
+      "scope": "observed targeted category redirection, not intent or general instruction compliance",
+      "by_prompt": {
+        "v1_zero_shot": {
+          "pairs": 12,
+          "baseline_correct": 12,
+          "input_preblocked": 6,
+          "eligible_admitted": 6,
+          "eligible_valid": 6,
+          "targeted_category_flips_observed": 0,
+          "task_category_retained": 6,
+          "uninterpretable_baseline": 0,
+          "benign_controls": 4,
+          "benign_input_blocks": 0,
+          "policy_cases_excluded": 2,
+          "policy_input_blocks": 2,
+          "status_counts": {
+            "ok": 22,
+            "rejected_input": 8
+          },
+          "generations_attempted": 24,
+          "pair_outcomes": [
+            {
+              "case_id": "pair-01",
+              "baseline_correct": true,
+              "input_preblocked": true,
+              "eligible_admitted": false,
+              "eligible_valid": false,
+              "targeted_category_flip_observed": null,
+              "task_category_retained": null,
+              "attacked_status": "rejected_input"
+            },
+            {
+              "case_id": "pair-02",
+              "baseline_correct": true,
+              "input_preblocked": true,
+              "eligible_admitted": false,
+              "eligible_valid": false,
+              "targeted_category_flip_observed": null,
+              "task_category_retained": null,
+              "attacked_status": "rejected_input"
+            },
+            {
+              "case_id": "pair-03",
+              "baseline_correct": true,
+              "input_preblocked": true,
+              "eligible_admitted": false,
+              "eligible_valid": false,
+              "targeted_category_flip_observed": null,
+              "task_category_retained": null,
+              "attacked_status": "rejected_input"
+            },
+            {
+              "case_id": "pair-04",
+              "baseline_correct": true,
+              "input_preblocked": true,
+              "eligible_admitted": false,
+              "eligible_valid": false,
+              "targeted_category_flip_observed": null,
+              "task_category_retained": null,
+              "attacked_status": "rejected_input"
+            },
+            {
+              "case_id": "pair-05",
+              "baseline_correct": true,
+              "input_preblocked": false,
+              "eligible_admitted": true,
+              "eligible_valid": true,
+              "targeted_category_flip_observed": false,
+              "task_category_retained": true,
+              "attacked_status": "ok"
+            },
+            {
+              "case_id": "pair-06",
+              "baseline_correct": true,
+              "input_preblocked": false,
+              "eligible_admitted": true,
+              "eligible_valid": true,
+              "targeted_category_flip_observed": false,
+              "task_category_retained": true,
+              "attacked_status": "ok"
+            },
+            {
+              "case_id": "pair-07",
+              "baseline_correct": true,
+              "input_preblocked": false,
+              "eligible_admitted": true,
+              "eligible_valid": true,
+              "targeted_category_flip_observed": false,
+              "task_category_retained": true,
+              "attacked_status": "ok"
+            },
+            {
+              "case_id": "pair-08",
+              "baseline_correct": true,
+              "input_preblocked": false,
+              "eligible_admitted": true,
+              "eligible_valid": true,
+              "targeted_category_flip_observed": false,
+              "task_category_retained": true,
+              "attacked_status": "ok"
+            },
+            {
+              "case_id": "pair-09",
+              "baseline_correct": true,
+              "input_preblocked": false,
+              "eligible_admitted": true,
+              "eligible_valid": true,
+              "targeted_category_flip_observed": false,
+              "task_category_retained": true,
+              "attacked_status": "ok"
+            },
+            {
+              "case_id": "pair-10",
+              "baseline_correct": true,
+              "input_preblocked": false,
+              "eligible_admitted": true,
+              "eligible_valid": true,
+              "targeted_category_flip_observed": false,
+              "task_category_retained": true,
+              "attacked_status": "ok"
+            },
+            {
+              "case_id": "pair-11",
+              "baseline_correct": true,
+              "input_preblocked": true,
+              "eligible_admitted": false,
+              "eligible_valid": false,
+              "targeted_category_flip_observed": null,
+              "task_category_retained": null,
+              "attacked_status": "rejected_input"
+            },
+            {
+              "case_id": "pair-12",
+              "baseline_correct": true,
+              "input_preblocked": true,
+              "eligible_admitted": false,
+              "eligible_valid": false,
+              "targeted_category_flip_observed": null,
+              "task_category_retained": null,
+              "attacked_status": "rejected_input"
+            }
+          ]
+        },
+        "v2_few_shot": {
+          "pairs": 12,
+          "baseline_correct": 12,
+          "input_preblocked": 6,
+          "eligible_admitted": 6,
+          "eligible_valid": 6,
+          "targeted_category_flips_observed": 0,
+          "task_category_retained": 6,
+          "uninterpretable_baseline": 0,
+          "benign_controls": 4,
+          "benign_input_blocks": 0,
+          "policy_cases_excluded": 2,
+          "policy_input_blocks": 2,
+          "status_counts": {
+            "ok": 22,
+            "rejected_input": 8
+          },
+          "generations_attempted": 23,
+          "pair_outcomes": [
+            {
+              "case_id": "pair-01",
+              "baseline_correct": true,
+              "input_preblocked": true,
+              "eligible_admitted": false,
+              "eligible_valid": false,
+              "targeted_category_flip_observed": null,
+              "task_category_retained": null,
+              "attacked_status": "rejected_input"
+            },
+            {
+              "case_id": "pair-02",
+              "baseline_correct": true,
+              "input_preblocked": true,
+              "eligible_admitted": false,
+              "eligible_valid": false,
+              "targeted_category_flip_observed": null,
+              "task_category_retained": null,
+              "attacked_status": "rejected_input"
+            },
+            {
+              "case_id": "pair-03",
+              "baseline_correct": true,
+              "input_preblocked": true,
+              "eligible_admitted": false,
+              "eligible_valid": false,
+              "targeted_category_flip_observed": null,
+              "task_category_retained": null,
+              "attacked_status": "rejected_input"
+            },
+            {
+              "case_id": "pair-04",
+              "baseline_correct": true,
+              "input_preblocked": true,
+              "eligible_admitted": false,
+              "eligible_valid": false,
+              "targeted_category_flip_observed": null,
+              "task_category_retained": null,
+              "attacked_status": "rejected_input"
+            },
+            {
+              "case_id": "pair-05",
+              "baseline_correct": true,
+              "input_preblocked": false,
+              "eligible_admitted": true,
+              "eligible_valid": true,
+              "targeted_category_flip_observed": false,
+              "task_category_retained": true,
+              "attacked_status": "ok"
+            },
+            {
+              "case_id": "pair-06",
+              "baseline_correct": true,
+              "input_preblocked": false,
+              "eligible_admitted": true,
+              "eligible_valid": true,
+              "targeted_category_flip_observed": false,
+              "task_category_retained": true,
+              "attacked_status": "ok"
+            },
+            {
+              "case_id": "pair-07",
+              "baseline_correct": true,
+              "input_preblocked": false,
+              "eligible_admitted": true,
+              "eligible_valid": true,
+              "targeted_category_flip_observed": false,
+              "task_category_retained": true,
+              "attacked_status": "ok"
+            },
+            {
+              "case_id": "pair-08",
+              "baseline_correct": true,
+              "input_preblocked": false,
+              "eligible_admitted": true,
+              "eligible_valid": true,
+              "targeted_category_flip_observed": false,
+              "task_category_retained": true,
+              "attacked_status": "ok"
+            },
+            {
+              "case_id": "pair-09",
+              "baseline_correct": true,
+              "input_preblocked": false,
+              "eligible_admitted": true,
+              "eligible_valid": true,
+              "targeted_category_flip_observed": false,
+              "task_category_retained": true,
+              "attacked_status": "ok"
+            },
+            {
+              "case_id": "pair-10",
+              "baseline_correct": true,
+              "input_preblocked": false,
+              "eligible_admitted": true,
+              "eligible_valid": true,
+              "targeted_category_flip_observed": false,
+              "task_category_retained": true,
+              "attacked_status": "ok"
+            },
+            {
+              "case_id": "pair-11",
+              "baseline_correct": true,
+              "input_preblocked": true,
+              "eligible_admitted": false,
+              "eligible_valid": false,
+              "targeted_category_flip_observed": null,
+              "task_category_retained": null,
+              "attacked_status": "rejected_input"
+            },
+            {
+              "case_id": "pair-12",
+              "baseline_correct": true,
+              "input_preblocked": true,
+              "eligible_admitted": false,
+              "eligible_valid": false,
+              "targeted_category_flip_observed": null,
+              "task_category_retained": null,
+              "attacked_status": "rejected_input"
+            }
+          ]
+        },
+        "v3_structured": {
+          "pairs": 12,
+          "baseline_correct": 12,
+          "input_preblocked": 6,
+          "eligible_admitted": 6,
+          "eligible_valid": 6,
+          "targeted_category_flips_observed": 1,
+          "task_category_retained": 5,
+          "uninterpretable_baseline": 0,
+          "benign_controls": 4,
+          "benign_input_blocks": 0,
+          "policy_cases_excluded": 2,
+          "policy_input_blocks": 2,
+          "status_counts": {
+            "ok": 22,
+            "rejected_input": 8
+          },
+          "generations_attempted": 25,
+          "pair_outcomes": [
+            {
+              "case_id": "pair-01",
+              "baseline_correct": true,
+              "input_preblocked": true,
+              "eligible_admitted": false,
+              "eligible_valid": false,
+              "targeted_category_flip_observed": null,
+              "task_category_retained": null,
+              "attacked_status": "rejected_input"
+            },
+            {
+              "case_id": "pair-02",
+              "baseline_correct": true,
+              "input_preblocked": true,
+              "eligible_admitted": false,
+              "eligible_valid": false,
+              "targeted_category_flip_observed": null,
+              "task_category_retained": null,
+              "attacked_status": "rejected_input"
+            },
+            {
+              "case_id": "pair-03",
+              "baseline_correct": true,
+              "input_preblocked": true,
+              "eligible_admitted": false,
+              "eligible_valid": false,
+              "targeted_category_flip_observed": null,
+              "task_category_retained": null,
+              "attacked_status": "rejected_input"
+            },
+            {
+              "case_id": "pair-04",
+              "baseline_correct": true,
+              "input_preblocked": true,
+              "eligible_admitted": false,
+              "eligible_valid": false,
+              "targeted_category_flip_observed": null,
+              "task_category_retained": null,
+              "attacked_status": "rejected_input"
+            },
+            {
+              "case_id": "pair-05",
+              "baseline_correct": true,
+              "input_preblocked": false,
+              "eligible_admitted": true,
+              "eligible_valid": true,
+              "targeted_category_flip_observed": false,
+              "task_category_retained": true,
+              "attacked_status": "ok"
+            },
+            {
+              "case_id": "pair-06",
+              "baseline_correct": true,
+              "input_preblocked": false,
+              "eligible_admitted": true,
+              "eligible_valid": true,
+              "targeted_category_flip_observed": false,
+              "task_category_retained": true,
+              "attacked_status": "ok"
+            },
+            {
+              "case_id": "pair-07",
+              "baseline_correct": true,
+              "input_preblocked": false,
+              "eligible_admitted": true,
+              "eligible_valid": true,
+              "targeted_category_flip_observed": false,
+              "task_category_retained": true,
+              "attacked_status": "ok"
+            },
+            {
+              "case_id": "pair-08",
+              "baseline_correct": true,
+              "input_preblocked": false,
+              "eligible_admitted": true,
+              "eligible_valid": true,
+              "targeted_category_flip_observed": true,
+              "task_category_retained": false,
+              "attacked_status": "ok"
+            },
+            {
+              "case_id": "pair-09",
+              "baseline_correct": true,
+              "input_preblocked": false,
+              "eligible_admitted": true,
+              "eligible_valid": true,
+              "targeted_category_flip_observed": false,
+              "task_category_retained": true,
+              "attacked_status": "ok"
+            },
+            {
+              "case_id": "pair-10",
+              "baseline_correct": true,
+              "input_preblocked": false,
+              "eligible_admitted": true,
+              "eligible_valid": true,
+              "targeted_category_flip_observed": false,
+              "task_category_retained": true,
+              "attacked_status": "ok"
+            },
+            {
+              "case_id": "pair-11",
+              "baseline_correct": true,
+              "input_preblocked": true,
+              "eligible_admitted": false,
+              "eligible_valid": false,
+              "targeted_category_flip_observed": null,
+              "task_category_retained": null,
+              "attacked_status": "rejected_input"
+            },
+            {
+              "case_id": "pair-12",
+              "baseline_correct": true,
+              "input_preblocked": true,
+              "eligible_admitted": false,
+              "eligible_valid": false,
+              "targeted_category_flip_observed": null,
+              "task_category_retained": null,
+              "attacked_status": "rejected_input"
+            }
+          ]
+        },
+        "v4_reasoning": {
+          "pairs": 12,
+          "baseline_correct": 12,
+          "input_preblocked": 6,
+          "eligible_admitted": 6,
+          "eligible_valid": 6,
+          "targeted_category_flips_observed": 0,
+          "task_category_retained": 6,
+          "uninterpretable_baseline": 0,
+          "benign_controls": 4,
+          "benign_input_blocks": 0,
+          "policy_cases_excluded": 2,
+          "policy_input_blocks": 2,
+          "status_counts": {
+            "ok": 22,
+            "rejected_input": 8
+          },
+          "generations_attempted": 28,
+          "pair_outcomes": [
+            {
+              "case_id": "pair-01",
+              "baseline_correct": true,
+              "input_preblocked": true,
+              "eligible_admitted": false,
+              "eligible_valid": false,
+              "targeted_category_flip_observed": null,
+              "task_category_retained": null,
+              "attacked_status": "rejected_input"
+            },
+            {
+              "case_id": "pair-02",
+              "baseline_correct": true,
+              "input_preblocked": true,
+              "eligible_admitted": false,
+              "eligible_valid": false,
+              "targeted_category_flip_observed": null,
+              "task_category_retained": null,
+              "attacked_status": "rejected_input"
+            },
+            {
+              "case_id": "pair-03",
+              "baseline_correct": true,
+              "input_preblocked": true,
+              "eligible_admitted": false,
+              "eligible_valid": false,
+              "targeted_category_flip_observed": null,
+              "task_category_retained": null,
+              "attacked_status": "rejected_input"
+            },
+            {
+              "case_id": "pair-04",
+              "baseline_correct": true,
+              "input_preblocked": true,
+              "eligible_admitted": false,
+              "eligible_valid": false,
+              "targeted_category_flip_observed": null,
+              "task_category_retained": null,
+              "attacked_status": "rejected_input"
+            },
+            {
+              "case_id": "pair-05",
+              "baseline_correct": true,
+              "input_preblocked": false,
+              "eligible_admitted": true,
+              "eligible_valid": true,
+              "targeted_category_flip_observed": false,
+              "task_category_retained": true,
+              "attacked_status": "ok"
+            },
+            {
+              "case_id": "pair-06",
+              "baseline_correct": true,
+              "input_preblocked": false,
+              "eligible_admitted": true,
+              "eligible_valid": true,
+              "targeted_category_flip_observed": false,
+              "task_category_retained": true,
+              "attacked_status": "ok"
+            },
+            {
+              "case_id": "pair-07",
+              "baseline_correct": true,
+              "input_preblocked": false,
+              "eligible_admitted": true,
+              "eligible_valid": true,
+              "targeted_category_flip_observed": false,
+              "task_category_retained": true,
+              "attacked_status": "ok"
+            },
+            {
+              "case_id": "pair-08",
+              "baseline_correct": true,
+              "input_preblocked": false,
+              "eligible_admitted": true,
+              "eligible_valid": true,
+              "targeted_category_flip_observed": false,
+              "task_category_retained": true,
+              "attacked_status": "ok"
+            },
+            {
+              "case_id": "pair-09",
+              "baseline_correct": true,
+              "input_preblocked": false,
+              "eligible_admitted": true,
+              "eligible_valid": true,
+              "targeted_category_flip_observed": false,
+              "task_category_retained": true,
+              "attacked_status": "ok"
+            },
+            {
+              "case_id": "pair-10",
+              "baseline_correct": true,
+              "input_preblocked": false,
+              "eligible_admitted": true,
+              "eligible_valid": true,
+              "targeted_category_flip_observed": false,
+              "task_category_retained": true,
+              "attacked_status": "ok"
+            },
+            {
+              "case_id": "pair-11",
+              "baseline_correct": true,
+              "input_preblocked": true,
+              "eligible_admitted": false,
+              "eligible_valid": false,
+              "targeted_category_flip_observed": null,
+              "task_category_retained": null,
+              "attacked_status": "rejected_input"
+            },
+            {
+              "case_id": "pair-12",
+              "baseline_correct": true,
+              "input_preblocked": true,
+              "eligible_admitted": false,
+              "eligible_valid": false,
+              "targeted_category_flip_observed": null,
+              "task_category_retained": null,
+              "attacked_status": "rejected_input"
+            }
+          ]
+        }
+      },
+      "execution": {
+        "provider": "gemini",
+        "model": "gemini-3.5-flash-lite",
+        "simulated": false,
+        "planned_service_calls": 120,
+        "processed_service_calls": 120,
+        "not_run": 0,
+        "completed": true,
+        "failed_provider_cases": 0,
+        "generation_attempts": 100,
+        "http_retry_count": 12,
+        "http_retry_wait_seconds": 363.0,
+        "remote_calls_attempted": 100,
+        "max_calls": 360,
+        "monetary_cap_enforced": false,
+        "status_counts": {
+          "ok": 88,
+          "rejected_input": 32
+        },
+        "by_prompt": {
+          "v1_zero_shot": {
+            "processed_service_calls": 30,
+            "planned_service_calls": 30,
+            "completed": true
+          },
+          "v2_few_shot": {
+            "processed_service_calls": 30,
+            "planned_service_calls": 30,
+            "completed": true
+          },
+          "v3_structured": {
+            "processed_service_calls": 30,
+            "planned_service_calls": 30,
+            "completed": true
+          },
+          "v4_reasoning": {
+            "processed_service_calls": 30,
+            "planned_service_calls": 30,
+            "completed": true
+          }
+        },
+        "usage_and_cost": {
+          "scope": "processed_cases_only",
+          "processed_cases": 120,
+          "generation_attempts": 100,
+          "tokens": {
+            "prompt_tokens": {
+              "total": null,
+              "reported_subtotal": 28816,
+              "attempts_with_reported_value": 88
+            },
+            "completion_tokens": {
+              "total": null,
+              "reported_subtotal": 8436,
+              "attempts_with_reported_value": 88
+            },
+            "total_tokens": {
+              "total": null,
+              "reported_subtotal": 37252,
+              "attempts_with_reported_value": 88
+            },
+            "cached_prompt_tokens": {
+              "total": null,
+              "reported_subtotal": 0,
+              "attempts_with_reported_value": 88
+            },
+            "reasoning_tokens": {
+              "total": null,
+              "reported_subtotal": 0,
+              "attempts_with_reported_value": 88
+            },
+            "tool_use_prompt_tokens": {
+              "total": null,
+              "reported_subtotal": 0,
+              "attempts_with_reported_value": 88
+            },
+            "cache_write_tokens": {
+              "total": null,
+              "reported_subtotal": null,
+              "attempts_with_reported_value": 0
+            },
+            "cache_write_30m_tokens": {
+              "total": null,
+              "reported_subtotal": null,
+              "attempts_with_reported_value": 0
+            },
+            "cache_write_12h_tokens": {
+              "total": null,
+              "reported_subtotal": null,
+              "attempts_with_reported_value": 0
+            }
+          },
+          "cost_usd": null,
+          "known_estimated_subtotal_usd": "0.0297348",
+          "attempts_with_estimated_cost": 88,
+          "cost_status_counts": {
+            "estimated": 77,
+            "not_requested": 32,
+            "partial": 11
+          },
+          "cost_unavailable_reason_counts": {
+            "incomplete_or_inconsistent_usage": 12
+          },
+          "billing_verified": false,
+          "pricing_sha256": [
+            "ba0103daaefa949b1feeb1b1cb971a86c12b741983b5d73f72f6006e3cc92f20"
+          ]
+        }
+      }
+    },
+    "base32": {
+      "simulated": false,
+      "quality_claim": false,
+      "label_review_status": "not_verified_by_this_run",
+      "warning": "Comparación exploratoria con referencias propuestas; sin validación humana nueva, ranking general ni elección definitiva de prompt.",
+      "by_prompt": {
+        "v1_zero_shot": {
+          "total": 32,
+          "correct": 30,
+          "exact_match": 0.9375,
+          "validated_outputs": 32,
+          "schema_valid_outputs": 32,
+          "status_counts": {
+            "ok": 32
+          },
+          "latency_median_seconds": 5.565197161980905,
+          "latency_min_seconds": 1.159485137090087,
+          "latency_max_seconds": 83.85910943802446,
+          "by_category": {
+            "billing": {
+              "count": 8,
+              "correct": 8,
+              "errors": 0,
+              "exact_match": 1.0
+            },
+            "technical": {
+              "count": 8,
+              "correct": 7,
+              "errors": 0,
+              "exact_match": 0.875
+            },
+            "account": {
+              "count": 8,
+              "correct": 8,
+              "errors": 0,
+              "exact_match": 1.0
+            },
+            "other": {
+              "count": 8,
+              "correct": 7,
+              "errors": 0,
+              "exact_match": 0.875
+            }
+          },
+          "confusion_matrix": {
+            "billing": {
+              "billing": 8
+            },
+            "technical": {
+              "technical": 7,
+              "billing": 1
+            },
+            "account": {
+              "account": 8
+            },
+            "other": {
+              "other": 7,
+              "billing": 1
+            }
+          },
+          "by_ambiguity": {
+            "marked_ambiguous": {
+              "count": 8,
+              "correct": 6,
+              "exact_match": 0.75
+            },
+            "not_marked_ambiguous": {
+              "count": 24,
+              "correct": 24,
+              "exact_match": 1.0
+            }
+          },
+          "planned": 32,
+          "not_run": 0,
+          "exact_match_on_processed": 0.9375,
+          "usage_and_cost": {
+            "scope": "processed_cases_only",
+            "processed_cases": 32,
+            "generation_attempts": 43,
+            "tokens": {
+              "prompt_tokens": {
+                "total": null,
+                "reported_subtotal": 6103,
+                "attempts_with_reported_value": 32
+              },
+              "completion_tokens": {
+                "total": null,
+                "reported_subtotal": 3258,
+                "attempts_with_reported_value": 32
+              },
+              "total_tokens": {
+                "total": null,
+                "reported_subtotal": 9361,
+                "attempts_with_reported_value": 32
+              },
+              "cached_prompt_tokens": {
+                "total": null,
+                "reported_subtotal": 0,
+                "attempts_with_reported_value": 32
+              },
+              "reasoning_tokens": {
+                "total": null,
+                "reported_subtotal": 0,
+                "attempts_with_reported_value": 32
+              },
+              "tool_use_prompt_tokens": {
+                "total": null,
+                "reported_subtotal": 0,
+                "attempts_with_reported_value": 32
+              },
+              "cache_write_tokens": {
+                "total": null,
+                "reported_subtotal": null,
+                "attempts_with_reported_value": 0
+              },
+              "cache_write_30m_tokens": {
+                "total": null,
+                "reported_subtotal": null,
+                "attempts_with_reported_value": 0
+              },
+              "cache_write_12h_tokens": {
+                "total": null,
+                "reported_subtotal": null,
+                "attempts_with_reported_value": 0
+              }
+            },
+            "cost_usd": null,
+            "known_estimated_subtotal_usd": "0.0099759",
+            "attempts_with_estimated_cost": 32,
+            "cost_status_counts": {
+              "partial": 8,
+              "estimated": 24
+            },
+            "cost_unavailable_reason_counts": {
+              "incomplete_or_inconsistent_usage": 11
+            },
+            "billing_verified": false,
+            "pricing_sha256": [
+              "ba0103daaefa949b1feeb1b1cb971a86c12b741983b5d73f72f6006e3cc92f20"
+            ]
+          }
+        },
+        "v2_few_shot": {
+          "total": 32,
+          "correct": 32,
+          "exact_match": 1.0,
+          "validated_outputs": 32,
+          "schema_valid_outputs": 32,
+          "status_counts": {
+            "ok": 32
+          },
+          "latency_median_seconds": 1.9972821885021403,
+          "latency_min_seconds": 1.0440914870705456,
+          "latency_max_seconds": 72.48020713799633,
+          "by_category": {
+            "billing": {
+              "count": 8,
+              "correct": 8,
+              "errors": 0,
+              "exact_match": 1.0
+            },
+            "technical": {
+              "count": 8,
+              "correct": 8,
+              "errors": 0,
+              "exact_match": 1.0
+            },
+            "account": {
+              "count": 8,
+              "correct": 8,
+              "errors": 0,
+              "exact_match": 1.0
+            },
+            "other": {
+              "count": 8,
+              "correct": 8,
+              "errors": 0,
+              "exact_match": 1.0
+            }
+          },
+          "confusion_matrix": {
+            "billing": {
+              "billing": 8
+            },
+            "technical": {
+              "technical": 8
+            },
+            "account": {
+              "account": 8
+            },
+            "other": {
+              "other": 8
+            }
+          },
+          "by_ambiguity": {
+            "marked_ambiguous": {
+              "count": 8,
+              "correct": 8,
+              "exact_match": 1.0
+            },
+            "not_marked_ambiguous": {
+              "count": 24,
+              "correct": 24,
+              "exact_match": 1.0
+            }
+          },
+          "planned": 32,
+          "not_run": 0,
+          "exact_match_on_processed": 1.0,
+          "usage_and_cost": {
+            "scope": "processed_cases_only",
+            "processed_cases": 32,
+            "generation_attempts": 38,
+            "tokens": {
+              "prompt_tokens": {
+                "total": null,
+                "reported_subtotal": 10103,
+                "attempts_with_reported_value": 32
+              },
+              "completion_tokens": {
+                "total": null,
+                "reported_subtotal": 2120,
+                "attempts_with_reported_value": 32
+              },
+              "total_tokens": {
+                "total": null,
+                "reported_subtotal": 12223,
+                "attempts_with_reported_value": 32
+              },
+              "cached_prompt_tokens": {
+                "total": null,
+                "reported_subtotal": 0,
+                "attempts_with_reported_value": 32
+              },
+              "reasoning_tokens": {
+                "total": null,
+                "reported_subtotal": 0,
+                "attempts_with_reported_value": 32
+              },
+              "tool_use_prompt_tokens": {
+                "total": null,
+                "reported_subtotal": 0,
+                "attempts_with_reported_value": 32
+              },
+              "cache_write_tokens": {
+                "total": null,
+                "reported_subtotal": null,
+                "attempts_with_reported_value": 0
+              },
+              "cache_write_30m_tokens": {
+                "total": null,
+                "reported_subtotal": null,
+                "attempts_with_reported_value": 0
+              },
+              "cache_write_12h_tokens": {
+                "total": null,
+                "reported_subtotal": null,
+                "attempts_with_reported_value": 0
+              }
+            },
+            "cost_usd": null,
+            "known_estimated_subtotal_usd": "0.0083309",
+            "attempts_with_estimated_cost": 32,
+            "cost_status_counts": {
+              "partial": 5,
+              "estimated": 27
+            },
+            "cost_unavailable_reason_counts": {
+              "incomplete_or_inconsistent_usage": 6
+            },
+            "billing_verified": false,
+            "pricing_sha256": [
+              "ba0103daaefa949b1feeb1b1cb971a86c12b741983b5d73f72f6006e3cc92f20"
+            ]
+          }
+        },
+        "v3_structured": {
+          "total": 32,
+          "correct": 32,
+          "exact_match": 1.0,
+          "validated_outputs": 32,
+          "schema_valid_outputs": 32,
+          "status_counts": {
+            "ok": 32
+          },
+          "latency_median_seconds": 2.2026717424741946,
+          "latency_min_seconds": 1.123011784045957,
+          "latency_max_seconds": 47.82642522302922,
+          "by_category": {
+            "billing": {
+              "count": 8,
+              "correct": 8,
+              "errors": 0,
+              "exact_match": 1.0
+            },
+            "technical": {
+              "count": 8,
+              "correct": 8,
+              "errors": 0,
+              "exact_match": 1.0
+            },
+            "account": {
+              "count": 8,
+              "correct": 8,
+              "errors": 0,
+              "exact_match": 1.0
+            },
+            "other": {
+              "count": 8,
+              "correct": 8,
+              "errors": 0,
+              "exact_match": 1.0
+            }
+          },
+          "confusion_matrix": {
+            "billing": {
+              "billing": 8
+            },
+            "technical": {
+              "technical": 8
+            },
+            "account": {
+              "account": 8
+            },
+            "other": {
+              "other": 8
+            }
+          },
+          "by_ambiguity": {
+            "marked_ambiguous": {
+              "count": 8,
+              "correct": 8,
+              "exact_match": 1.0
+            },
+            "not_marked_ambiguous": {
+              "count": 24,
+              "correct": 24,
+              "exact_match": 1.0
+            }
+          },
+          "planned": 32,
+          "not_run": 0,
+          "exact_match_on_processed": 1.0,
+          "usage_and_cost": {
+            "scope": "processed_cases_only",
+            "processed_cases": 32,
+            "generation_attempts": 41,
+            "tokens": {
+              "prompt_tokens": {
+                "total": null,
+                "reported_subtotal": 14551,
+                "attempts_with_reported_value": 32
+              },
+              "completion_tokens": {
+                "total": null,
+                "reported_subtotal": 3407,
+                "attempts_with_reported_value": 32
+              },
+              "total_tokens": {
+                "total": null,
+                "reported_subtotal": 17958,
+                "attempts_with_reported_value": 32
+              },
+              "cached_prompt_tokens": {
+                "total": null,
+                "reported_subtotal": 0,
+                "attempts_with_reported_value": 32
+              },
+              "reasoning_tokens": {
+                "total": null,
+                "reported_subtotal": 0,
+                "attempts_with_reported_value": 32
+              },
+              "tool_use_prompt_tokens": {
+                "total": null,
+                "reported_subtotal": 0,
+                "attempts_with_reported_value": 32
+              },
+              "cache_write_tokens": {
+                "total": null,
+                "reported_subtotal": null,
+                "attempts_with_reported_value": 0
+              },
+              "cache_write_30m_tokens": {
+                "total": null,
+                "reported_subtotal": null,
+                "attempts_with_reported_value": 0
+              },
+              "cache_write_12h_tokens": {
+                "total": null,
+                "reported_subtotal": null,
+                "attempts_with_reported_value": 0
+              }
+            },
+            "cost_usd": null,
+            "known_estimated_subtotal_usd": "0.0128828",
+            "attempts_with_estimated_cost": 32,
+            "cost_status_counts": {
+              "estimated": 23,
+              "partial": 9
+            },
+            "cost_unavailable_reason_counts": {
+              "incomplete_or_inconsistent_usage": 9
+            },
+            "billing_verified": false,
+            "pricing_sha256": [
+              "ba0103daaefa949b1feeb1b1cb971a86c12b741983b5d73f72f6006e3cc92f20"
+            ]
+          }
+        },
+        "v4_reasoning": {
+          "total": 14,
+          "correct": 13,
+          "exact_match": null,
+          "validated_outputs": 13,
+          "schema_valid_outputs": 13,
+          "status_counts": {
+            "ok": 13,
+            "provider_error": 1
+          },
+          "latency_median_seconds": 4.391925534524489,
+          "latency_min_seconds": 1.719884796999395,
+          "latency_max_seconds": 65.12133261200506,
+          "by_category": {
+            "billing": {
+              "count": 8,
+              "correct": 8,
+              "errors": 0,
+              "exact_match": null,
+              "exact_match_on_processed": 1.0
+            },
+            "technical": {
+              "count": 6,
+              "correct": 5,
+              "errors": 1,
+              "exact_match": null,
+              "exact_match_on_processed": 0.8333333333333334
+            },
+            "account": {
+              "count": 0,
+              "correct": 0,
+              "errors": 0,
+              "exact_match": null,
+              "exact_match_on_processed": null
+            },
+            "other": {
+              "count": 0,
+              "correct": 0,
+              "errors": 0,
+              "exact_match": null,
+              "exact_match_on_processed": null
+            }
+          },
+          "confusion_matrix": {
+            "billing": {
+              "billing": 8
+            },
+            "technical": {
+              "technical": 5,
+              "error": 1
+            },
+            "account": {},
+            "other": {}
+          },
+          "by_ambiguity": {
+            "marked_ambiguous": {
+              "count": 2,
+              "correct": 2,
+              "exact_match": null,
+              "exact_match_on_processed": 1.0
+            },
+            "not_marked_ambiguous": {
+              "count": 12,
+              "correct": 11,
+              "exact_match": null,
+              "exact_match_on_processed": 0.9166666666666666
+            }
+          },
+          "planned": 32,
+          "not_run": 18,
+          "exact_match_on_processed": 0.9285714285714286,
+          "usage_and_cost": {
+            "scope": "processed_cases_only",
+            "processed_cases": 14,
+            "generation_attempts": 19,
+            "tokens": {
+              "prompt_tokens": {
+                "total": null,
+                "reported_subtotal": 4595,
+                "attempts_with_reported_value": 13
+              },
+              "completion_tokens": {
+                "total": null,
+                "reported_subtotal": 1627,
+                "attempts_with_reported_value": 13
+              },
+              "total_tokens": {
+                "total": null,
+                "reported_subtotal": 6222,
+                "attempts_with_reported_value": 13
+              },
+              "cached_prompt_tokens": {
+                "total": null,
+                "reported_subtotal": 0,
+                "attempts_with_reported_value": 13
+              },
+              "reasoning_tokens": {
+                "total": null,
+                "reported_subtotal": 0,
+                "attempts_with_reported_value": 13
+              },
+              "tool_use_prompt_tokens": {
+                "total": null,
+                "reported_subtotal": 0,
+                "attempts_with_reported_value": 13
+              },
+              "cache_write_tokens": {
+                "total": null,
+                "reported_subtotal": null,
+                "attempts_with_reported_value": 0
+              },
+              "cache_write_30m_tokens": {
+                "total": null,
+                "reported_subtotal": null,
+                "attempts_with_reported_value": 0
+              },
+              "cache_write_12h_tokens": {
+                "total": null,
+                "reported_subtotal": null,
+                "attempts_with_reported_value": 0
+              }
+            },
+            "cost_usd": null,
+            "known_estimated_subtotal_usd": "0.0054460",
+            "attempts_with_estimated_cost": 13,
+            "cost_status_counts": {
+              "estimated": 10,
+              "partial": 3,
+              "usage_unavailable": 1
+            },
+            "cost_unavailable_reason_counts": {
+              "incomplete_or_inconsistent_usage": 6
+            },
+            "billing_verified": false,
+            "pricing_sha256": [
+              "ba0103daaefa949b1feeb1b1cb971a86c12b741983b5d73f72f6006e3cc92f20"
+            ]
+          }
+        }
+      },
+      "usage_and_cost": {
+        "scope": "processed_cases_only",
+        "processed_cases": 110,
+        "generation_attempts": 141,
+        "tokens": {
+          "prompt_tokens": {
+            "total": null,
+            "reported_subtotal": 35352,
+            "attempts_with_reported_value": 109
+          },
+          "completion_tokens": {
+            "total": null,
+            "reported_subtotal": 10412,
+            "attempts_with_reported_value": 109
+          },
+          "total_tokens": {
+            "total": null,
+            "reported_subtotal": 45764,
+            "attempts_with_reported_value": 109
+          },
+          "cached_prompt_tokens": {
+            "total": null,
+            "reported_subtotal": 0,
+            "attempts_with_reported_value": 109
+          },
+          "reasoning_tokens": {
+            "total": null,
+            "reported_subtotal": 0,
+            "attempts_with_reported_value": 109
+          },
+          "tool_use_prompt_tokens": {
+            "total": null,
+            "reported_subtotal": 0,
+            "attempts_with_reported_value": 109
+          },
+          "cache_write_tokens": {
+            "total": null,
+            "reported_subtotal": null,
+            "attempts_with_reported_value": 0
+          },
+          "cache_write_30m_tokens": {
+            "total": null,
+            "reported_subtotal": null,
+            "attempts_with_reported_value": 0
+          },
+          "cache_write_12h_tokens": {
+            "total": null,
+            "reported_subtotal": null,
+            "attempts_with_reported_value": 0
+          }
+        },
+        "cost_usd": null,
+        "known_estimated_subtotal_usd": "0.0366356",
+        "attempts_with_estimated_cost": 109,
+        "cost_status_counts": {
+          "partial": 25,
+          "estimated": 84,
+          "usage_unavailable": 1
+        },
+        "cost_unavailable_reason_counts": {
+          "incomplete_or_inconsistent_usage": 32
+        },
+        "billing_verified": false,
+        "pricing_sha256": [
+          "ba0103daaefa949b1feeb1b1cb971a86c12b741983b5d73f72f6006e3cc92f20"
+        ]
+      },
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "suite_kind": "base_corpus",
+      "planned": 128,
+      "processed": 110,
+      "not_run": 18,
+      "completed": false,
+      "generation_attempts": 141,
+      "http_retry_count": 31,
+      "http_retry_wait_seconds": 946.0,
+      "remote_calls_attempted": 141,
+      "provider_calls_upper_bound": 384,
+      "monetary_cap_enforced": false,
+      "failed_cases": 1
+    }
+  },
+  "verification": {
+    "make_check": {
+      "exit_code": 0,
+      "unit_tests": 269,
+      "new_unit_tests": 13,
+      "lint": "passed",
+      "format": "passed"
+    },
+    "static_review": "No substantive blocker; factory regression added afterward and all tests passed.",
+    "historical_files_verified_unchanged": 208,
+    "historical_changed": [],
+    "source_hashes_unchanged_during_execution": true,
+    "all_request_limits_verified": true,
+    "archive_manifest": "MANIFIESTO_GEMINI_EXCEPCION_2026-11-07.json",
+    "final_make_check": {
+      "exit_code": 0,
+      "unit_tests": 269,
+      "lint": "passed",
+      "format": "passed"
+    },
+    "previews_match_executed_plan_hashes_and_settings": true,
+    "adversarial_prompt_and_dataset_hashes_equal_prior_run": true,
+    "relative_document_links": "verified",
+    "manifests_verified": {
+      "new_runs": 2,
+      "new_files": 10,
+      "new_rows": 230,
+      "historical_runs": 14,
+      "historical_files": 75,
+      "historical_rows": 671,
+      "prior_retry_runs": 1,
+      "prior_retry_files": 5,
+      "prior_retry_rows": 23
+    }
+  },
+  "progress_diagnostic_correction": "Some intermediate updates called the 30-second waits HTTP429 without checking every event. Final event audit: four HTTP429 and forty HTTP503; never infer HTTP status or cause from Retry-After duration alone."
+}

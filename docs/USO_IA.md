@@ -72,3 +72,11 @@ línea por línea.
 La bitácora y los commits permiten seguir cambios y verificaciones. El
 [informe de desacuerdos](REVISION_DESACUERDOS.md) muestra observaciones que se
 conservaron en lugar de corregir referencias para favorecer al modelo.
+
+## Corrección de ubicación de la evidencia — 07/11/2026
+
+Luis aclaró que quería commitear y pushear los casos originales citados de
+`data/local_runs/`, no mantener un mirror en documentación. La asistencia revisó
+privacidad e integridad, adaptó manifiestos/verificador/enlaces y preparó una
+publicación limitada a esa evidencia, sin incorporar cambios previos de código
+ni ejecutar más inferencias. Se preservan los resultados originales.

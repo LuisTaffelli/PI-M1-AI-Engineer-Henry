@@ -1,0 +1,283 @@
+{
+  "simulated": false,
+  "quality_claim": false,
+  "label_review_status": "not_verified_by_this_run",
+  "warning": "Comparaci\u00f3n exploratoria con referencias propuestas; sin validaci\u00f3n humana nueva, ranking general ni elecci\u00f3n definitiva de prompt.",
+  "by_prompt": {
+    "v1_zero_shot": {
+      "total": 8,
+      "correct": 3,
+      "exact_match": 0.375,
+      "validated_outputs": 8,
+      "schema_valid_outputs": 8,
+      "status_counts": {
+        "ok": 8
+      },
+      "latency_median_seconds": 0.21749783449922688,
+      "latency_min_seconds": 0.1744032849674113,
+      "latency_max_seconds": 0.602672568988055,
+      "by_category": {
+        "billing": {
+          "count": 2,
+          "correct": 0,
+          "errors": 0,
+          "exact_match": 0.0
+        },
+        "technical": {
+          "count": 2,
+          "correct": 1,
+          "errors": 0,
+          "exact_match": 0.5
+        },
+        "account": {
+          "count": 2,
+          "correct": 2,
+          "errors": 0,
+          "exact_match": 1.0
+        },
+        "other": {
+          "count": 2,
+          "correct": 0,
+          "errors": 0,
+          "exact_match": 0.0
+        }
+      },
+      "confusion_matrix": {
+        "billing": {
+          "technical": 1,
+          "account": 1
+        },
+        "technical": {
+          "account": 1,
+          "technical": 1
+        },
+        "account": {
+          "account": 2
+        },
+        "other": {
+          "account": 1,
+          "technical": 1
+        }
+      },
+      "by_ambiguity": {
+        "marked_ambiguous": {
+          "count": 0,
+          "correct": 0,
+          "exact_match": null
+        },
+        "not_marked_ambiguous": {
+          "count": 8,
+          "correct": 3,
+          "exact_match": 0.375
+        }
+      }
+    },
+    "v2_few_shot": {
+      "total": 8,
+      "correct": 4,
+      "exact_match": 0.5,
+      "validated_outputs": 8,
+      "schema_valid_outputs": 8,
+      "status_counts": {
+        "ok": 8
+      },
+      "latency_median_seconds": 0.2534973084984813,
+      "latency_min_seconds": 0.20379876595688984,
+      "latency_max_seconds": 0.3067105480004102,
+      "by_category": {
+        "billing": {
+          "count": 2,
+          "correct": 2,
+          "errors": 0,
+          "exact_match": 1.0
+        },
+        "technical": {
+          "count": 2,
+          "correct": 1,
+          "errors": 0,
+          "exact_match": 0.5
+        },
+        "account": {
+          "count": 2,
+          "correct": 1,
+          "errors": 0,
+          "exact_match": 0.5
+        },
+        "other": {
+          "count": 2,
+          "correct": 0,
+          "errors": 0,
+          "exact_match": 0.0
+        }
+      },
+      "confusion_matrix": {
+        "billing": {
+          "billing": 2
+        },
+        "technical": {
+          "technical": 1,
+          "billing": 1
+        },
+        "account": {
+          "account": 1,
+          "billing": 1
+        },
+        "other": {
+          "account": 1,
+          "technical": 1
+        }
+      },
+      "by_ambiguity": {
+        "marked_ambiguous": {
+          "count": 0,
+          "correct": 0,
+          "exact_match": null
+        },
+        "not_marked_ambiguous": {
+          "count": 8,
+          "correct": 4,
+          "exact_match": 0.5
+        }
+      }
+    },
+    "v3_structured": {
+      "total": 8,
+      "correct": 5,
+      "exact_match": 0.625,
+      "validated_outputs": 8,
+      "schema_valid_outputs": 8,
+      "status_counts": {
+        "ok": 8
+      },
+      "latency_median_seconds": 0.3121239164902363,
+      "latency_min_seconds": 0.2376832909649238,
+      "latency_max_seconds": 0.47666013601701707,
+      "by_category": {
+        "billing": {
+          "count": 2,
+          "correct": 2,
+          "errors": 0,
+          "exact_match": 1.0
+        },
+        "technical": {
+          "count": 2,
+          "correct": 1,
+          "errors": 0,
+          "exact_match": 0.5
+        },
+        "account": {
+          "count": 2,
+          "correct": 1,
+          "errors": 0,
+          "exact_match": 0.5
+        },
+        "other": {
+          "count": 2,
+          "correct": 1,
+          "errors": 0,
+          "exact_match": 0.5
+        }
+      },
+      "confusion_matrix": {
+        "billing": {
+          "billing": 2
+        },
+        "technical": {
+          "technical": 1,
+          "account": 1
+        },
+        "account": {
+          "account": 1,
+          "billing": 1
+        },
+        "other": {
+          "other": 1,
+          "account": 1
+        }
+      },
+      "by_ambiguity": {
+        "marked_ambiguous": {
+          "count": 0,
+          "correct": 0,
+          "exact_match": null
+        },
+        "not_marked_ambiguous": {
+          "count": 8,
+          "correct": 5,
+          "exact_match": 0.625
+        }
+      }
+    },
+    "v4_reasoning": {
+      "total": 8,
+      "correct": 2,
+      "exact_match": 0.25,
+      "validated_outputs": 7,
+      "schema_valid_outputs": 7,
+      "status_counts": {
+        "ok": 7,
+        "provider_error": 1
+      },
+      "latency_median_seconds": 0.42340628351666965,
+      "latency_min_seconds": 0.25834652897901833,
+      "latency_max_seconds": 1.0267210400197655,
+      "by_category": {
+        "billing": {
+          "count": 2,
+          "correct": 1,
+          "errors": 0,
+          "exact_match": 0.5
+        },
+        "technical": {
+          "count": 2,
+          "correct": 0,
+          "errors": 1,
+          "exact_match": 0.0
+        },
+        "account": {
+          "count": 2,
+          "correct": 1,
+          "errors": 0,
+          "exact_match": 0.5
+        },
+        "other": {
+          "count": 2,
+          "correct": 0,
+          "errors": 0,
+          "exact_match": 0.0
+        }
+      },
+      "confusion_matrix": {
+        "billing": {
+          "billing": 1,
+          "account": 1
+        },
+        "technical": {
+          "error": 1,
+          "account": 1
+        },
+        "account": {
+          "account": 1,
+          "billing": 1
+        },
+        "other": {
+          "account": 1,
+          "billing": 1
+        }
+      },
+      "by_ambiguity": {
+        "marked_ambiguous": {
+          "count": 0,
+          "correct": 0,
+          "exact_match": null
+        },
+        "not_marked_ambiguous": {
+          "count": 8,
+          "correct": 2,
+          "exact_match": 0.25
+        }
+      }
+    }
+  },
+  "suite_kind": "supplementary_diagnostic"
+}

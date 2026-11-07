@@ -145,7 +145,8 @@ prompt**, con sus ejemplos y feedback de reparación sanitizado cuando correspon
 Usar sólo datos sintéticos revisados. Identificadores, etiquetas y nombres de
 modelos aparecen en los artefactos: tampoco deben contener datos privados.
 La ausencia de texto en logs no elimina retención o políticas del proveedor.
-Las salidas bajo `data/local_runs/` están ignoradas por git; revisar antes de
+Las nuevas salidas bajo `data/local_runs/` están ignoradas por Git, salvo los
+archivos de las [corridas citadas](evidencia/CORRIDAS.md); revisar antes de
 publicar cualquier evidencia. Los guardrails son heurísticos, no garantizan
 protección completa, privacidad o moderación general.
 

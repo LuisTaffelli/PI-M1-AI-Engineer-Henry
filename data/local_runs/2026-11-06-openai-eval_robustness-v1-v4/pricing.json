@@ -1,0 +1,36 @@
+{
+  "format_version": 1,
+  "catalog_version": "standard-text-2026-11-05-v1",
+  "rates": [
+    {
+      "provider": "openai",
+      "model": "gpt-6-luna",
+      "mode": "standard_text",
+      "currency": "USD",
+      "rate_version": "luna-standard-short-2026-11-05",
+      "verification": "verified_public",
+      "source_url": "https://developers.openai.com/api/docs/models/gpt-6-luna",
+      "checked_on": "2026-11-05",
+      "max_input_tokens": 272000,
+      "requires_cache_write_usage": true,
+      "input_usd_per_million": "0.10",
+      "cached_input_usd_per_million": "0.01",
+      "cache_write_30m_usd_per_million": "0.125",
+      "cache_write_12h_usd_per_million": "0.25",
+      "output_usd_per_million": "0.50"
+    },
+    {
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "mode": "standard_text",
+      "currency": "USD",
+      "rate_version": "flash-lite-paid-standard-2026-11-05",
+      "verification": "verified_public",
+      "source_url": "https://aistudio.google.com/docs/pricing",
+      "checked_on": "2026-11-05",
+      "input_usd_per_million": "0.30",
+      "cached_input_usd_per_million": "0.03",
+      "output_usd_per_million": "2.50"
+    }
+  ]
+}

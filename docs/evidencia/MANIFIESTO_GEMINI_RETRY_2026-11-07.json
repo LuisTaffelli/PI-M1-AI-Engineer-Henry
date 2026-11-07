@@ -1,0 +1,57 @@
+{
+  "format_version": 2,
+  "preserved_at_utc": "2026-11-07T00:06:06.829673+00:00",
+  "check_historical_remote_report": false,
+  "purpose": "Nueva corrida parcial Gemini con retry HTTP opt-in; conservada separada de la evidencia del 04/11 y 06/11.",
+  "privacy_review": "Sin tickets, respuestas crudas, credenciales, correos ni rutas privadas; se conservan UUID locales, timestamps y diagnósticos seguros de retry.",
+  "timestamp_note": "Los timestamps de los JSON no se modifican. Git no preserva mtime al clonar; aquí se registra el mtime observado.",
+  "runs": [
+    {
+      "name": "2026-11-07-gemini-adversarial-v1-v4-http3",
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "rows": 23,
+      "first_recorded_timestamp": "2026-11-07T00:02:41.722012+00:00",
+      "last_recorded_timestamp": "2026-11-07T00:03:09.235260+00:00",
+      "directory": "data/local_runs/2026-11-07-gemini-adversarial-v1-v4-http3"
+    }
+  ],
+  "files": [
+    {
+      "path": "data/local_runs/2026-11-07-gemini-adversarial-v1-v4-http3/metrics.jsonl",
+      "sha256": "e7444fdbcb5a4bacecf70eb59632568c71ab503ca5871c07dc1ac84036c30d7d",
+      "bytes": 34682,
+      "source_mtime_ns": 1794009789234982985,
+      "source_mtime_utc": "2026-11-07T00:03:09.234983+00:00"
+    },
+    {
+      "path": "data/local_runs/2026-11-07-gemini-adversarial-v1-v4-http3/plan.json",
+      "sha256": "1b34d6de1c57f900f6ece5789fcff4bb76c7654131822627cfeb97686e32d6d5",
+      "bytes": 10692,
+      "source_mtime_ns": 1794009759787136389,
+      "source_mtime_utc": "2026-11-07T00:02:39.787136+00:00"
+    },
+    {
+      "path": "data/local_runs/2026-11-07-gemini-adversarial-v1-v4-http3/pricing.json",
+      "sha256": "ba0103daaefa949b1feeb1b1cb971a86c12b741983b5d73f72f6006e3cc92f20",
+      "bytes": 1192,
+      "source_mtime_ns": 1794009759787213714,
+      "source_mtime_utc": "2026-11-07T00:02:39.787214+00:00"
+    },
+    {
+      "path": "data/local_runs/2026-11-07-gemini-adversarial-v1-v4-http3/results.jsonl",
+      "sha256": "883cb0b256898924ca6cec95e63f0f974c89a69edfbd91e07c05f4eb581c1b89",
+      "bytes": 38444,
+      "source_mtime_ns": 1794009789234982985,
+      "source_mtime_utc": "2026-11-07T00:03:09.234983+00:00"
+    },
+    {
+      "path": "data/local_runs/2026-11-07-gemini-adversarial-v1-v4-http3/summary.json",
+      "sha256": "c20584e8e58327844d7908e02ea7b5bdeddcf32681363e5da01cd37c3f759522",
+      "bytes": 7895,
+      "source_mtime_ns": 1794009789235935205,
+      "source_mtime_utc": "2026-11-07T00:03:09.235935+00:00"
+    }
+  ],
+  "storage": "Archivos originales versionados en data/local_runs; rutas relativas a la raíz del repositorio, sin mirror."
+}

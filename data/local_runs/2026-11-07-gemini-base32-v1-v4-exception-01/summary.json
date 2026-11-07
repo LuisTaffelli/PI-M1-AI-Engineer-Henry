@@ -1,0 +1,632 @@
+{
+  "simulated": false,
+  "quality_claim": false,
+  "label_review_status": "not_verified_by_this_run",
+  "warning": "Comparaci\u00f3n exploratoria con referencias propuestas; sin validaci\u00f3n humana nueva, ranking general ni elecci\u00f3n definitiva de prompt.",
+  "by_prompt": {
+    "v1_zero_shot": {
+      "total": 32,
+      "correct": 30,
+      "exact_match": 0.9375,
+      "validated_outputs": 32,
+      "schema_valid_outputs": 32,
+      "status_counts": {
+        "ok": 32
+      },
+      "latency_median_seconds": 5.565197161980905,
+      "latency_min_seconds": 1.159485137090087,
+      "latency_max_seconds": 83.85910943802446,
+      "by_category": {
+        "billing": {
+          "count": 8,
+          "correct": 8,
+          "errors": 0,
+          "exact_match": 1.0
+        },
+        "technical": {
+          "count": 8,
+          "correct": 7,
+          "errors": 0,
+          "exact_match": 0.875
+        },
+        "account": {
+          "count": 8,
+          "correct": 8,
+          "errors": 0,
+          "exact_match": 1.0
+        },
+        "other": {
+          "count": 8,
+          "correct": 7,
+          "errors": 0,
+          "exact_match": 0.875
+        }
+      },
+      "confusion_matrix": {
+        "billing": {
+          "billing": 8
+        },
+        "technical": {
+          "technical": 7,
+          "billing": 1
+        },
+        "account": {
+          "account": 8
+        },
+        "other": {
+          "other": 7,
+          "billing": 1
+        }
+      },
+      "by_ambiguity": {
+        "marked_ambiguous": {
+          "count": 8,
+          "correct": 6,
+          "exact_match": 0.75
+        },
+        "not_marked_ambiguous": {
+          "count": 24,
+          "correct": 24,
+          "exact_match": 1.0
+        }
+      },
+      "planned": 32,
+      "not_run": 0,
+      "exact_match_on_processed": 0.9375,
+      "usage_and_cost": {
+        "scope": "processed_cases_only",
+        "processed_cases": 32,
+        "generation_attempts": 43,
+        "tokens": {
+          "prompt_tokens": {
+            "total": null,
+            "reported_subtotal": 6103,
+            "attempts_with_reported_value": 32
+          },
+          "completion_tokens": {
+            "total": null,
+            "reported_subtotal": 3258,
+            "attempts_with_reported_value": 32
+          },
+          "total_tokens": {
+            "total": null,
+            "reported_subtotal": 9361,
+            "attempts_with_reported_value": 32
+          },
+          "cached_prompt_tokens": {
+            "total": null,
+            "reported_subtotal": 0,
+            "attempts_with_reported_value": 32
+          },
+          "reasoning_tokens": {
+            "total": null,
+            "reported_subtotal": 0,
+            "attempts_with_reported_value": 32
+          },
+          "tool_use_prompt_tokens": {
+            "total": null,
+            "reported_subtotal": 0,
+            "attempts_with_reported_value": 32
+          },
+          "cache_write_tokens": {
+            "total": null,
+            "reported_subtotal": null,
+            "attempts_with_reported_value": 0
+          },
+          "cache_write_30m_tokens": {
+            "total": null,
+            "reported_subtotal": null,
+            "attempts_with_reported_value": 0
+          },
+          "cache_write_12h_tokens": {
+            "total": null,
+            "reported_subtotal": null,
+            "attempts_with_reported_value": 0
+          }
+        },
+        "cost_usd": null,
+        "known_estimated_subtotal_usd": "0.0099759",
+        "attempts_with_estimated_cost": 32,
+        "cost_status_counts": {
+          "partial": 8,
+          "estimated": 24
+        },
+        "cost_unavailable_reason_counts": {
+          "incomplete_or_inconsistent_usage": 11
+        },
+        "billing_verified": false,
+        "pricing_sha256": [
+          "ba0103daaefa949b1feeb1b1cb971a86c12b741983b5d73f72f6006e3cc92f20"
+        ]
+      }
+    },
+    "v2_few_shot": {
+      "total": 32,
+      "correct": 32,
+      "exact_match": 1.0,
+      "validated_outputs": 32,
+      "schema_valid_outputs": 32,
+      "status_counts": {
+        "ok": 32
+      },
+      "latency_median_seconds": 1.9972821885021403,
+      "latency_min_seconds": 1.0440914870705456,
+      "latency_max_seconds": 72.48020713799633,
+      "by_category": {
+        "billing": {
+          "count": 8,
+          "correct": 8,
+          "errors": 0,
+          "exact_match": 1.0
+        },
+        "technical": {
+          "count": 8,
+          "correct": 8,
+          "errors": 0,
+          "exact_match": 1.0
+        },
+        "account": {
+          "count": 8,
+          "correct": 8,
+          "errors": 0,
+          "exact_match": 1.0
+        },
+        "other": {
+          "count": 8,
+          "correct": 8,
+          "errors": 0,
+          "exact_match": 1.0
+        }
+      },
+      "confusion_matrix": {
+        "billing": {
+          "billing": 8
+        },
+        "technical": {
+          "technical": 8
+        },
+        "account": {
+          "account": 8
+        },
+        "other": {
+          "other": 8
+        }
+      },
+      "by_ambiguity": {
+        "marked_ambiguous": {
+          "count": 8,
+          "correct": 8,
+          "exact_match": 1.0
+        },
+        "not_marked_ambiguous": {
+          "count": 24,
+          "correct": 24,
+          "exact_match": 1.0
+        }
+      },
+      "planned": 32,
+      "not_run": 0,
+      "exact_match_on_processed": 1.0,
+      "usage_and_cost": {
+        "scope": "processed_cases_only",
+        "processed_cases": 32,
+        "generation_attempts": 38,
+        "tokens": {
+          "prompt_tokens": {
+            "total": null,
+            "reported_subtotal": 10103,
+            "attempts_with_reported_value": 32
+          },
+          "completion_tokens": {
+            "total": null,
+            "reported_subtotal": 2120,
+            "attempts_with_reported_value": 32
+          },
+          "total_tokens": {
+            "total": null,
+            "reported_subtotal": 12223,
+            "attempts_with_reported_value": 32
+          },
+          "cached_prompt_tokens": {
+            "total": null,
+            "reported_subtotal": 0,
+            "attempts_with_reported_value": 32
+          },
+          "reasoning_tokens": {
+            "total": null,
+            "reported_subtotal": 0,
+            "attempts_with_reported_value": 32
+          },
+          "tool_use_prompt_tokens": {
+            "total": null,
+            "reported_subtotal": 0,
+            "attempts_with_reported_value": 32
+          },
+          "cache_write_tokens": {
+            "total": null,
+            "reported_subtotal": null,
+            "attempts_with_reported_value": 0
+          },
+          "cache_write_30m_tokens": {
+            "total": null,
+            "reported_subtotal": null,
+            "attempts_with_reported_value": 0
+          },
+          "cache_write_12h_tokens": {
+            "total": null,
+            "reported_subtotal": null,
+            "attempts_with_reported_value": 0
+          }
+        },
+        "cost_usd": null,
+        "known_estimated_subtotal_usd": "0.0083309",
+        "attempts_with_estimated_cost": 32,
+        "cost_status_counts": {
+          "partial": 5,
+          "estimated": 27
+        },
+        "cost_unavailable_reason_counts": {
+          "incomplete_or_inconsistent_usage": 6
+        },
+        "billing_verified": false,
+        "pricing_sha256": [
+          "ba0103daaefa949b1feeb1b1cb971a86c12b741983b5d73f72f6006e3cc92f20"
+        ]
+      }
+    },
+    "v3_structured": {
+      "total": 32,
+      "correct": 32,
+      "exact_match": 1.0,
+      "validated_outputs": 32,
+      "schema_valid_outputs": 32,
+      "status_counts": {
+        "ok": 32
+      },
+      "latency_median_seconds": 2.2026717424741946,
+      "latency_min_seconds": 1.123011784045957,
+      "latency_max_seconds": 47.82642522302922,
+      "by_category": {
+        "billing": {
+          "count": 8,
+          "correct": 8,
+          "errors": 0,
+          "exact_match": 1.0
+        },
+        "technical": {
+          "count": 8,
+          "correct": 8,
+          "errors": 0,
+          "exact_match": 1.0
+        },
+        "account": {
+          "count": 8,
+          "correct": 8,
+          "errors": 0,
+          "exact_match": 1.0
+        },
+        "other": {
+          "count": 8,
+          "correct": 8,
+          "errors": 0,
+          "exact_match": 1.0
+        }
+      },
+      "confusion_matrix": {
+        "billing": {
+          "billing": 8
+        },
+        "technical": {
+          "technical": 8
+        },
+        "account": {
+          "account": 8
+        },
+        "other": {
+          "other": 8
+        }
+      },
+      "by_ambiguity": {
+        "marked_ambiguous": {
+          "count": 8,
+          "correct": 8,
+          "exact_match": 1.0
+        },
+        "not_marked_ambiguous": {
+          "count": 24,
+          "correct": 24,
+          "exact_match": 1.0
+        }
+      },
+      "planned": 32,
+      "not_run": 0,
+      "exact_match_on_processed": 1.0,
+      "usage_and_cost": {
+        "scope": "processed_cases_only",
+        "processed_cases": 32,
+        "generation_attempts": 41,
+        "tokens": {
+          "prompt_tokens": {
+            "total": null,
+            "reported_subtotal": 14551,
+            "attempts_with_reported_value": 32
+          },
+          "completion_tokens": {
+            "total": null,
+            "reported_subtotal": 3407,
+            "attempts_with_reported_value": 32
+          },
+          "total_tokens": {
+            "total": null,
+            "reported_subtotal": 17958,
+            "attempts_with_reported_value": 32
+          },
+          "cached_prompt_tokens": {
+            "total": null,
+            "reported_subtotal": 0,
+            "attempts_with_reported_value": 32
+          },
+          "reasoning_tokens": {
+            "total": null,
+            "reported_subtotal": 0,
+            "attempts_with_reported_value": 32
+          },
+          "tool_use_prompt_tokens": {
+            "total": null,
+            "reported_subtotal": 0,
+            "attempts_with_reported_value": 32
+          },
+          "cache_write_tokens": {
+            "total": null,
+            "reported_subtotal": null,
+            "attempts_with_reported_value": 0
+          },
+          "cache_write_30m_tokens": {
+            "total": null,
+            "reported_subtotal": null,
+            "attempts_with_reported_value": 0
+          },
+          "cache_write_12h_tokens": {
+            "total": null,
+            "reported_subtotal": null,
+            "attempts_with_reported_value": 0
+          }
+        },
+        "cost_usd": null,
+        "known_estimated_subtotal_usd": "0.0128828",
+        "attempts_with_estimated_cost": 32,
+        "cost_status_counts": {
+          "estimated": 23,
+          "partial": 9
+        },
+        "cost_unavailable_reason_counts": {
+          "incomplete_or_inconsistent_usage": 9
+        },
+        "billing_verified": false,
+        "pricing_sha256": [
+          "ba0103daaefa949b1feeb1b1cb971a86c12b741983b5d73f72f6006e3cc92f20"
+        ]
+      }
+    },
+    "v4_reasoning": {
+      "total": 14,
+      "correct": 13,
+      "exact_match": null,
+      "validated_outputs": 13,
+      "schema_valid_outputs": 13,
+      "status_counts": {
+        "ok": 13,
+        "provider_error": 1
+      },
+      "latency_median_seconds": 4.391925534524489,
+      "latency_min_seconds": 1.719884796999395,
+      "latency_max_seconds": 65.12133261200506,
+      "by_category": {
+        "billing": {
+          "count": 8,
+          "correct": 8,
+          "errors": 0,
+          "exact_match": null,
+          "exact_match_on_processed": 1.0
+        },
+        "technical": {
+          "count": 6,
+          "correct": 5,
+          "errors": 1,
+          "exact_match": null,
+          "exact_match_on_processed": 0.8333333333333334
+        },
+        "account": {
+          "count": 0,
+          "correct": 0,
+          "errors": 0,
+          "exact_match": null,
+          "exact_match_on_processed": null
+        },
+        "other": {
+          "count": 0,
+          "correct": 0,
+          "errors": 0,
+          "exact_match": null,
+          "exact_match_on_processed": null
+        }
+      },
+      "confusion_matrix": {
+        "billing": {
+          "billing": 8
+        },
+        "technical": {
+          "technical": 5,
+          "error": 1
+        },
+        "account": {},
+        "other": {}
+      },
+      "by_ambiguity": {
+        "marked_ambiguous": {
+          "count": 2,
+          "correct": 2,
+          "exact_match": null,
+          "exact_match_on_processed": 1.0
+        },
+        "not_marked_ambiguous": {
+          "count": 12,
+          "correct": 11,
+          "exact_match": null,
+          "exact_match_on_processed": 0.9166666666666666
+        }
+      },
+      "planned": 32,
+      "not_run": 18,
+      "exact_match_on_processed": 0.9285714285714286,
+      "usage_and_cost": {
+        "scope": "processed_cases_only",
+        "processed_cases": 14,
+        "generation_attempts": 19,
+        "tokens": {
+          "prompt_tokens": {
+            "total": null,
+            "reported_subtotal": 4595,
+            "attempts_with_reported_value": 13
+          },
+          "completion_tokens": {
+            "total": null,
+            "reported_subtotal": 1627,
+            "attempts_with_reported_value": 13
+          },
+          "total_tokens": {
+            "total": null,
+            "reported_subtotal": 6222,
+            "attempts_with_reported_value": 13
+          },
+          "cached_prompt_tokens": {
+            "total": null,
+            "reported_subtotal": 0,
+            "attempts_with_reported_value": 13
+          },
+          "reasoning_tokens": {
+            "total": null,
+            "reported_subtotal": 0,
+            "attempts_with_reported_value": 13
+          },
+          "tool_use_prompt_tokens": {
+            "total": null,
+            "reported_subtotal": 0,
+            "attempts_with_reported_value": 13
+          },
+          "cache_write_tokens": {
+            "total": null,
+            "reported_subtotal": null,
+            "attempts_with_reported_value": 0
+          },
+          "cache_write_30m_tokens": {
+            "total": null,
+            "reported_subtotal": null,
+            "attempts_with_reported_value": 0
+          },
+          "cache_write_12h_tokens": {
+            "total": null,
+            "reported_subtotal": null,
+            "attempts_with_reported_value": 0
+          }
+        },
+        "cost_usd": null,
+        "known_estimated_subtotal_usd": "0.0054460",
+        "attempts_with_estimated_cost": 13,
+        "cost_status_counts": {
+          "estimated": 10,
+          "partial": 3,
+          "usage_unavailable": 1
+        },
+        "cost_unavailable_reason_counts": {
+          "incomplete_or_inconsistent_usage": 6
+        },
+        "billing_verified": false,
+        "pricing_sha256": [
+          "ba0103daaefa949b1feeb1b1cb971a86c12b741983b5d73f72f6006e3cc92f20"
+        ]
+      }
+    }
+  },
+  "usage_and_cost": {
+    "scope": "processed_cases_only",
+    "processed_cases": 110,
+    "generation_attempts": 141,
+    "tokens": {
+      "prompt_tokens": {
+        "total": null,
+        "reported_subtotal": 35352,
+        "attempts_with_reported_value": 109
+      },
+      "completion_tokens": {
+        "total": null,
+        "reported_subtotal": 10412,
+        "attempts_with_reported_value": 109
+      },
+      "total_tokens": {
+        "total": null,
+        "reported_subtotal": 45764,
+        "attempts_with_reported_value": 109
+      },
+      "cached_prompt_tokens": {
+        "total": null,
+        "reported_subtotal": 0,
+        "attempts_with_reported_value": 109
+      },
+      "reasoning_tokens": {
+        "total": null,
+        "reported_subtotal": 0,
+        "attempts_with_reported_value": 109
+      },
+      "tool_use_prompt_tokens": {
+        "total": null,
+        "reported_subtotal": 0,
+        "attempts_with_reported_value": 109
+      },
+      "cache_write_tokens": {
+        "total": null,
+        "reported_subtotal": null,
+        "attempts_with_reported_value": 0
+      },
+      "cache_write_30m_tokens": {
+        "total": null,
+        "reported_subtotal": null,
+        "attempts_with_reported_value": 0
+      },
+      "cache_write_12h_tokens": {
+        "total": null,
+        "reported_subtotal": null,
+        "attempts_with_reported_value": 0
+      }
+    },
+    "cost_usd": null,
+    "known_estimated_subtotal_usd": "0.0366356",
+    "attempts_with_estimated_cost": 109,
+    "cost_status_counts": {
+      "partial": 25,
+      "estimated": 84,
+      "usage_unavailable": 1
+    },
+    "cost_unavailable_reason_counts": {
+      "incomplete_or_inconsistent_usage": 32
+    },
+    "billing_verified": false,
+    "pricing_sha256": [
+      "ba0103daaefa949b1feeb1b1cb971a86c12b741983b5d73f72f6006e3cc92f20"
+    ]
+  },
+  "provider": "gemini",
+  "model": "gemini-3.5-flash-lite",
+  "suite_kind": "base_corpus",
+  "planned": 128,
+  "processed": 110,
+  "not_run": 18,
+  "completed": false,
+  "generation_attempts": 141,
+  "http_retry_count": 31,
+  "http_retry_wait_seconds": 946.0,
+  "remote_calls_attempted": 141,
+  "provider_calls_upper_bound": 384,
+  "monetary_cap_enforced": false,
+  "failed_cases": 1
+}

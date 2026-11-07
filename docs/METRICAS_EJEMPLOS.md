@@ -46,3 +46,10 @@ La línea histórica conserva los demás campos del esquema de su momento. Las
 líneas del ensayo incluyen campos de tokens/costos incorporados después. No se
 rellenaron datos faltantes ni se retrocedió la fecha de tarifas para hacerlas parecer
 equivalentes.
+
+## Evidencia original completa
+
+Las [17 corridas inventariadas](evidencia/CORRIDAS.md) se versionan directamente
+en `data/local_runs/`, sin mirror. Los archivos originales y sus hashes permiten
+verificar las muestras y los resultados offline, incluidos errores y valores
+desconocidos. Otras corridas exploratorias siguen ignoradas por Git.

@@ -103,3 +103,12 @@ históricos corresponden a su momento. No describen por sí solos el estado actu
 Las rutas antiguas de historial, nomenclatura y changelog de prompts conservan un
 acceso a su nueva ubicación. Los comandos históricos se mantienen como evidencia;
 para ejecutar hoy, usar el README y las guías actuales.
+
+## 07/11/2026: evidencia en su ubicación original
+
+Por aclaración de Luis, se reemplazó el mirror por los archivos originales de
+17 corridas en `data/local_runs/` (90 archivos, 924 resultados). Se conservaron
+bytes, timestamps, errores y costos desconocidos; los manifiestos, enlaces y
+verificador apuntan a esa única ubicación. `.gitignore` permite sólo los archivos
+inventariados. No se hicieron inferencias ni se reanudó Gemini. Los cambios
+previos de código, retry HTTP y reorganización de tests quedan fuera de este commit.

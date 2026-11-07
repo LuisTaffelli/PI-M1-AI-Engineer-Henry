@@ -1,0 +1,66 @@
+{
+  "format_version": 1,
+  "dataset_sha256": "d575ef2c26a0f071b9f31cab4ee1554a47c8b3a9e074017a225b90823a4a4bcf",
+  "prompt_sha256": {
+    "v1_zero_shot": "67f5b70d9400eef6e76d2393009c14b3f831d0af597450f2bd83c63cd3750a2c",
+    "v2_few_shot": "ad75c9833cb90caff3e87061e4c6d35d4d35c3ad48571d59941dc18237b34418"
+  },
+  "source_sha256": {
+    "src/__init__.py": "f04cd65eb57d23c8d36abf10e78bac4fb74adcd336f195b8198a57a4088b23bd",
+    "src/llm/__init__.py": "2472bdb87ec26b3d55b51ded98f9decd39af2bee882e861dda9577d171a3a2e9",
+    "src/llm/prompts.py": "af5afdeb8b9dd2870b81fbae426277036080d78e6bd36b67f5de05deec15c61d",
+    "src/llm/providers/__init__.py": "909c879e9b82410cbb9efbe19cc41eb4fdd3eda5e070e1868e03948434d3f0d2",
+    "src/llm/providers/base.py": "1227c618ff8f6e93dd12664f374ac20888d1ff948c5eeba915c999467a0ece98",
+    "src/llm/providers/gemini_provider.py": "081ca0501fafbb6e74039b4a70b13fc63f64e05c1c5e627dbe86c7dd5186317a",
+    "src/llm/providers/mock_provider.py": "6f6b01a8514a458a23ba94d5ce9a5b33a03c4d54924b5940a4bc69fd3472f0b5",
+    "src/llm/providers/ollama_provider.py": "d2aac5af08046edc997b19d275b7bcfab4ee4794829871cd88c69a81ed4de66a",
+    "src/llm/providers/openai_provider.py": "6ee956310ab64e2375e029a95fd30793baad3eed1d86028d37a34face5f2e55e",
+    "src/llm/usage.py": "bee0e169d53b35bbae0ff4a79012fdf7230f0b1fa30ecfff54c92807856225ef",
+    "src/main.py": "3e3566e11ab262074f276d56606139dc2ac0d4fbda2b7e964ce320d5b87c8d3a",
+    "src/runtime/__init__.py": "6c8e5d82bc21ce20c2515c491a026294b0176f9d07118b8144ee5c44676e5080",
+    "src/runtime/config.py": "df9513f89dea370d5a6f5770e2b046be7baf519e6e99f755aefd68ba4419cbc6",
+    "src/runtime/metrics.py": "6385d396df5b61f8392eb34481a7ccdc9e0d1afde67d49b23f400080c91548a7",
+    "src/runtime/pricing.py": "02a6775fc92bd78d9d2c8d52c27c3e58c6ea3fe53a7514e26e64500252bc262c",
+    "src/support/__init__.py": "a04161b7e0ff5554a4ea8f886c78cc15cc980659c5066f60bf399a64715708e4",
+    "src/support/guardrails.py": "93424d9c831d31752bd1d808eebaa164e96f22f89f97b52b95bb0201a8afd0ba",
+    "src/support/schemas.py": "577d619b7e365c44e1bdd581efd0d95d02c051aa0484529e67343fddba7b020f",
+    "src/support/service.py": "85a5033f215f79836d336346c34f1c0f240a1086a90fe8b34a5f722a823bf59a",
+    "evals/__init__.py": "0e867d27399894ba8117a5c05ddbf2a976c4df2bc6080b1c7c6f7ae4358e2f75",
+    "evals/run_evals.py": "2725a47fc7fe5a61183e86289a278687f3bae53ef97c81e81dc650c3d95fb9a3",
+    "evals/run_local_sample.py": "82fbe3c67cb40b78c84b682ccd1e2b44760fd216622e1b8e551f82e198588032"
+  },
+  "settings": {
+    "provider": "ollama",
+    "model": "qwen2.5-coder:0.5b-test",
+    "ollama_base_url": "http://127.0.0.1:11434",
+    "ollama_max_output_tokens": 256,
+    "ollama_num_ctx": 2048,
+    "ollama_timeout_seconds": 30,
+    "max_attempts": 1
+  },
+  "label_review_status": "not_verified_by_this_run",
+  "order": "prompt_then_case_id_order; no warmup or randomization",
+  "planned_generations": 8,
+  "cases": [
+    {
+      "case_id": "nubbix-b01",
+      "expected_category": "billing",
+      "ambiguous": false
+    },
+    {
+      "case_id": "nubbix-t01",
+      "expected_category": "technical",
+      "ambiguous": false
+    },
+    {
+      "case_id": "nubbix-a01",
+      "expected_category": "account",
+      "ambiguous": false
+    },
+    {
+      "case_id": "nubbix-o01",
+      "expected_category": "other",
+      "ambiguous": false
+    }
+  ]
+}

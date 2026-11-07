@@ -73,3 +73,9 @@ La cota de llamadas no es un tope de gasto; los guardrails tampoco garantizan se
 - [Bitácora del proyecto](docs/BITACORA.md): cambios, decisiones, verificaciones y registros anteriores.
 
 La entrega aún requiere contrastar los pendientes con la consigna completa.
+
+## Evidencia original versionada
+
+Las [17 corridas citadas](docs/evidencia/CORRIDAS.md) se conservan directamente en
+`data/local_runs/`: 90 archivos y 924 resultados, sin mirror. Los tres manifiestos
+y el verificador permiten comprobarlos offline; otras salidas siguen ignoradas.

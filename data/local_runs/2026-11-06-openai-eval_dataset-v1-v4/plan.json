@@ -1,0 +1,270 @@
+{
+  "format_version": 1,
+  "provider": "openai",
+  "model": "gpt-6-luna",
+  "pricing": {
+    "catalog_version": "standard-text-2026-11-05-v1",
+    "sha256": "ba0103daaefa949b1feeb1b1cb971a86c12b741983b5d73f72f6006e3cc92f20",
+    "basis": "paid_standard_text_estimate_not_invoice"
+  },
+  "prompts": [
+    "v1_zero_shot",
+    "v2_few_shot",
+    "v3_structured",
+    "v4_reasoning"
+  ],
+  "planned_cases": 128,
+  "max_attempts_per_case": 1,
+  "provider_calls_upper_bound": 128,
+  "remote_calls_upper_bound": 128,
+  "max_calls": 128,
+  "calls_unit": "Provider.generate invocations including JSON/contract repair; not a monetary cap",
+  "monetary_cap_enforced": false,
+  "execution_requested": true,
+  "continue_on_error": false,
+  "suite_kind": "base_corpus",
+  "reference_status": "not_verified_by_this_run",
+  "dataset_sha256": "d575ef2c26a0f071b9f31cab4ee1554a47c8b3a9e074017a225b90823a4a4bcf",
+  "prompt_sha256": {
+    "v1_zero_shot": "67f5b70d9400eef6e76d2393009c14b3f831d0af597450f2bd83c63cd3750a2c",
+    "v2_few_shot": "ad75c9833cb90caff3e87061e4c6d35d4d35c3ad48571d59941dc18237b34418",
+    "v3_structured": "bb60c89539d530d184d9c2ca827368b5446f6b07ce9c6c0f91684c1456e986ac",
+    "v4_reasoning": "c8e04b0e625765eb507bf3034e07c60667677aea3f6e4c6722127b4af3c8ba3f"
+  },
+  "source_sha256": {
+    "src/__init__.py": "f04cd65eb57d23c8d36abf10e78bac4fb74adcd336f195b8198a57a4088b23bd",
+    "src/llm/__init__.py": "2472bdb87ec26b3d55b51ded98f9decd39af2bee882e861dda9577d171a3a2e9",
+    "src/llm/factory.py": "0b9a6aa316f568cfbb59d27a5ae4f9dc3d9baa7c3483d44ee137d98b0563895f",
+    "src/llm/prompt_catalog.py": "e542642983e746bddd5de1fe74ab943c8089b18346bf5d9ea754da0fcfc07a27",
+    "src/llm/prompts.py": "58fc7b9742ec54fa3179c663fe16abadefe501d820d4c459c976e9e080ddb20b",
+    "src/llm/providers/__init__.py": "909c879e9b82410cbb9efbe19cc41eb4fdd3eda5e070e1868e03948434d3f0d2",
+    "src/llm/providers/base.py": "b9d28c7251a0e1c72ba48e260c570914475888d29778e08e5a3d5102db8d54cd",
+    "src/llm/providers/gemini_provider.py": "092b7a0b767de65dacfec025ddf128576552824af55002e8d133ee8d57c129fa",
+    "src/llm/providers/mock_provider.py": "6f6b01a8514a458a23ba94d5ce9a5b33a03c4d54924b5940a4bc69fd3472f0b5",
+    "src/llm/providers/ollama_provider.py": "d2aac5af08046edc997b19d275b7bcfab4ee4794829871cd88c69a81ed4de66a",
+    "src/llm/providers/openai_provider.py": "84786f3b2ec1f0c6149ccceaf20f9379f72a7f80ef61d671fa1e9d51603eaef8",
+    "src/llm/usage.py": "a19c784163d11cc9f742b2aa6200da4168373b04ad306859ab60c6c8ee841b70",
+    "src/main.py": "7b065440cfcc84d178f718d26ae23333ba6aef25fbb9497180a8d68fbabef799",
+    "src/runtime/__init__.py": "6c8e5d82bc21ce20c2515c491a026294b0176f9d07118b8144ee5c44676e5080",
+    "src/runtime/config.py": "f71284f1dfbf948234c8df557b8998f3957405029af57da6f994024912b9c2d2",
+    "src/runtime/credentials.py": "4adeed840cd13ee6717fc5d7061fc68f35208789d7cef0c6ba820d4f0ec3bc5c",
+    "src/runtime/environment.py": "9e17c8bb6fa08305c696cf65668577b6b18a28ea609fbf8b3656931224385f49",
+    "src/runtime/metrics.py": "6385d396df5b61f8392eb34481a7ccdc9e0d1afde67d49b23f400080c91548a7",
+    "src/runtime/paths.py": "ebcc0e63f6c28ba16be5187b4ba63ee670f98d957f548d6712813b59a3ac2b50",
+    "src/runtime/pricing.py": "80f9ba7ac9406948188ce0b46ab5c6f1f25f67b280b948716783336069f4740b",
+    "src/runtime/pricing_calculation.py": "4060c99515504473e580ecc8e91b745ab2937a359dde53dd94ab5e7a241ac02b",
+    "src/runtime/pricing_catalog.py": "80a80dcaec6e26f1b0792c210962d4e9849a53074857203599405cc166faec79",
+    "src/runtime/request_metrics.py": "b18350a5a1de3239423fcd2f0deb9216ec164c70241830cbbfeb120a2f05b468",
+    "src/support/__init__.py": "a04161b7e0ff5554a4ea8f886c78cc15cc980659c5066f60bf399a64715708e4",
+    "src/support/guardrails.py": "120042a1d7df7de0aa5d0e8a36960ccb36f4164ad1c356dcb3547612fc217273",
+    "src/support/repair.py": "57aa322a633d42deb4a4ce170241dfad17aa0c68b33de4cf447bad25375e1975",
+    "src/support/schemas.py": "577d619b7e365c44e1bdd581efd0d95d02c051aa0484529e67343fddba7b020f",
+    "src/support/service.py": "77bf7d8bf8bc4c7a9333eb73184894cf5474779dbfe2499cac3d967793f5c6d9",
+    "evals/__init__.py": "0e867d27399894ba8117a5c05ddbf2a976c4df2bc6080b1c7c6f7ae4358e2f75",
+    "evals/adversarial/__init__.py": "8d7be395b1f62a52a38d0b1234421dd2b5f3c524aefaf8201686aaa12dd8b432",
+    "evals/adversarial/cases.py": "5abd03ebb0164e68520cc1a41ce98ad8289d914cd39c05aeccacfb5ef952e87d",
+    "evals/adversarial/guardrails.py": "a64c91e7f03947d9d9ca425ccec873335c1a52eac48f118b851a896ab828724b",
+    "evals/adversarial/pairs.py": "73fb2f9224bd4951a59536c7253f79c1cace6402200065085a51f1df818e837f",
+    "evals/adversarial/plan.py": "b7c26dbdd918b86e90d0890c7f2422922215ccd49ebb4971d5bcf9f011414a6a",
+    "evals/adversarial/report.py": "2b1172dfdecf8363a0505f0f1bc99bee143da65d548262984497f53897f8f90d",
+    "evals/adversarial/runner.py": "435823607cb38639233dcba0ff52566336f76f622d294059cd665d096d7f163f",
+    "evals/classification/__init__.py": "cc81c733c626023b5c584ead39d4707b685073798fb4b7588bcf3e63ede16a4a",
+    "evals/classification/dataset.py": "1b62ad9a603a01b8479d6b5aea7bd7764d9d26e282fc3b1495b575523c8c74d3",
+    "evals/classification/local.py": "05276a0912d885b2973cffd4c7294608c8ba271b61add107474392423521eabe",
+    "evals/classification/plan.py": "7b3e16a3780f5e5935eb3887a7ce08720b7227929986919373a12cc966ff136b",
+    "evals/classification/report.py": "237a4fe7e9eddbfd5e864b410f1eb64f3dd7b355e483cdd51ce390aacb3ec6e3",
+    "evals/classification/reprice.py": "182734294452f1c62c1cc0e64000d8c6657ccdb326bb7aa46d5fdfb835c17dde",
+    "evals/classification/runner.py": "7ba1ee05c338694a38a0fbc594edac654ac9e69d6ef789efeb41563da9fabdda",
+    "evals/classification/scoring.py": "678dba7b07401ae42e57ebfb1b48bef3305c06d07caae5bcf7c662b5262b6b4b",
+    "evals/classification/smoke.py": "a102e04169518cb6dcad8dabc0626c93e66498b360aaadb0932505222217e7e6",
+    "evals/cli/__init__.py": "f7bf4e1dce57c40c5a998deb74895cb1ceca5d9930f05a88d5691280090cd03f",
+    "evals/cli/adversarial.py": "4ae61d0d2db2a399ba00463c579bbb513bbfea6276b32f55bcc47bd5f1880656",
+    "evals/cli/guardrails.py": "7c4a69379d8cc72d8207370d553e7a240b0080fade743687e8e6a42af66614cd",
+    "evals/cli/local.py": "afef08b0da4f51ae93fea10fb7f52a0b2d2abd51889312e563f5f5b6a4d89d40",
+    "evals/cli/providers.py": "f9f65d45176371bda7ca468a16f40eec6c40ceb19a1bd4384550baa9869498e4",
+    "evals/cli/reprice.py": "8a49ed4769c946cf866c69059f444d17ebdb3de26565be11c0dda94f6c57ce83",
+    "evals/cli/smoke.py": "ffa4199ec99b6937518c30f27ec6e78760025b2f6d7b514e4e1e5c8fe38e5624",
+    "evals/common/__init__.py": "f5ce8115953d2d1463d292453197eb8ec90f73b324fcbd8960dc29fd05285f99",
+    "evals/common/artifacts.py": "ec979d2b1e0e3644514e7780ee7dd8ce522db71d9a2275cae2a4c3f3f6448090",
+    "evals/common/costs.py": "d7b2ba0de919cee97b925451ec17ef2ac0df886ec78f08195ad0df3734aa77bd",
+    "evals/reprice_run.py": "00c1d532c234b028d78bf7ab2746ccdff315290c19a8298e275cc4bdb264f5c5",
+    "evals/run_adversarial_pairs.py": "f888fae04c5a4bf76a91313bcd9169399f7d46fde1971e682f9f116002a5aad5",
+    "evals/run_evals.py": "a1e00fc30a39a9cdc5f0044729d7a5a954184b74531aca1534134f03a7e9be0c",
+    "evals/run_guardrail_diagnostics.py": "bd5c9828a2f95e4e484def3840430b0478ffc8c9afc622f80b7aaecd7050b478",
+    "evals/run_local_sample.py": "630d98ba29fc2bd25357c387eba890fe450f68ff8524806d76a103f40583da7e",
+    "evals/run_provider_evals.py": "fa0260b96fd8018f8a659939ce4f41268c7cfc1c7539cd21aa99be6eeda5ee79"
+  },
+  "settings": {
+    "openai_max_output_tokens": 256,
+    "gemini_max_output_tokens": 256,
+    "ollama_base_url": "http://127.0.0.1:11434",
+    "ollama_max_output_tokens": 256,
+    "ollama_num_ctx": 2048,
+    "ollama_timeout_seconds": 120,
+    "max_attempts": 1,
+    "max_query_chars": 500
+  },
+  "cases": [
+    {
+      "case_id": "nubbix-b01",
+      "expected_category": "billing",
+      "ambiguous": false
+    },
+    {
+      "case_id": "nubbix-b02",
+      "expected_category": "billing",
+      "ambiguous": false
+    },
+    {
+      "case_id": "nubbix-b03",
+      "expected_category": "billing",
+      "ambiguous": false
+    },
+    {
+      "case_id": "nubbix-b04",
+      "expected_category": "billing",
+      "ambiguous": false
+    },
+    {
+      "case_id": "nubbix-b05",
+      "expected_category": "billing",
+      "ambiguous": false
+    },
+    {
+      "case_id": "nubbix-b06",
+      "expected_category": "billing",
+      "ambiguous": false
+    },
+    {
+      "case_id": "nubbix-b07",
+      "expected_category": "billing",
+      "ambiguous": true
+    },
+    {
+      "case_id": "nubbix-b08",
+      "expected_category": "billing",
+      "ambiguous": true
+    },
+    {
+      "case_id": "nubbix-t01",
+      "expected_category": "technical",
+      "ambiguous": false
+    },
+    {
+      "case_id": "nubbix-t02",
+      "expected_category": "technical",
+      "ambiguous": false
+    },
+    {
+      "case_id": "nubbix-t03",
+      "expected_category": "technical",
+      "ambiguous": false
+    },
+    {
+      "case_id": "nubbix-t04",
+      "expected_category": "technical",
+      "ambiguous": false
+    },
+    {
+      "case_id": "nubbix-t05",
+      "expected_category": "technical",
+      "ambiguous": false
+    },
+    {
+      "case_id": "nubbix-t06",
+      "expected_category": "technical",
+      "ambiguous": false
+    },
+    {
+      "case_id": "nubbix-t07",
+      "expected_category": "technical",
+      "ambiguous": true
+    },
+    {
+      "case_id": "nubbix-t08",
+      "expected_category": "technical",
+      "ambiguous": true
+    },
+    {
+      "case_id": "nubbix-a01",
+      "expected_category": "account",
+      "ambiguous": false
+    },
+    {
+      "case_id": "nubbix-a02",
+      "expected_category": "account",
+      "ambiguous": false
+    },
+    {
+      "case_id": "nubbix-a03",
+      "expected_category": "account",
+      "ambiguous": false
+    },
+    {
+      "case_id": "nubbix-a04",
+      "expected_category": "account",
+      "ambiguous": false
+    },
+    {
+      "case_id": "nubbix-a05",
+      "expected_category": "account",
+      "ambiguous": false
+    },
+    {
+      "case_id": "nubbix-a06",
+      "expected_category": "account",
+      "ambiguous": false
+    },
+    {
+      "case_id": "nubbix-a07",
+      "expected_category": "account",
+      "ambiguous": true
+    },
+    {
+      "case_id": "nubbix-a08",
+      "expected_category": "account",
+      "ambiguous": true
+    },
+    {
+      "case_id": "nubbix-o01",
+      "expected_category": "other",
+      "ambiguous": false
+    },
+    {
+      "case_id": "nubbix-o02",
+      "expected_category": "other",
+      "ambiguous": false
+    },
+    {
+      "case_id": "nubbix-o03",
+      "expected_category": "other",
+      "ambiguous": false
+    },
+    {
+      "case_id": "nubbix-o04",
+      "expected_category": "other",
+      "ambiguous": false
+    },
+    {
+      "case_id": "nubbix-o05",
+      "expected_category": "other",
+      "ambiguous": false
+    },
+    {
+      "case_id": "nubbix-o06",
+      "expected_category": "other",
+      "ambiguous": false
+    },
+    {
+      "case_id": "nubbix-o07",
+      "expected_category": "other",
+      "ambiguous": true
+    },
+    {
+      "case_id": "nubbix-o08",
+      "expected_category": "other",
+      "ambiguous": true
+    }
+  ],
+  "remote_execution_confirmed": true
+}

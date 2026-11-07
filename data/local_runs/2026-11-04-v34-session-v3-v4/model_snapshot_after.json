@@ -1,0 +1,20 @@
+{
+  "observed_at": "2026-11-04T22:43:08.206528+00:00",
+  "model": "qwen2.5-coder:0.5b-test",
+  "digest": "08efee4699b2c84f8b793e888efd0de207bd8b00692a62337b40017048e3c075",
+  "size": 994158569,
+  "details": {
+    "parent_model": "model-f16.gguf",
+    "format": "gguf",
+    "family": "qwen2",
+    "families": [
+      "qwen2"
+    ],
+    "parameter_size": "494.03M",
+    "quantization_level": "F16",
+    "context_length": 32768,
+    "embedding_length": 896,
+    "runner": "llamacpp"
+  },
+  "server_version": "0.40.6"
+}

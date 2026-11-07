@@ -1,0 +1,774 @@
+{
+  "format_version": 2,
+  "purpose": "Corridas históricas originales citadas; no nuevas ejecuciones ni valores reconstruidos.",
+  "timestamp_note": "Los timestamps dentro del JSON se conservan literalmente. Git no preserva mtime al clonar; el mtime observado queda registrado aquí y no prueba por sí solo la fecha de inferencia.",
+  "source_code_note": "Cada plan conserva hashes de su código, prompts y datasets históricos. El checkout posterior incluye cambios; no se afirma que el código actual sea idéntico al de las corridas.",
+  "remote_report_source_commit": "f83113bcdec1d73930774aa0c0ec191970c2e88f",
+  "privacy_review": {
+    "raw_tickets_or_answers": false,
+    "credentials_or_private_paths": false,
+    "request_id": "UUID local generado por la aplicación, no ID de una cuenta o credencial.",
+    "retained": "Todos los campos originales, incluidos IDs locales, timestamps, fallos y costos desconocidos."
+  },
+  "selection": "Siete corridas históricas Ollama del 04/11 y las siete corridas remotas del informe del 06/11, incluidas parciales y suplementos. No es un volcado indiscriminado de data/local_runs.",
+  "runs": [
+    {
+      "name": "2026-11-04-adversarial-pairs",
+      "provider": "ollama",
+      "model": "qwen2.5-coder:0.5b-test",
+      "model_source": "plan.json:settings.model",
+      "rows": 120,
+      "first_recorded_timestamp": "2026-11-04T22:55:53.255801+00:00",
+      "last_recorded_timestamp": "2026-11-04T22:56:21.330952+00:00",
+      "source_report": null,
+      "directory": "data/local_runs/2026-11-04-adversarial-pairs"
+    },
+    {
+      "name": "2026-11-04-base32-v1-v2",
+      "provider": "ollama",
+      "model": "qwen2.5-coder:0.5b-test",
+      "model_source": "results.jsonl",
+      "rows": 64,
+      "first_recorded_timestamp": "2026-11-04T21:59:38.660695+00:00",
+      "last_recorded_timestamp": "2026-11-04T21:59:57.289592+00:00",
+      "source_report": null,
+      "directory": "data/local_runs/2026-11-04-base32-v1-v2"
+    },
+    {
+      "name": "2026-11-04-four-categories-v1-v2",
+      "provider": "ollama",
+      "model": "qwen2.5-coder:0.5b-test",
+      "model_source": "results.jsonl",
+      "rows": 8,
+      "first_recorded_timestamp": "2026-11-04T21:37:47.353114+00:00",
+      "last_recorded_timestamp": "2026-11-04T21:37:49.028669+00:00",
+      "source_report": null,
+      "directory": "data/local_runs/2026-11-04-four-categories-v1-v2"
+    },
+    {
+      "name": "2026-11-04-robustness8-v1-v2",
+      "provider": "ollama",
+      "model": "qwen2.5-coder:0.5b-test",
+      "model_source": "results.jsonl",
+      "rows": 16,
+      "first_recorded_timestamp": "2026-11-04T21:59:57.518379+00:00",
+      "last_recorded_timestamp": "2026-11-04T22:00:01.640037+00:00",
+      "source_report": null,
+      "directory": "data/local_runs/2026-11-04-robustness8-v1-v2"
+    },
+    {
+      "name": "2026-11-04-v34-session-robustness",
+      "provider": "ollama",
+      "model": "qwen2.5-coder:0.5b-test",
+      "model_source": "results.jsonl",
+      "rows": 32,
+      "first_recorded_timestamp": "2026-11-04T22:43:08.408913+00:00",
+      "last_recorded_timestamp": "2026-11-04T22:43:19.058586+00:00",
+      "source_report": null,
+      "directory": "data/local_runs/2026-11-04-v34-session-robustness"
+    },
+    {
+      "name": "2026-11-04-v34-session-v1-v2",
+      "provider": "ollama",
+      "model": "qwen2.5-coder:0.5b-test",
+      "model_source": "results.jsonl",
+      "rows": 64,
+      "first_recorded_timestamp": "2026-11-04T22:42:26.814259+00:00",
+      "last_recorded_timestamp": "2026-11-04T22:42:44.665711+00:00",
+      "source_report": null,
+      "directory": "data/local_runs/2026-11-04-v34-session-v1-v2"
+    },
+    {
+      "name": "2026-11-04-v34-session-v3-v4",
+      "provider": "ollama",
+      "model": "qwen2.5-coder:0.5b-test",
+      "model_source": "results.jsonl",
+      "rows": 64,
+      "first_recorded_timestamp": "2026-11-04T22:42:45.013766+00:00",
+      "last_recorded_timestamp": "2026-11-04T22:43:08.196647+00:00",
+      "source_report": null,
+      "directory": "data/local_runs/2026-11-04-v34-session-v3-v4"
+    },
+    {
+      "name": "2026-11-06-gemini-adversarial-v1-v4",
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "model_source": "results.jsonl",
+      "rows": 23,
+      "first_recorded_timestamp": "2026-11-06T23:13:47.182461+00:00",
+      "last_recorded_timestamp": "2026-11-06T23:14:09.801388+00:00",
+      "source_report": "EVALS_REMOTOS_2026-11-06.json",
+      "directory": "data/local_runs/2026-11-06-gemini-adversarial-v1-v4"
+    },
+    {
+      "name": "2026-11-06-openai-adversarial-v1-v4",
+      "provider": "openai",
+      "model": "gpt-6-luna",
+      "model_source": "results.jsonl",
+      "rows": 120,
+      "first_recorded_timestamp": "2026-11-06T23:13:44.382141+00:00",
+      "last_recorded_timestamp": "2026-11-06T23:17:10.220888+00:00",
+      "source_report": "EVALS_REMOTOS_2026-11-06.json",
+      "directory": "data/local_runs/2026-11-06-openai-adversarial-v1-v4"
+    },
+    {
+      "name": "2026-11-06-openai-base32-v4-remaining-1",
+      "provider": "openai",
+      "model": "gpt-6-luna",
+      "model_source": "results.jsonl",
+      "rows": 4,
+      "first_recorded_timestamp": "2026-11-06T23:25:34.013356+00:00",
+      "last_recorded_timestamp": "2026-11-06T23:25:41.656766+00:00",
+      "source_report": "EVALS_REMOTOS_2026-11-06.json",
+      "directory": "data/local_runs/2026-11-06-openai-base32-v4-remaining-1"
+    },
+    {
+      "name": "2026-11-06-openai-base32-v4-remaining-2",
+      "provider": "openai",
+      "model": "gpt-6-luna",
+      "model_source": "results.jsonl",
+      "rows": 4,
+      "first_recorded_timestamp": "2026-11-06T23:25:44.638039+00:00",
+      "last_recorded_timestamp": "2026-11-06T23:25:52.359940+00:00",
+      "source_report": "EVALS_REMOTOS_2026-11-06.json",
+      "directory": "data/local_runs/2026-11-06-openai-base32-v4-remaining-2"
+    },
+    {
+      "name": "2026-11-06-openai-base32-v4-remaining-3",
+      "provider": "openai",
+      "model": "gpt-6-luna",
+      "model_source": "results.jsonl",
+      "rows": 2,
+      "first_recorded_timestamp": "2026-11-06T23:25:55.033781+00:00",
+      "last_recorded_timestamp": "2026-11-06T23:25:58.633625+00:00",
+      "source_report": "EVALS_REMOTOS_2026-11-06.json",
+      "directory": "data/local_runs/2026-11-06-openai-base32-v4-remaining-3"
+    },
+    {
+      "name": "2026-11-06-openai-eval_dataset-v1-v4",
+      "provider": "openai",
+      "model": "gpt-6-luna",
+      "model_source": "results.jsonl",
+      "rows": 118,
+      "first_recorded_timestamp": "2026-11-06T23:17:48.437186+00:00",
+      "last_recorded_timestamp": "2026-11-06T23:22:38.962157+00:00",
+      "source_report": "EVALS_REMOTOS_2026-11-06.json",
+      "directory": "data/local_runs/2026-11-06-openai-eval_dataset-v1-v4"
+    },
+    {
+      "name": "2026-11-06-openai-eval_robustness-v1-v4",
+      "provider": "openai",
+      "model": "gpt-6-luna",
+      "model_source": "results.jsonl",
+      "rows": 32,
+      "first_recorded_timestamp": "2026-11-06T23:23:29.900232+00:00",
+      "last_recorded_timestamp": "2026-11-06T23:24:47.682934+00:00",
+      "source_report": "EVALS_REMOTOS_2026-11-06.json",
+      "directory": "data/local_runs/2026-11-06-openai-eval_robustness-v1-v4"
+    }
+  ],
+  "files": [
+    {
+      "path": "data/local_runs/2026-11-04-adversarial-pairs/metrics.jsonl",
+      "sha256": "67936cf353b0331d981ea860b70a7d799f5937de103117e17f0a35c90c10ee41",
+      "bytes": 86911,
+      "source_mtime_ns": 1793832981330901442,
+      "source_mtime_utc": "2026-11-04T22:56:21.330901+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-04-adversarial-pairs/model_snapshot_after.json",
+      "sha256": "26c5fca7054422908a87620727537337b32326e43dcbc16c210619f2bb985331",
+      "bytes": 516,
+      "source_mtime_ns": 1793832981345518541,
+      "source_mtime_utc": "2026-11-04T22:56:21.345519+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-04-adversarial-pairs/model_snapshot_before.json",
+      "sha256": "8bfa73a858548f4d360af53da7fddc7b1edebcc876b44c82ace4ef4748b70fc5",
+      "bytes": 516,
+      "source_mtime_ns": 1793832981332007315,
+      "source_mtime_utc": "2026-11-04T22:56:21.332007+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-04-adversarial-pairs/plan.json",
+      "sha256": "5e38dec810aff2654b8bbfed4466296e32abb80074ea46f7a1c5222169035c11",
+      "bytes": 5817,
+      "source_mtime_ns": 1793832951750290387,
+      "source_mtime_utc": "2026-11-04T22:55:51.750290+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-04-adversarial-pairs/results.jsonl",
+      "sha256": "021b15a6da3ef3582b69c6b6fa4ebdc2f16e0e6c75151aa752bdf70b1cbbbcd4",
+      "bytes": 102399,
+      "source_mtime_ns": 1793832981331218657,
+      "source_mtime_utc": "2026-11-04T22:56:21.331219+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-04-adversarial-pairs/summary.json",
+      "sha256": "c1d5438d0ff007f818717197f1337cac14d1794522350602f8c834eed7684a50",
+      "bytes": 18490,
+      "source_mtime_ns": 1793832981331716484,
+      "source_mtime_utc": "2026-11-04T22:56:21.331717+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-04-base32-v1-v2/metrics.jsonl",
+      "sha256": "1746eea0b5533feb022b516f5d24e96383b3d902c2001744f7d0b514aff237b8",
+      "bytes": 47555,
+      "source_mtime_ns": 1793829597288735870,
+      "source_mtime_utc": "2026-11-04T21:59:57.288736+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-04-base32-v1-v2/model_snapshot_after.json",
+      "sha256": "3f692f9408510b89213c5653c7bcace8c153f962a356414c6bace53c146407ea",
+      "bytes": 516,
+      "source_mtime_ns": 1793829597301792806,
+      "source_mtime_utc": "2026-11-04T21:59:57.301793+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-04-base32-v1-v2/model_snapshot_before.json",
+      "sha256": "3f612dbd18047ee7222c7ceda5579621b07e1cf4cb87e31ff055d01a93499e5a",
+      "bytes": 516,
+      "source_mtime_ns": 1793829597290620660,
+      "source_mtime_utc": "2026-11-04T21:59:57.290621+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-04-base32-v1-v2/plan.json",
+      "sha256": "2b95f19e2f4c47f417148df0dbf778302401f41662f0e8aa308c049cb2202a3c",
+      "bytes": 6443,
+      "source_mtime_ns": 1793829576850218380,
+      "source_mtime_utc": "2026-11-04T21:59:36.850218+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-04-base32-v1-v2/results.jsonl",
+      "sha256": "e69a62a25408eae82bc0aad58d9797edccbab98dbff782d4f4b168c0a8e58221",
+      "bytes": 63225,
+      "source_mtime_ns": 1793829597288735870,
+      "source_mtime_utc": "2026-11-04T21:59:57.288736+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-04-base32-v1-v2/summary.json",
+      "sha256": "b8f06bf1e911d3c423ed6d5250bf3fb87917e80ceca8867548d0e87780dd07de",
+      "bytes": 3689,
+      "source_mtime_ns": 1793829597289735867,
+      "source_mtime_utc": "2026-11-04T21:59:57.289736+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-04-four-categories-v1-v2/metrics.jsonl",
+      "sha256": "12d67a427c0e4ec43f83351e70072be352c50cf78a5e6412f7915ab20facdeb4",
+      "bytes": 5927,
+      "source_mtime_ns": 1793828269027856767,
+      "source_mtime_utc": "2026-11-04T21:37:49.027857+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-04-four-categories-v1-v2/plan.json",
+      "sha256": "dac3a0f99e7df6d8239d2593fbcdec497d53fe12adf63258a8b472483562b3a1",
+      "bytes": 3377,
+      "source_mtime_ns": 1793828265929814767,
+      "source_mtime_utc": "2026-11-04T21:37:45.929815+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-04-four-categories-v1-v2/results.jsonl",
+      "sha256": "de7cec260c477521256dbbef8662037824445b20d4926c96f86eea81a57fd654",
+      "bytes": 7891,
+      "source_mtime_ns": 1793828269027856767,
+      "source_mtime_utc": "2026-11-04T21:37:49.027857+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-04-four-categories-v1-v2/summary.json",
+      "sha256": "7fe2e2e3912f2f5ae1e79f55f2c4fc529150e0d23436281c85de35cd185bee16",
+      "bytes": 2070,
+      "source_mtime_ns": 1793828269029023842,
+      "source_mtime_utc": "2026-11-04T21:37:49.029024+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-04-robustness8-v1-v2/metrics.jsonl",
+      "sha256": "6200b2753b024adb16870550177f56614316683fca176c9535c6cc45c99cd23b",
+      "bytes": 11858,
+      "source_mtime_ns": 1793829601639818287,
+      "source_mtime_utc": "2026-11-04T22:00:01.639818+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-04-robustness8-v1-v2/model_snapshot_after.json",
+      "sha256": "ccaa36e18d57890076ab65138c3c1a6679253b2e20731d730c3035f3164ba24e",
+      "bytes": 516,
+      "source_mtime_ns": 1793829601650970044,
+      "source_mtime_utc": "2026-11-04T22:00:01.650970+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-04-robustness8-v1-v2/model_snapshot_before.json",
+      "sha256": "19bdb896dfa27e3640c4eb28f3020bed55ccecb3440f0a9317064666bc637911",
+      "bytes": 516,
+      "source_mtime_ns": 1793829601640475598,
+      "source_mtime_utc": "2026-11-04T22:00:01.640476+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-04-robustness8-v1-v2/plan.json",
+      "sha256": "d29c6a123528f7f5fa909a6a2ca7e42c7a5a015074d0a7d80192d1ade72a4757",
+      "bytes": 3896,
+      "source_mtime_ns": 1793829597317735797,
+      "source_mtime_utc": "2026-11-04T21:59:57.317736+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-04-robustness8-v1-v2/results.jsonl",
+      "sha256": "858ad32118f355f12aed16e8450a68ceaac8275f267ba9a23d3a8ada421d24ee",
+      "bytes": 15781,
+      "source_mtime_ns": 1793829601639818287,
+      "source_mtime_utc": "2026-11-04T22:00:01.639818+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-04-robustness8-v1-v2/summary.json",
+      "sha256": "33b820211cca9bd695c09bc1a295fb69fd400a67259a6f2639035ec28e8b1aaa",
+      "bytes": 3354,
+      "source_mtime_ns": 1793829601640387490,
+      "source_mtime_utc": "2026-11-04T22:00:01.640388+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-04-v34-session-robustness/metrics.jsonl",
+      "sha256": "3ab24b09aa634e5ea250e9742515e546c21d5cf484094652d0f67b6fe4da5175",
+      "bytes": 23778,
+      "source_mtime_ns": 1793832199058000874,
+      "source_mtime_utc": "2026-11-04T22:43:19.058001+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-04-v34-session-robustness/model_snapshot_after.json",
+      "sha256": "22c569d97a5fc5e67e6f558b45e631d25ddde61669cfbae87e444c6b55378772",
+      "bytes": 516,
+      "source_mtime_ns": 1793832199072585163,
+      "source_mtime_utc": "2026-11-04T22:43:19.072585+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-04-v34-session-robustness/model_snapshot_before.json",
+      "sha256": "a1d6762ed229ae9c03edfd73351d545f5358fb8b59735af261c632ef2abdfdfc",
+      "bytes": 516,
+      "source_mtime_ns": 1793832199059162550,
+      "source_mtime_utc": "2026-11-04T22:43:19.059163+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-04-v34-session-robustness/plan.json",
+      "sha256": "938881487e1b62b891b380aea154fb621991f7ba7acc6207cd7136271f33582c",
+      "bytes": 4273,
+      "source_mtime_ns": 1793832188223483689,
+      "source_mtime_utc": "2026-11-04T22:43:08.223484+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-04-v34-session-robustness/results.jsonl",
+      "sha256": "ff5b4c16b6311ce26228c82d58e74e2d5a685fa4655283de75ff4ccc14a2981d",
+      "bytes": 31609,
+      "source_mtime_ns": 1793832199058000874,
+      "source_mtime_utc": "2026-11-04T22:43:19.058001+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-04-v34-session-robustness/summary.json",
+      "sha256": "d711fb023de7a3b729ff3c99c2eece9c7b3c1bc22257136c32b87fdd086edd47",
+      "bytes": 6419,
+      "source_mtime_ns": 1793832199059039010,
+      "source_mtime_utc": "2026-11-04T22:43:19.059039+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-04-v34-session-v1-v2/metrics.jsonl",
+      "sha256": "41dec7861dd14f1c0eb9d25dc5ad6f417466d44ad95be43c8fe482f5d4cca885",
+      "bytes": 47561,
+      "source_mtime_ns": 1793832164665087312,
+      "source_mtime_utc": "2026-11-04T22:42:44.665087+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-04-v34-session-v1-v2/model_snapshot_after.json",
+      "sha256": "c663fd7b656df0dc05ec799c02a0cdeff34e2cecb4a7118fdcec6ba5f605759c",
+      "bytes": 516,
+      "source_mtime_ns": 1793832164680007574,
+      "source_mtime_utc": "2026-11-04T22:42:44.680007+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-04-v34-session-v1-v2/model_snapshot_before.json",
+      "sha256": "4f3a49bdc5b7183b3ee0295bec46499e8a77d1a268d7e4d954a51bcf8914e998",
+      "bytes": 516,
+      "source_mtime_ns": 1793832164666332506,
+      "source_mtime_utc": "2026-11-04T22:42:44.666332+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-04-v34-session-v1-v2/plan.json",
+      "sha256": "f4a21eb33301eede02ef54baedc0a55b133cccacd1502b65dc8d79653b89de7b",
+      "bytes": 6602,
+      "source_mtime_ns": 1793832145390506098,
+      "source_mtime_utc": "2026-11-04T22:42:25.390506+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-04-v34-session-v1-v2/results.jsonl",
+      "sha256": "ead1c43853ef8c9e60fce483a4e3f12f40278765192fe1350e567c2ed793cfbf",
+      "bytes": 63231,
+      "source_mtime_ns": 1793832164665087312,
+      "source_mtime_utc": "2026-11-04T22:42:44.665087+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-04-v34-session-v1-v2/summary.json",
+      "sha256": "6dbc744e14536662b639bd351dcdf037884a952e51f90fc2a8abae39527731a6",
+      "bytes": 3690,
+      "source_mtime_ns": 1793832164666190414,
+      "source_mtime_utc": "2026-11-04T22:42:44.666190+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-04-v34-session-v3-v4/metrics.jsonl",
+      "sha256": "71704b74f054db2b1b3db4fcbdb8091913b2284ba205c23f46df21f71cce2335",
+      "bytes": 47593,
+      "source_mtime_ns": 1793832188196028267,
+      "source_mtime_utc": "2026-11-04T22:43:08.196028+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-04-v34-session-v3-v4/model_snapshot_after.json",
+      "sha256": "f1b6d89dbda13d3568bca5b03285e503e6e2b789e7fa793babf24e12ffad01ed",
+      "bytes": 516,
+      "source_mtime_ns": 1793832188206681047,
+      "source_mtime_utc": "2026-11-04T22:43:08.206681+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-04-v34-session-v3-v4/model_snapshot_before.json",
+      "sha256": "39b4bb26c9ceb2e36a22acee5b7840d9af09612d2bfc34f6e6e4325d3b2d204d",
+      "bytes": 516,
+      "source_mtime_ns": 1793832188197305507,
+      "source_mtime_utc": "2026-11-04T22:43:08.197305+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-04-v34-session-v3-v4/plan.json",
+      "sha256": "59e14a679a7e0e9424d029fb6380ce4cc2146ab7f18fe5fd40fe737d18f0c466",
+      "bytes": 6606,
+      "source_mtime_ns": 1793832164696087235,
+      "source_mtime_utc": "2026-11-04T22:42:44.696087+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-04-v34-session-v3-v4/results.jsonl",
+      "sha256": "f63b52a97072cd2ccb21192a26387c6f5e88356e43b992725ee2facd8a16aab4",
+      "bytes": 63229,
+      "source_mtime_ns": 1793832188196028267,
+      "source_mtime_utc": "2026-11-04T22:43:08.196028+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-04-v34-session-v3-v4/summary.json",
+      "sha256": "db6f55362d3d35692b02c3d1d1d754587f36b6f3fc33ee1bed9e36a34eadf9a6",
+      "bytes": 3614,
+      "source_mtime_ns": 1793832188197150558,
+      "source_mtime_utc": "2026-11-04T22:43:08.197150+00:00",
+      "matches_existing_remote_report": null
+    },
+    {
+      "path": "data/local_runs/2026-11-06-gemini-adversarial-v1-v4/metrics.jsonl",
+      "sha256": "c130a8e892496eff57271db2805e144a40424df199d2f8f56ad9f5bc3c3e487f",
+      "bytes": 32715,
+      "source_mtime_ns": 1794006849800741764,
+      "source_mtime_utc": "2026-11-06T23:14:09.800742+00:00",
+      "matches_existing_remote_report": true
+    },
+    {
+      "path": "data/local_runs/2026-11-06-gemini-adversarial-v1-v4/plan.json",
+      "sha256": "78b9fbe5b2bd2de89c5f26093d814b6e4a2d08a192060672919e1a46875a2906",
+      "bytes": 10291,
+      "source_mtime_ns": 1794006825946361968,
+      "source_mtime_utc": "2026-11-06T23:13:45.946362+00:00",
+      "matches_existing_remote_report": true
+    },
+    {
+      "path": "data/local_runs/2026-11-06-gemini-adversarial-v1-v4/pricing.json",
+      "sha256": "ba0103daaefa949b1feeb1b1cb971a86c12b741983b5d73f72f6006e3cc92f20",
+      "bytes": 1192,
+      "source_mtime_ns": 1794006825946408320,
+      "source_mtime_utc": "2026-11-06T23:13:45.946408+00:00",
+      "matches_existing_remote_report": true
+    },
+    {
+      "path": "data/local_runs/2026-11-06-gemini-adversarial-v1-v4/results.jsonl",
+      "sha256": "5b7aedf375e3c84eeee9a6c1daaecf78f49dfa15c0d187fbf9756cfc2470368a",
+      "bytes": 36477,
+      "source_mtime_ns": 1794006849800741764,
+      "source_mtime_utc": "2026-11-06T23:14:09.800742+00:00",
+      "matches_existing_remote_report": true
+    },
+    {
+      "path": "data/local_runs/2026-11-06-gemini-adversarial-v1-v4/summary.json",
+      "sha256": "6ce3587baf8ec88669ae7195f9baa743a4566e41233155fbbc813a77aa542132",
+      "bytes": 7800,
+      "source_mtime_ns": 1794006849802008102,
+      "source_mtime_utc": "2026-11-06T23:14:09.802008+00:00",
+      "matches_existing_remote_report": true
+    },
+    {
+      "path": "data/local_runs/2026-11-06-openai-adversarial-v1-v4/metrics.jsonl",
+      "sha256": "ea2c10b1ddd6786fecf76d83de2d0a012fdd6261adc1b05d8bef23501629449d",
+      "bytes": 169700,
+      "source_mtime_ns": 1794007030220916576,
+      "source_mtime_utc": "2026-11-06T23:17:10.220917+00:00",
+      "matches_existing_remote_report": true
+    },
+    {
+      "path": "data/local_runs/2026-11-06-openai-adversarial-v1-v4/plan.json",
+      "sha256": "9e6aef88e239ef259b8ee8d2b38c0eae693a0852ca26f210305aa9b82a65a85b",
+      "bytes": 10269,
+      "source_mtime_ns": 1794006820800830590,
+      "source_mtime_utc": "2026-11-06T23:13:40.800831+00:00",
+      "matches_existing_remote_report": true
+    },
+    {
+      "path": "data/local_runs/2026-11-06-openai-adversarial-v1-v4/pricing.json",
+      "sha256": "ba0103daaefa949b1feeb1b1cb971a86c12b741983b5d73f72f6006e3cc92f20",
+      "bytes": 1192,
+      "source_mtime_ns": 1794006820800864017,
+      "source_mtime_utc": "2026-11-06T23:13:40.800864+00:00",
+      "matches_existing_remote_report": true
+    },
+    {
+      "path": "data/local_runs/2026-11-06-openai-adversarial-v1-v4/results.jsonl",
+      "sha256": "a10014f4c1fc2be1b9117bc7e38477846d7728c2f983c9869b795cbdc9185d6c",
+      "bytes": 187988,
+      "source_mtime_ns": 1794007030220916576,
+      "source_mtime_utc": "2026-11-06T23:17:10.220917+00:00",
+      "matches_existing_remote_report": true
+    },
+    {
+      "path": "data/local_runs/2026-11-06-openai-adversarial-v1-v4/summary.json",
+      "sha256": "2f1b7e7aa956f9b5f234ac82c853620f689020a7ed4ca111313afabed2e391f0",
+      "bytes": 21213,
+      "source_mtime_ns": 1794007030221786609,
+      "source_mtime_utc": "2026-11-06T23:17:10.221786+00:00",
+      "matches_existing_remote_report": true
+    },
+    {
+      "path": "data/local_runs/2026-11-06-openai-base32-v4-remaining-1/metrics.jsonl",
+      "sha256": "64b78974cc7e6ba274388ee0dc4aac3d94496911397c0e2598fab838d9f5ed20",
+      "bytes": 6264,
+      "source_mtime_ns": 1794007541655970672,
+      "source_mtime_utc": "2026-11-06T23:25:41.655971+00:00",
+      "matches_existing_remote_report": true
+    },
+    {
+      "path": "data/local_runs/2026-11-06-openai-base32-v4-remaining-1/plan.json",
+      "sha256": "7866389f0b6e6baf9c19a2e64a7384282b9bbe0a02ec17be20e71e2a7a1968b7",
+      "bytes": 7906,
+      "source_mtime_ns": 1794007531611318629,
+      "source_mtime_utc": "2026-11-06T23:25:31.611319+00:00",
+      "matches_existing_remote_report": true
+    },
+    {
+      "path": "data/local_runs/2026-11-06-openai-base32-v4-remaining-1/pricing.json",
+      "sha256": "ba0103daaefa949b1feeb1b1cb971a86c12b741983b5d73f72f6006e3cc92f20",
+      "bytes": 1192,
+      "source_mtime_ns": 1794007531611373478,
+      "source_mtime_utc": "2026-11-06T23:25:31.611373+00:00",
+      "matches_existing_remote_report": true
+    },
+    {
+      "path": "data/local_runs/2026-11-06-openai-base32-v4-remaining-1/results.jsonl",
+      "sha256": "a96d75852d2b8f1b98431cb96daf36fd6db7feba2c4b334fdc657a3b1572ab3a",
+      "bytes": 7178,
+      "source_mtime_ns": 1794007541655970672,
+      "source_mtime_utc": "2026-11-06T23:25:41.655971+00:00",
+      "matches_existing_remote_report": true
+    },
+    {
+      "path": "data/local_runs/2026-11-06-openai-base32-v4-remaining-1/summary.json",
+      "sha256": "2b4865e44c0a411c1fd2c2d8f9c721fdf0d7aa61595958bbbf1d87f8478c006c",
+      "bytes": 5736,
+      "source_mtime_ns": 1794007541657292182,
+      "source_mtime_utc": "2026-11-06T23:25:41.657292+00:00",
+      "matches_existing_remote_report": true
+    },
+    {
+      "path": "data/local_runs/2026-11-06-openai-base32-v4-remaining-2/metrics.jsonl",
+      "sha256": "6024d09cb3797bc5366fcac89f57a48f2aa4e7c03e041a6102f7502dc76879cb",
+      "bytes": 6260,
+      "source_mtime_ns": 1794007552358943273,
+      "source_mtime_utc": "2026-11-06T23:25:52.358943+00:00",
+      "matches_existing_remote_report": true
+    },
+    {
+      "path": "data/local_runs/2026-11-06-openai-base32-v4-remaining-2/plan.json",
+      "sha256": "8ab27365ac8009dd85421bd05474965792fbd825d3a6d56a7b96a8d1b9556d2b",
+      "bytes": 7904,
+      "source_mtime_ns": 1794007541794638654,
+      "source_mtime_utc": "2026-11-06T23:25:41.794639+00:00",
+      "matches_existing_remote_report": true
+    },
+    {
+      "path": "data/local_runs/2026-11-06-openai-base32-v4-remaining-2/pricing.json",
+      "sha256": "ba0103daaefa949b1feeb1b1cb971a86c12b741983b5d73f72f6006e3cc92f20",
+      "bytes": 1192,
+      "source_mtime_ns": 1794007541794680743,
+      "source_mtime_utc": "2026-11-06T23:25:41.794681+00:00",
+      "matches_existing_remote_report": true
+    },
+    {
+      "path": "data/local_runs/2026-11-06-openai-base32-v4-remaining-2/results.jsonl",
+      "sha256": "5b400ee147aeeeec6dbb767a5e6c5b9d73fc8077caaf4cfd9327a58b3708053d",
+      "bytes": 7168,
+      "source_mtime_ns": 1794007552359943270,
+      "source_mtime_utc": "2026-11-06T23:25:52.359943+00:00",
+      "matches_existing_remote_report": true
+    },
+    {
+      "path": "data/local_runs/2026-11-06-openai-base32-v4-remaining-2/summary.json",
+      "sha256": "23d4160b7b0fd40fdc46201192cb25cf9e5cb89e158a0ca12811b1a8d5133554",
+      "bytes": 5705,
+      "source_mtime_ns": 1794007552360661635,
+      "source_mtime_utc": "2026-11-06T23:25:52.360662+00:00",
+      "matches_existing_remote_report": true
+    },
+    {
+      "path": "data/local_runs/2026-11-06-openai-base32-v4-remaining-3/metrics.jsonl",
+      "sha256": "11df5398186943b3c1e67778ed12e2548b03115f9ed1c454eb97cde24d16c9a5",
+      "bytes": 3166,
+      "source_mtime_ns": 1794007558632927212,
+      "source_mtime_utc": "2026-11-06T23:25:58.632927+00:00",
+      "matches_existing_remote_report": true
+    },
+    {
+      "path": "data/local_runs/2026-11-06-openai-base32-v4-remaining-3/plan.json",
+      "sha256": "8fb37123f3f6799c5684db352720b5a33c0006cda8630e04bcd9d8c364aa117f",
+      "bytes": 7692,
+      "source_mtime_ns": 1794007552491680487,
+      "source_mtime_utc": "2026-11-06T23:25:52.491680+00:00",
+      "matches_existing_remote_report": true
+    },
+    {
+      "path": "data/local_runs/2026-11-06-openai-base32-v4-remaining-3/pricing.json",
+      "sha256": "ba0103daaefa949b1feeb1b1cb971a86c12b741983b5d73f72f6006e3cc92f20",
+      "bytes": 1192,
+      "source_mtime_ns": 1794007552491730924,
+      "source_mtime_utc": "2026-11-06T23:25:52.491731+00:00",
+      "matches_existing_remote_report": true
+    },
+    {
+      "path": "data/local_runs/2026-11-06-openai-base32-v4-remaining-3/results.jsonl",
+      "sha256": "0bb5f195c8e9620d256a178a98ec98494839f223862fea4ab362d44897da6254",
+      "bytes": 3616,
+      "source_mtime_ns": 1794007558632927212,
+      "source_mtime_utc": "2026-11-06T23:25:58.632927+00:00",
+      "matches_existing_remote_report": true
+    },
+    {
+      "path": "data/local_runs/2026-11-06-openai-base32-v4-remaining-3/summary.json",
+      "sha256": "a89e1754e1d19fcb02f9b8420c42df914ad079293bdad84dc8469397d7cbb901",
+      "bytes": 5751,
+      "source_mtime_ns": 1794007558634153762,
+      "source_mtime_utc": "2026-11-06T23:25:58.634154+00:00",
+      "matches_existing_remote_report": true
+    },
+    {
+      "path": "data/local_runs/2026-11-06-openai-eval_dataset-v1-v4/metrics.jsonl",
+      "sha256": "33da1d663b61ba0d2f8178d4031b9100a6a0a2df4eb349e382594a979772d1de",
+      "bytes": 184665,
+      "source_mtime_ns": 1794007358961438364,
+      "source_mtime_utc": "2026-11-06T23:22:38.961438+00:00",
+      "matches_existing_remote_report": true
+    },
+    {
+      "path": "data/local_runs/2026-11-06-openai-eval_dataset-v1-v4/plan.json",
+      "sha256": "7d469fa2474bf2807366e4f11cd889b3ac9695322bda8fa789226afb230afd7a",
+      "bytes": 11232,
+      "source_mtime_ns": 1794007065924147779,
+      "source_mtime_utc": "2026-11-06T23:17:45.924148+00:00",
+      "matches_existing_remote_report": true
+    },
+    {
+      "path": "data/local_runs/2026-11-06-openai-eval_dataset-v1-v4/pricing.json",
+      "sha256": "ba0103daaefa949b1feeb1b1cb971a86c12b741983b5d73f72f6006e3cc92f20",
+      "bytes": 1192,
+      "source_mtime_ns": 1794007065924241909,
+      "source_mtime_utc": "2026-11-06T23:17:45.924242+00:00",
+      "matches_existing_remote_report": true
+    },
+    {
+      "path": "data/local_runs/2026-11-06-openai-eval_dataset-v1-v4/results.jsonl",
+      "sha256": "6123a42e387775b532823bcafb669a9d31c8daa52c46a6340a368c30c63661bb",
+      "bytes": 211922,
+      "source_mtime_ns": 1794007358961438364,
+      "source_mtime_utc": "2026-11-06T23:22:38.961438+00:00",
+      "matches_existing_remote_report": true
+    },
+    {
+      "path": "data/local_runs/2026-11-06-openai-eval_dataset-v1-v4/summary.json",
+      "sha256": "7d81bb98e60a08ec3e36b1745a3dc0fbf321999fc1c6780943f8d9ef70152762",
+      "bytes": 16763,
+      "source_mtime_ns": 1794007358963427660,
+      "source_mtime_utc": "2026-11-06T23:22:38.963428+00:00",
+      "matches_existing_remote_report": true
+    },
+    {
+      "path": "data/local_runs/2026-11-06-openai-eval_robustness-v1-v4/metrics.jsonl",
+      "sha256": "b8cf59c68fc9635de41b726feef996f41f8953389b4ad8d275e184e605f62aff",
+      "bytes": 50061,
+      "source_mtime_ns": 1794007487682108844,
+      "source_mtime_utc": "2026-11-06T23:24:47.682109+00:00",
+      "matches_existing_remote_report": true
+    },
+    {
+      "path": "data/local_runs/2026-11-06-openai-eval_robustness-v1-v4/plan.json",
+      "sha256": "07cfe52881e7dca7267e17ca903a12a27f3d71f75db18716d3ee4f378e23e1b3",
+      "bytes": 8681,
+      "source_mtime_ns": 1794007407517879132,
+      "source_mtime_utc": "2026-11-06T23:23:27.517879+00:00",
+      "matches_existing_remote_report": true
+    },
+    {
+      "path": "data/local_runs/2026-11-06-openai-eval_robustness-v1-v4/pricing.json",
+      "sha256": "ba0103daaefa949b1feeb1b1cb971a86c12b741983b5d73f72f6006e3cc92f20",
+      "bytes": 1192,
+      "source_mtime_ns": 1794007407517955692,
+      "source_mtime_utc": "2026-11-06T23:23:27.517956+00:00",
+      "matches_existing_remote_report": true
+    },
+    {
+      "path": "data/local_runs/2026-11-06-openai-eval_robustness-v1-v4/results.jsonl",
+      "sha256": "345dad655b8dee3dc956e44354daf228d27a125aee2e0f0fdd7da94687b210b2",
+      "bytes": 57453,
+      "source_mtime_ns": 1794007487682108844,
+      "source_mtime_utc": "2026-11-06T23:24:47.682109+00:00",
+      "matches_existing_remote_report": true
+    },
+    {
+      "path": "data/local_runs/2026-11-06-openai-eval_robustness-v1-v4/summary.json",
+      "sha256": "6d9f150062811bb4bd40539b96b91226f7dbca65ce7bdadcb691e08d96f84a7b",
+      "bytes": 16299,
+      "source_mtime_ns": 1794007487683802412,
+      "source_mtime_utc": "2026-11-06T23:24:47.683802+00:00",
+      "matches_existing_remote_report": true
+    }
+  ],
+  "preserved_at_utc": "2026-11-07T00:01:54.310392+00:00",
+  "storage": "Archivos originales versionados en data/local_runs; rutas relativas a la raíz del repositorio, sin mirror."
+}
